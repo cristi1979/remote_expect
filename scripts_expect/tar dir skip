@@ -1,0 +1,15 @@
+Create a file like /opt/tar-exclude, containing
+
+
+./somedir/tempfiles/
+./somedir/junk/
+
+cd /somedir
+tar cvXf /opt/tar-exclude backup.tar .
+
+
+skip:
+all nohup
+log dirs
+defined dirs/files
+.

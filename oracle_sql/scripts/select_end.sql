@@ -1,0 +1,2 @@
+spool off;
+exit

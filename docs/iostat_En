@@ -1,0 +1,68 @@
+Document Audience: SPECTRUM
+Document ID: 18201
+Title: iostat -E: Explanation of error counters
+Update Date: Wed Jun 26 00:00:00 MDT 2002
+Products:  Solaris
+Technical Areas:  Commands
+
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+Keyword(s):Troubleshoot, Troubleshooting
+
+Description
+
+
+Document Body
+
+Hard Errors
+-----------
+Any errors resulting from either a bad media (disk/tape etc),
+(scsi/fc) protocol errors, or aborted commands (probably user induced even)
+fall under the hard error category. This usually means the media is
+misbehaving and probably needs to be attended to if the problem persists.
+With tapes, even reading from a "Write protected" tape or a tape that
+is not 'loaded' could lead to an hard error (for disks, we attempt to spin
+the drive up and if it fails we report an error)
+
+Soft Errors
+-----------
+We usually classify any *non serious* errors as soft errors.
+For example, issuing an invalid scsi cmd (unsupported opcode) would be
+classified as a soft error. Also in this category are any errors that
+were corrected internally by the device (ie. bad disk remapped
+successfully etc) would also be soft errors. This could sometimes mean
+we should make sure we have enough alternate sectors available to
+facilitate future bad sector remaps, which otherwise would lead to
+*hard* errors. For tapes, soft errors could result from using block
+sizes for I/O that are greater than the physical record size, reading
+from blank tapes etc
+
+Transport errors
+----------------
+These usually stem from errors in the 'channel' being used to issue
+transport errors to the device.   For example, the cable was pulled off
+(leading to transport rejected commands since the host adapter cannot
+talk to the device at all). These errors could either mean a defective
+cable, defective host adapter, etc.
+
+We don't have any thresholds for these errors and leave it to the
+'consumers' of these errstats to interpret the error frequencies to
+take preventive action. Tapes are believed to also have some log sense
+pages and some failure thresholds (defined by the tape device
+manufacturers).   The tape driver uses these thresholds to issue genuine
+warnings (usually something like n errors in x bytes (usually Megabytes)
+read/written) like 'head cleaning required' or 'soft error rate exceeded',
+etc...
+
+What is the threshold on the Predictive Failure Analysis which should
+trigger hardware replacement?
+
+Usually this is vendor specific - They return specfic sense code (additional
+sense code (ASC) of 0x5d) when pfa threshold has exceeded - These errors
+are "informational".
+
+For tapes we have 'soft error reporting' available for exabyte and dat
+drives.           

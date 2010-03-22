@@ -1,0 +1,1 @@
+SELECT * FROM v$parameter where name = 'user_dump_dest'
