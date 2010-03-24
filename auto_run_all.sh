@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#CUSTOMERS_PATH="/usr/local/expect_scripts/customers/"
 BASEDIR=${0%/*}
 CUSTOMERS_PATH="$BASEDIR/customers/"
 MACHINES_DIR="ips"
@@ -17,6 +16,8 @@ function create_script {
   echo "set ret [$1 $2]"
   echo "puts \$ret"
 #5: Tar failed on remote
+#10
+#20
 #30: update period has not arrived yet
 #40: Wrong username or password.
   echo "if { (\$ret == 0) || (\$ret == 10) || (\$ret == 20) || (\$ret == 30) || (\$ret == 5) } {"

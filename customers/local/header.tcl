@@ -6,9 +6,9 @@ if { $argc != 0 } {
 }
 
 set crt_dir [file normalize [file dirname [info script]]]
-#set path_tcl_scripts [file normalize "/media/share/Documentation/cfalcas/q/scripts_expect/"]
-set path_tcl_scripts [file normalize "$crt_dir/../../scripts_expect/"]
+set path_tcl_scripts "$crt_dir/../../scripts_expect/"
 source "$path_tcl_scripts/common_vars.tcl"
+set path_tcl_scripts [directpathname "$crt_dir/../../scripts_expect/"]
 set database_user [string_asis "iristel"]
 set database_pass [string_asis "iristel"]
 set timestamp_path "$::status_path/$customer_name"

@@ -1,16 +1,24 @@
-proc get_them {somelist {nr_days ""}} {
-  upvar 1 $somelist app_type
-  set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip\_$somelist]
-  return [run_once_command [list bkp_app $app_type $nr_days] $myname]
+proc get_them {logstype {nr_days ""}} {
+  myhash -getnode ::applications_array $logstype $::from_apps
+  set file_names [list]
+  foreach key [array names ::tmp_array] {
+    set tmp_list [split [string trim $key \"] ","]
+    lappend file_names [join [lrange $tmp_list 1 [llength $tmp_list]] \/]
+  }
+
+  set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip\_$logstype]
+  return [run_once_command [list bkp_app $file_names $nr_days] $myname]
 }
 
 proc get_unix_statistics {{nr_days ""}} {
+  set ::from_apps [list]
   return [get_them ::unix_statistics $nr_days]
 }
 
 proc get_apps_exceptions {{nr_days ""}} {
-  set ret [get_them ::apps_exceptions $nr_days]
-#set ret 0
+  #set ret [get_them $::str_app_exceptions $nr_days]
+set ret 0
+set ::bkp_rem_archive "200.52.193.222_app_exceptions"
   if {$ret} {
     return $ret
   }
@@ -21,8 +29,8 @@ proc get_apps_exceptions {{nr_days ""}} {
   set local_dir_tmp $::local_dir/tmp
   file delete -force $local_dir_tmp
   file mkdir $local_dir_tmp
+  puts "\n\tExtracting files locally."
   spawn -noecho tar -xvzf $::local_dir/$::bkp_rem_archive.tgz -C $local_dir_tmp
-#spawn -noecho tar -xvzf $::local_dir/41.223.208.36_apps_exceptions.tgz -C $local_dir_tmp
   expect {
     eof {  puts "\n\tDone"; set ret 0 }
     timeout { puts "\n\tCould not extract files."; set ret 2 }
@@ -34,11 +42,6 @@ proc get_apps_exceptions {{nr_days ""}} {
     set ret [lindex $reason 3]
   }
   if {!$ret} {
-    set bkp_apps $::apps; set ::apps [list]
-    set bkp_apps_exceptions $::apps_exceptions; set ::apps_exceptions [list]
-    array unset exceptions
-    #set bkp_apps_logs $::apps_logs; set ::apps_logs [list]
-    #set bkp_apps_statistics $::apps_statistics; set ::apps_statistics [list]
     foreach item [get_files_rec $local_dir_tmp f] {
       #we will try to find now the aplication like this: remove $local_dir_tmp string from the extracted file
       #this will give us the path from the remote host 
@@ -47,7 +50,22 @@ proc get_apps_exceptions {{nr_days ""}} {
       #for each log regexp, match it with the remote file path
       #even so, we can still have more then one application match :(
       if {[file size $item]>1} {
-	regsub "$local_dir_tmp" $item "" rem_file_path
+    regsub "$local_dir_tmp" $item "" rem_file_path
+
+  myhash -getnode ::applications_array $::str_app_exceptions $::from_apps
+  set file_names [list]
+  foreach key [array names ::tmp_array] {
+    set tmp_list [split [string trim $key \"] ","]
+    set file_name [join [lrange $tmp_list 1 [llength $tmp_list]] \/]
+    regsub "$file_name" $rem_file_path "" rem_file_path1
+puts "   sdfa $rem_file_path1"
+    if {[string match $file_name $rem_file_path]} {
+      puts "dadada $key $file_name $rem_file_path"
+    } else {
+      puts "nununu $key $file_name $rem_file_path"
+    }
+  }
+
 	foreach app $bkp_apps {
 	  set ::apps_exceptions [list]
 	  $app ""
@@ -106,9 +124,9 @@ foreach index [lsort [array names temp]] {
 }
 
 proc get_apps_logs {{nr_days ""}} {
-  return [get_them ::apps_logs $nr_days]
+  return [get_them $::str_app_logs $nr_days]
 }
 
 proc get_apps_statistics {{nr_days ""}} {
-  return [get_them ::apps_statistics $nr_days]
+  return [get_them $::str_app_statistics $nr_days]
 }
