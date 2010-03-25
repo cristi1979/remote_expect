@@ -4,7 +4,4 @@ proc oracle {{app_dir "/somethig/that/is/wrong"}} {
   myhash -add ::applications_array [list $::str_app_exceptions $app_dir "relative_path_to_log_dir" "files"] [list $myname]
   myhash -add ::applications_array [list $::str_app_logs $app_dir "relative_path_to_log_dir" "files"] [list $myname]
   myhash -add ::applications_array [list $::str_app_statistics $app_dir "relative_path_to_log_dir" "files"] [list $myname]
-  proc $myname\_clean_exceptions {filename} {
-    puts "coco"
-  }
 }

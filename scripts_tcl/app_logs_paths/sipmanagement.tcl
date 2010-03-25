@@ -9,8 +9,4 @@ proc sipmanagement {{app_dir "/home/mind/mindcti/sipmanagement"}} {
   myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "catalina.out"] [list $myname]
   myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "admin*.log"] [list $myname]
   myhash -add ::applications_array [list $::str_app_statistics $app_dir "log" "nicanica"] [list $myname]
-
-  proc $myname\_clean_exceptions {filename} {
-    puts "coco"
-  }
 }

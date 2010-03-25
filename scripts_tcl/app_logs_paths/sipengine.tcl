@@ -21,8 +21,4 @@ proc sipengine {{app_dir "/home/mind/mindcti/sipengine"}} {
   myhash -add ::applications_array [list $::str_app_logs $app_dir "tciapps/tciprepaid/log" "output.log"] [list $myname]
   myhash -add ::applications_array [list $::str_app_statistics $app_dir "syslog" "stats.log.*"] [list $myname]
   myhash -add ::applications_array [list $::str_app_statistics $app_dir "syslog" "stats.log"] [list $myname]
-
-  proc $myname\_clean_exceptions {filename} {
-    puts "coco"
-  }
 }

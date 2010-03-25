@@ -28,7 +28,7 @@ proc parse_exceptions {} {
 	# we get the remote file full path: extract the local_dir from file name
 	regsub "$local_dir_tmp" $item "" rem_file_path
 	foreach key [array names ::tmp_array] {
-	  # from the array, for each element, remove quotes, split it by comma a/media/share/backups/remote_files/local/tmp/u01/mind/rts/log/Exceptions1.lognd join by / all, but first
+	  # from the array, for each element, remove quotes, split it by comma and join by / all, but first
 	  set tmp_list [split [string trim $key \"] ","]
 	  set file_name_regexp [join [lrange $tmp_list 1 [llength $tmp_list]] \/]
 	  if {[string match $file_name_regexp $rem_file_path]} {

@@ -5,8 +5,4 @@ proc cdrcollectorsrc {{app_dir "/home/mind/mindcti/cdr"}} {
   myhash -add ::applications_array [list $::str_app_logs $app_dir "cdr_src" "PROCESS_INFO_\[0-9\]*.log"] [list $myname]
   myhash -add ::applications_array [list $::str_app_logs $app_dir "cdr_src" "*.BKP*"] [list $myname]
   myhash -add ::applications_array [list $::str_app_statistics $app_dir "cdr_src" "nicanica"] [list $myname]
-
-  proc $myname\_clean_exceptions {filename} {
-    puts "coco"
-  }
 }

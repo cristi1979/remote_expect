@@ -17,7 +17,7 @@ proc sqlplus_get_vars {} {
   #ssh_launch_cmd "cat /tmp/mindcti/oracle-voipcdr.out"
   lappend ::files_to_get { "somethingthatdoesnotexist" } 
   set ::bkp_rem_archive "oracle"
-  set ret [ssh_bkp_files_dirs_list $::files_to_get]
+  set ret [ssh_bkp_files_dirs_list f $::files_to_get]
   ssh_disconnect
   if {$ret==5} {return 0;}
   if {$ret} {return $ret} 

@@ -34,7 +34,7 @@ proc run_once_command {cmd myname} {
   if {[expr [clock seconds] - $val] > 60*$::get_period} {
     puts "\n\tneeds update\n\n"
     set ret [eval $cmd]
-    if {$ret==5} {puts "\n\tTar failed on remote.";return 5}
+    if {$ret==5} {puts "\n\tTar failed on remote.";return $ret}
     if {$ret == 0} {
       puts "\n\tsucces and the file is at $::local_dir/$myname"
       set ::file_data [clock seconds]

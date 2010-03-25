@@ -4,8 +4,4 @@ proc udrserver {{app_dir "/home/mind/mindcti/udr"}} {
   myhash -add ::applications_array [list $::str_app_exceptions $app_dir "log" "UDRDist-Exception*.log"] [list $myname]
   myhash -add ::applications_array [list $::str_app_logs $app_dir "log" "UDRDist\[0-9\]*.log"] [list $myname]
   myhash -add ::applications_array [list $::str_app_statistics $app_dir "log" "UDRStatistics*.log"] [list $myname]
-
-  proc $myname\_clean_exceptions {filename} {
-    puts "coco"
-  }
 }

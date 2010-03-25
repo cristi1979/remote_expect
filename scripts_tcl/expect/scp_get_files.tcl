@@ -1,5 +1,5 @@
 proc scp_get_files {files} {
-  spawn scp -r $::user@$::ip:[join $files] $::local_dir
+  spawn scp -r $::user@$::ip:[join $files " "] $::local_dir
 
   expect {
     eof {puts "\n\tEOF. Exit."; set ret 1}

@@ -7,8 +7,4 @@ proc cdrprocessor {{app_dir "/home/mind/mindcti/cdr"}} {
   myhash -add ::applications_array [list $::str_app_logs $app_dir "log" "Processor\[0-9\]*.log"] [list $myname]
   myhash -add ::applications_array [list $::str_app_logs $app_dir "log" "RCInfo*.log"] [list $myname]
   myhash -add ::applications_array [list $::str_app_statistics $app_dir "log" "nicanica"] [list $myname]
-
-  proc $myname\_clean_exceptions {filename} {
-    puts "coco"
-  }
 }

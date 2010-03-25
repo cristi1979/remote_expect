@@ -9,7 +9,7 @@ proc ssh_disconnect {} {
     }
     "$::orig_prompt" {
       exp_send "exit\r"
-      expect ""
+      exp_continue
     }
   }
   sleep 0.2
