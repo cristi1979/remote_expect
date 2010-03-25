@@ -6,10 +6,29 @@ proc myhash {cmd hash_array {path ""} {vals ""}} {
     puts "\n\tArray is not defined."
     return $ret
   }
-  array unset ::tmp_array
-
+  
   switch $cmd {
+    "-clean" {
+      # trim the / char and for path add it at the beggining only for element 1
+      array set result {}
+      foreach key [array names hash] {
+	set tmp_list [split $key ","]
+	for {set i 1} {$i < [llength $tmp_list]} {incr i} {
+	  lset tmp_list $i [string trim [regsub -all "/+" [lindex $tmp_list $i] "/"] "/"]
+	}
+	set tmp1 "/"; set tmp2 [lindex $tmp_list 1]; set tmp $tmp1$tmp2
+	lset tmp_list 1 $tmp
+	set result([join $tmp_list ","]) $hash($key)
+      }
+      array unset ::tmp_array
+      array set ::tmp_array [array get result]
+#       puts "\n\treturning for clean"
+#       puts "\n\t=================="
+#       parray ::tmp_array
+#       puts "\n\t=================="
+    }
     "-getnode" {
+	array unset ::tmp_array
 	if {![llength $path]} {
 	  puts "\n\tWe need the path."
 	} else {
@@ -25,10 +44,10 @@ proc myhash {cmd hash_array {path ""} {vals ""}} {
 	  set ret 0
 	}
 
-	puts "\n\treturning"
-	puts "\n\t=================="
-	parray ::tmp_array
-	puts "\n\t=================="
+# 	puts "\n\treturning for $path only $vals"
+# 	puts "\n\t=================="
+# 	parray ::tmp_array
+# 	puts "\n\t=================="
       }
     "-add" {
 	if {![llength $path] || ![llength $vals] } {
