@@ -4,7 +4,7 @@ proc ssh_launch_background_cmd {cmd {output_file "&1"} {error_file "&2"}} {
   expect {
     eof { puts "\n\tEOF. Unusual"; set ret 1 }
     timeout { puts "\n\tTimeout. Return error."; set ret 1 }
-    "$::prompt" {
+    "\r\n$::prompt" {
       set ret 0
     }
   }

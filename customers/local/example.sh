@@ -1,4 +1,4 @@
-#!/bin/expect 
+#!/usr/bin/expect 
 set crt_dir [file normalize [file dirname [info script]]]
 source "$crt_dir/header.tcl"
 source "$crt_dir/ips/10.0.0.232.tcl"

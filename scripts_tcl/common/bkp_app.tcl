@@ -3,8 +3,9 @@ proc bkp_app {type file_names {days ""} } {
   set ::files_to_get [list]
   lappend ::files_to_get { "somethingthatdoesnotexist" }
   set ret [ssh_connect]
-  if {$ret} {puts "\n\tCan't connect";return $ret}
-  ssh_prompt
+  if {$ret} {puts "\n\tCan't connect.";return $ret}
+  set ret [ssh_prompt]
+  if {$ret} {puts "\n\tCan't get new prompt.";return $ret}
   ssh_launch_cmd "mkdir -p $::bkp_rem_dir"
   if {[test_dir $::bkp_rem_dir]} {return 1}
   getOS

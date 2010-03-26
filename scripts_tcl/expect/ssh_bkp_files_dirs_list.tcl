@@ -51,9 +51,10 @@ awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}'
   } else {
     if {$::operatingsystem==$::oslinux} {
       puts "\n\tNot implemented."
+      return 1
     } else {
-      set ret 1
       puts "\n\tUndefined OS: $::operatingsystem"
+      return 1
     }
   }
 
@@ -84,7 +85,7 @@ awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}'
       set ret 1;
       exp_continue
     }
-    "$::prompt" { 
+    "\r\n$::prompt" { 
       lappend saved_output $expect_out(buffer);
       if {!$ret} {puts "\n\tBackup file created.\n"};
       }
@@ -96,7 +97,7 @@ awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}'
     expect {
       eof { puts "\n\tEOF. Unusual"; set ret 1 }
       timeout { puts "\n\tTimeout. Return error."; set ret 1 }
-      "$::prompt" { puts "\n\tFile $::bkp_rem_dir/$::bkp_rem_archive.tgz deleted." }
+      "\r\n$::prompt" { puts "\n\tFile $::bkp_rem_dir/$::bkp_rem_archive.tgz deleted." }
     }
   }
   if {$ret} {return $ret}
@@ -105,11 +106,11 @@ awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}'
   expect {
     eof { puts "\n\tEOF. Unusual"; set ret 1 }
     timeout { puts "\n\tTimeout. Return error."; set ret 1 }
-    "*\r\nNOK\r\n\r\n$::prompt" {
+    "*\r\nNOK\r\n$::prompt" {
       puts "\n\tFile $::bkp_rem_dir/$::bkp_rem_archive.tgz does not seem to exist.\n"
       set ret 1
     }
-    "*\r\nOK\r\n\r\n$::prompt" {
+    "*\r\nOK\r\n$::prompt" {
       set ::files_to_get [list]
       lappend ::files_to_get { "somethingthatdoesnotexist" } 
       lappend ::files_to_get "$::bkp_rem_dir/$::bkp_rem_archive.tgz"

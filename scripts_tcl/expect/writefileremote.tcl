@@ -5,7 +5,7 @@ proc writefileremote {filename content} {
   expect {
     eof { puts "\n\tEOF. Unusual"; return 1 }
     timeout { puts "\n\tTimeout. Return error."; return 1 }
-    "$::prompt" {
+    "\r\n$::prompt" {
       puts "\n\tFinish to write script on remote."
     }
   } 

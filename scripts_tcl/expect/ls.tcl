@@ -7,7 +7,7 @@ proc ls {} {
       puts "\n\tTimeout. Return error."
       set ret 1
     }
-    "$::prompt" {
+    "\r\n$::prompt" {
       puts "\n\tSuccess."
       set ret 0
     }

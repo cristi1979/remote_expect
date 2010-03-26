@@ -2,13 +2,13 @@ proc ssh_disconnect {} {
   set spawn_id $::sshid
   exp_send "exit\r"
   expect {
-    eof { puts "\n\tDisconnect"; set ret 0;}
+    eof { puts "\n\tDisconnect";}
     timeout {
-      puts "\n\tCould not exit. Interactive now..."
-      interact
+      puts "\n\tCould not exit."
+      exp_send "exit\r"
     }
     "$::orig_prompt" {
-      exp_send "exit\r"
+      exp_send "exit\rexit\r"
       exp_continue
     }
   }

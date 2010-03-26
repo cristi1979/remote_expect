@@ -36,6 +36,9 @@ proc ssh_connect {} {
     }
   }
   if {$ret} {return $ret}
+  if { $::prompt==$::impossibleprompt } { ssh_guess_prompt }
+
+  puts "\n\tSearching for prompt \"$::prompt\""
   expect {
     eof { puts "\n\tEOF. Unusual"; set ret 1 }
     timeout { puts "\n\tCould not connect. Exit."; set ret 21 }
@@ -43,7 +46,7 @@ proc ssh_connect {} {
       puts "\n\tWrong username or password."
       set ret 40;
     }
-    "$::prompt" { puts "\n\tLoged in."; set ret 0 }
+    "\r\n$::prompt" { puts "\n\tLoged in."; set ret 0 }
   }
 
   return $ret;

@@ -8,7 +8,7 @@ proc ssh_launch_cmd {cmd {output_file "&1"} {error_file "&2"}} {
   expect {
     eof { puts "\n\tEOF. Unusual"; set ret 1 }
     timeout { puts "\n\tTimeout. Return error."; set ret 1 }
-    "$::prompt" {
+    "\r\n$::prompt" {
       puts "\n\tCommand ended."
       set ::timeout $crt_timeout
       if {$output_file!="&1"} { lappend ::files_to_get "$output_file" }

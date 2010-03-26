@@ -20,7 +20,9 @@ set timeout 60
 set long_timeout 180
 set oracle_timeout 300
 set orig_prompt ""
-set new_prompt "\r\n$ "
+set impossibleprompt "this should not be match by any prompt"
+set prompt $impossibleprompt
+set new_prompt "[randomstring 4]_mind_remote_console:: \r\n"
 set file_data ""
 set extra_exp ""
 set extra_send ""
