@@ -21,7 +21,7 @@ proc sqlplus_get_vars {} {
   ssh_disconnect
   if {$ret==5} {return 0;}
   if {$ret} {return $ret} 
-  puts "\n\t$::files_to_get"
+  puts "\n\tMSG: $::files_to_get"
   set ret [scp_get_files [lindex $::files_to_get end]]
   return $ret
 } 

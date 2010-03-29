@@ -6,7 +6,7 @@ proc read_file {filename} {
     close $fp
     return 0
   } else {
-    puts "\n\tError reading file $filename."
+    puts "\n\tERR: Error reading file $filename."
     return 1
   }
 }

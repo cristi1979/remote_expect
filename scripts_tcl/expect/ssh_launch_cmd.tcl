@@ -6,10 +6,10 @@ proc ssh_launch_cmd {cmd {output_file "&1"} {error_file "&2"}} {
   set mycmd "$cmd 1>$output_file 2>$error_file\r"
   exp_send $mycmd
   expect {
-    eof { puts "\n\tEOF. Unusual"; set ret 1 }
-    timeout { puts "\n\tTimeout. Return error."; set ret 1 }
+    eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
+    timeout { puts "\n\tERR: Timeout. Return error."; set ret 1 }
     "\r\n$::prompt" {
-      puts "\n\tCommand ended."
+      puts "\n\tMSG: Command ended."
       set ::timeout $crt_timeout
       if {$output_file!="&1"} { lappend ::files_to_get "$output_file" }
       if {$error_file!="&2"} { lappend ::files_to_get "$error_file" }

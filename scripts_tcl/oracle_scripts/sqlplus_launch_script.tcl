@@ -17,25 +17,23 @@ proc sqlplus_launch_scripts {script {parameters [list]}} {
   $scr_data
   $end_data\rEOF_COCO_RADA\r"
   expect {
-    eof { puts "\n\tEOF. Unusual"; return 1 }
-    timeout { puts "\n\tTimeout. Return error."; return 1 }
-    "$::prompt" {
-      puts "\n\tFinish to write script on remote."
-    }
+    eof { puts "\n\tERR: EOF. Unusual"; return 1 }
+    timeout { puts "\n\tERR: Timeout. Return error."; return 1 }
+    "$::prompt" {puts "\n\tMSG: Finish to write script on remote." }
   }
   exp_send "sqlplus -s -L \"$::database_user\"/\"$::database_pass\" @$remote_script $output_file $parameters \r"
   expect {
-    eof { puts "\n\tEOF. Unusual"; return 1 }
-    timeout { puts "\n\tTimeout. Return error."; return 1 }
+    eof { puts "\n\tERR: EOF. Unusual"; return 1 }
+    timeout { puts "\n\tERR: Timeout. Return error."; return 1 }
     "SP2-0556: Invalid file name.\r\n" { 
-      puts "\n\tInvalid file name."
+      puts "\n\tERR: Invalid file name."
       exp_send "quit\r"; 
       return 3
      }
-    "bash: sqlplus: command not found" { puts "\n\tCan't find sqlplus."; return 1 }
+    "bash: sqlplus: command not found" { puts "\n\tERR: Can't find sqlplus."; return 1 }
     "$::prompt" {
       lappend ::files_to_get "$output_file";
-      puts "\n\tScript finished executing."
+      puts "\n\tMSG: Script finished executing."
       return 0
     }
   }

@@ -9,7 +9,7 @@ proc set_skip {app skip} {
     }
   }
   if {$ret} {
-    puts "\n\tApp $app does not exist for ip $::ip. Skip list not included."
+    puts "\n\tERR: App $app does not exist for ip $::ip. Skip list not included."
   }
   return $ret
 }

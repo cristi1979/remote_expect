@@ -3,7 +3,7 @@ proc myhash {cmd hash_array {path ""} {vals ""}} {
   set myname [lindex [info level 0] 0]
   set ret 1
   if {![array exists hash] && $cmd!="-add"} {
-    puts "\n\tArray is not defined."
+    puts "\n\tERR: Array is not defined."
     return $ret
   }
   
@@ -30,7 +30,7 @@ proc myhash {cmd hash_array {path ""} {vals ""}} {
     "-getnode" {
 	array unset ::tmp_array
 	if {![llength $path]} {
-	  puts "\n\tWe need the path."
+	  puts "\n\tERR: We need the path."
 	} else {
 	  if {[llength $vals]} {
 	    foreach key [array names hash $path,*] {
@@ -51,7 +51,7 @@ proc myhash {cmd hash_array {path ""} {vals ""}} {
       }
     "-add" {
 	if {![llength $path] || ![llength $vals] } {
-	  puts "\n\tWe need the path and the values."
+	  puts "\n\tERR: We need the path and the values."
 	} else {
 	  set hash([join $path ","]) $vals
 	  set ret 0
@@ -59,7 +59,7 @@ proc myhash {cmd hash_array {path ""} {vals ""}} {
       }
     "-delnode" {
 	if {![llength $path]} {
-	  puts "\n\tWe need the path."
+	  puts "\n\tERR: We need the path."
 	} else {
 	  array unset hash $path,*
 	  set ret 0

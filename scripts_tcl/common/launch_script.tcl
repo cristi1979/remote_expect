@@ -5,7 +5,7 @@ proc launch_script {{name ""}} {
   set dir_name [file dirname $name]
   set file_name [file tail $name]
   if { ![file exists $name] || ![file isfile $name] || $name == ""} {
-    puts "File $name does not exist.";
+    puts "\n\tERR: File $name does not exist.";
     return 1;
   }
   
