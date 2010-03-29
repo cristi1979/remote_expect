@@ -1,17 +1,17 @@
 proc parse_exceptions {} {
   if {![file exists $::local_dir/$::bkp_rem_archive.tgz]} {
-    puts "\n\tFile to extract: $::local_dir/$::bkp_rem_archive.tgz does not exist."
+    puts "\n\tERR: File to extract: $::local_dir/$::bkp_rem_archive.tgz does not exist."
     return 1
   }
   set local_dir_tmp $::local_dir/tmp
   file delete -force $local_dir_tmp
   file mkdir $local_dir_tmp
-  puts "\n\tExtracting files locally."
+  puts "\n\tMSG: Extracting files locally."
   spawn -noecho tar -xvzf $::local_dir/$::bkp_rem_archive.tgz -C $local_dir_tmp
   expect {
-    eof {  puts "\n\tDone"; set ret 0 }
-    timeout { puts "\n\tCould not extract files."; set ret 2 }
-    "tar: Error is not recoverable: exiting now" { puts "\n\tExtract error."; set ret 2; }
+    eof {  puts "\n\tMSG: Done"; set ret 0 }
+    timeout { puts "\n\tERR: Could not extract files."; set ret 2 }
+    "tar: Error is not recoverable: exiting now" { puts "\n\tERR: Extract error."; set ret 2; }
   }
 
   if {!$ret} {
@@ -32,7 +32,6 @@ proc parse_exceptions {} {
 	  set tmp_list [split [string trim $key \"] ","]
 	  set file_name_regexp [join [lrange $tmp_list 1 [llength $tmp_list]] \/]
 	  if {[string match $file_name_regexp $rem_file_path]} {
-# 	    puts "daaaaa: file $item from $rem_file_path is like $file_name_regexp of type $::tmp_array($key)"
 	    if { ![info exists exceptions_array($::tmp_array($key))] } {
 	      set exceptions_array($::tmp_array($key)) $item
 	    } else {
@@ -46,11 +45,10 @@ proc parse_exceptions {} {
       }
     }
     foreach key [array names exceptions_array] {
-      puts "+++run app for $key with files $exceptions_array($key)"
-      eval spawn ls $key $exceptions_array($key)
+      eval spawn "bash $::path_tcl_scripts/parse_exceptions.sh $key $exceptions_array($key)"
       expect {
-	eof {  puts "\n\tDone for $key"; set ret 0 }
-	timeout { puts "\n\tCould not execute app."; set ret 2 }
+	eof {  puts "\n\tMSG: Done for $key"; set ret 0 }
+	timeout { puts "\n\tERR: Could not execute app."; set ret 2 }
       }
 
       if {!$ret} {
@@ -59,7 +57,7 @@ proc parse_exceptions {} {
       }
     }
   } else {
-    puts "\n\tError extracting archive $::local_dir/$::bkp_rem_archive.tgz,"
+    puts "\n\tERR: Error extracting archive $::local_dir/$::bkp_rem_archive.tgz,"
   }
 
   file delete -force $local_dir_tmp

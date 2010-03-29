@@ -2,9 +2,9 @@ proc ssh_disconnect {} {
   set spawn_id $::sshid
   exp_send "exit\r"
   expect {
-    eof { puts "\n\tDisconnect";}
+    eof { puts "\n\tMSG: Disconnect";}
     timeout {
-      puts "\n\tCould not exit."
+      puts "\n\tERR: Could not exit."
       exp_send "exit\r"
     }
     "$::orig_prompt" {

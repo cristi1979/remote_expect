@@ -1,42 +1,41 @@
 proc ssh_guess_prompt {} {
   set spawn_id $::sshid
   set crt_timeout $::timeout
-  set ::timeout 5
+  set ::timeout 1
   set ret 0;
   set output [list]
   set tries 0
 
-  exp_send ""
+  exp_send "\r"
   expect {
-    eof { puts "\n\tEOF. Unusual"; set ret 1 }
+    eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
     timeout { 
       if {$tries==1} {
 	set ::prompt [string trimright [lindex $output end] "\r\n"]
-	puts "\n\tSecond timeout. We presume we have now the prompt: \"$::prompt\"";
+	puts "\n\tMSG: Second timeout. We presume we have now the prompt: \"$::prompt\"";
 	set ret [test_console]
 	if {!$ret} {
-	  puts "\n\tPrompt found."
+	  puts "\n\tMSG: Prompt found: $::prompt."
 	  exp_send "\r";
 	} else {
 	  incr tries
 	  exp_continue 
 	}
+      } elseif {$tries>1} {
+	puts "\n\tERR: Can't guess prompt. Try to force our own prompt."
+	ssh_prompt; 	
+	exp_send "\r" 
       } else {
-	if {$tries>1} {
-	  puts "\n\tCan't guess prompt. Try to force our own prompt."
-	  ssh_prompt; 	
-	  exp_send "\r" 
-	} else {
-	  incr tries
-	  exp_send "\r";
-	  exp_continue 
-	}
+	incr tries
+	exp_send "\r";
+	exp_continue 
       }
     }
     -re "(.*)\n" {
       lappend output $expect_out(buffer);exp_continue
     }
   }
+  set ::timeout $crt_timeout
   return $ret;
 
 }

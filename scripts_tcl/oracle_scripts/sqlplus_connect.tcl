@@ -5,11 +5,11 @@ proc sqlplus_connect {} {
   exp_send "sqlplus -L \"$::database_user\"/\"$::database_pass\"\r"
   set ::prompt "SQL> "
   expect {
-    eof { puts "\n\tEOF. Unusual"; return 1 }
-    timeout { puts "\n\tTimeout. Could not connect to oracle."; return 1 }
-    "bash: sqlplus: command not found" { puts "\n\tCan't find sqlplus."; return 1 }
+    eof { puts "\n\tERR: EOF. Unusual"; return 1 }
+    timeout { puts "\n\tERR: Timeout. Could not connect to oracle."; return 1 }
+    "bash: sqlplus: command not found" { puts "\n\tERR: Can't find sqlplus."; return 1 }
     "$::prompt" {
-      puts "\n\tConnected to sqlplus."
+      puts "\n\tMSG: Connected to sqlplus."
       return 0
     }
   }
