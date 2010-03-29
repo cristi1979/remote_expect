@@ -4,7 +4,7 @@ proc ssh_prompt {} {
   set ret 2;
 
   set ::prompt "$::new_prompt"
-  exp_send "bash\rexport PS1=\"$::new_prompt\"\rexport PS2=\"\"\rexport PROMPT_COMMAND=\"\"\r"
+  exp_send "bash\rexport PS1=\"$::new_prompt\"\rexport PROMPT_COMMAND=\"\"\r"
   expect {
     eof { puts "\n\tEOF. Unusual"; set ret 1 }
     timeout { puts "\n\tTimeout. Return error."; set ret 1 }
@@ -15,4 +15,3 @@ proc ssh_prompt {} {
   }
   return $ret;
 }
-

@@ -25,6 +25,7 @@ awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}'
     if {$type=="f"} {
       ssh_launch_cmd "find [join $file_names] -type $type $period -ls | $string_count"
       set totalsize [lindex [split $::saved_output] end]
+
       puts "\n\tTotal size is $totalsize"
       if {$totalsize>$::maximum_size_to_backup} {
 	puts "\n\tTotal size of files to backup is too big. Skip"
@@ -85,12 +86,12 @@ awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}'
       set ret 1;
       exp_continue
     }
+    #-re "(.*)\n" {exp_continue}
     "\r\n$::prompt" { 
       lappend saved_output $expect_out(buffer);
       if {!$ret} {puts "\n\tBackup file created.\n"};
       }
     #-re \[0-9\]|\[a-z\]|\[A-Z\] { lappend saved_output $expect_out(buffer); exp_continue }
-    -re "(.*)\n" {exp_continue}
   }
   if {$ret==15} {
     exp_send "rm -f $::bkp_rem_dir/$::bkp_rem_archive.tgz\r"
