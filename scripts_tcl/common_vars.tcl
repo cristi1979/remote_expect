@@ -31,7 +31,7 @@ set ossolaris "solaris"
 set oslinux "linux"
 #so we don't backup everything:
 set files_to_bkp { "somethingthatdoesnotexist" }
-set maximum_size_to_backup 2000000000
+set maximum_size_to_backup [expr 1*1024*1024*1024]
 set files_to_get [list]
 set from_apps [list]
 set saved_output [list]

@@ -173,6 +173,10 @@ function fanstat() {
   my_stat "prtpicl -v -c fan"
 }
 
+function pingstat() {
+  my_stat "ping $DB_IP $(TO=$INTERVAL;let TO=$TO/2;echo $TO)"
+}
+
 function tomcatstat {
   XML_FILE="$STATS_OUT_DIR/mindtomcat.xml"
   for ((i=0;i<$COUNT;i++));do
@@ -225,12 +229,13 @@ elif [ $OS == "SunOS" ]; then
   stat_cmd "vmstat $INTERVAL $COUNT"
   stat_cmd "allnetstat"
   stat_cmd "dfstat"
-  stat_cmd "ping -n -I $INTERVAL $DB_IP 56 $COUNT"
   stat_cmd "nrprocsstat"
   stat_cmd "tempstat"
   stat_cmd "fanstat"
   stat_cmd "tomcatstat"
   stat_cmd "voltagestat"
+  stat_cmd "pingstat"
+  stat_cmd "ping -n -I $INTERVAL $DB_IP 56 $COUNT"
   #nfsstat, kstat
   stat_cmd "machine_info"
   stat_cmd "mind_java_stat"

@@ -1,7 +1,7 @@
 proc ssh_guess_prompt {} {
   set spawn_id $::sshid
   set crt_timeout $::timeout
-  set ::timeout 1
+  set ::timeout 5
   set ret 0;
   set output [list]
   set tries 0
