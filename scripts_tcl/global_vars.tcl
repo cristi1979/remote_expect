@@ -2,7 +2,7 @@ foreach script [glob [file join $scripts_tcl_dir/expect/ *.tcl]] {
   source $script
 }
 
-foreach script [glob [file join $scripts_tcl_dir/common/ *.tcl]] {
+foreach script [glob [file join $scripts_tcl_dir/main_procs/ *.tcl]] {
   source $script
 }
 
@@ -39,7 +39,6 @@ set skip_list [list]
 set emails [list "cristian.falcas@mindcti.com"]
 set bkp_rem_dir [directpathname "/tmp/mindcti"]
 set remote_skip_file "$bkp_rem_dir/files_to_skip"
-set local_tmp_dir "/var/tmp/"
 set status_path [directpathname "/var/run/mind"]
 set local_dir [directpathname "/media/share/backups/remote_files/$customer_name"]
 set local_dir_outputfiles [directpathname "/media/share/remote"]

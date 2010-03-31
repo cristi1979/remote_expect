@@ -1,4 +1,5 @@
 proc bkp_app {type file_names {days ""} } {
+  if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; exit 0}
   set orig_prompt $::prompt
   set ::files_to_get [list]
   lappend ::files_to_get { "somethingthatdoesnotexist" }

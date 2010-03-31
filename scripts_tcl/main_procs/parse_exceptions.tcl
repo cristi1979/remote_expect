@@ -4,7 +4,7 @@ proc parse_exceptions {} {
     return 1
   }
 
-  set local_dir_tmp_base "$::local_dir_outputfiles/$::customer_name/exceptions/"
+  set local_dir_tmp_base "$::local_dir_outputfiles/$::customer_name/$::ip/exceptions/"
   set local_dir_tmp "$local_dir_tmp_base/tmp_[randomstring 4]"
   file mkdir $local_dir_tmp
   set local_dir_tmp_base [directpathname "$local_dir_tmp_base"]

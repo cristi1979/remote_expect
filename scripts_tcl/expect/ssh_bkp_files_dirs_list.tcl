@@ -38,8 +38,13 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
       puts "\n\tERR: tar: Missing filenames."; 
       set ret 5;
       exp_continue}
-    "bash: $::bkp_rem_dir/$::bkp_rem_archive.tgz: No such file or directory*\r\n$::prompt" {
+    "bash: $::bkp_rem_dir/$::bkp_rem_archive.tgz: No such file or directory\r\n" {
       puts "\n\tERR: There was a problem with dir $::bkp_rem_dir\n"
+      set ret 1;
+      exp_continue
+    }
+    "bash: $::bkp_rem_dir/$::bkp_rem_archive.tgz: Permission denied\r\n" {
+      puts "\n\tERR: Can't create file.\n"
       set ret 1;
       exp_continue
     }

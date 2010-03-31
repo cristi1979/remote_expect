@@ -7,7 +7,7 @@ if { $argc != 0 } {
 
 set crt_dir [file normalize [file dirname [info script]]]
 set scripts_tcl_dir "$crt_dir/../../scripts_tcl/"
-source "$scripts_tcl_dir/common_vars.tcl"
+source "$scripts_tcl_dir/global_vars.tcl"
 set scripts_tcl_dir [directpathname "$crt_dir/../../scripts_tcl/"]
 set database_user [string_asis "iristel"]
 set database_pass [string_asis "iristel"]

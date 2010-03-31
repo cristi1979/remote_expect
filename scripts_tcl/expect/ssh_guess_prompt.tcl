@@ -6,6 +6,7 @@ proc ssh_guess_prompt {} {
   set output [list]
   set tries 0
 
+  puts "\n\tMSG: trying to guess the prompt."
   exp_send "\r"
   expect {
     eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
