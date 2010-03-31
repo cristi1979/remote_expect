@@ -49,7 +49,7 @@ proc parse_exceptions {} {
       }
     }
     foreach key [array names exceptions_array] {
-      eval spawn -noecho "bash $::scripts_bash_dir/parse_exceptions.sh $local_dir_tmp_base $::customer_name $::ip $key [join $::emails ","]  $exceptions_array($key)"
+      eval spawn -noecho "bash $::scripts_bash_dir/parse_exceptions.sh $local_dir_tmp_base $key $exceptions_array($key)"
       expect {
 	eof {  puts "\n\tMSG: Done for $key"; set ret 0 }
 	timeout { puts "\n\tERR: Could not execute app."; set ret 2 }
@@ -58,11 +58,14 @@ proc parse_exceptions {} {
       if {!$ret} {
 	catch wait reason
 	set ret [lindex $reason 3]
+	puts "\n\tERR: Exit code was $ret."
       }
     }
   } else {
     puts "\n\tERR: Error extracting archive $::local_dir/$::bkp_rem_archive.tgz,"
   }
-
+  #$local_dir_tmp_base/attachements/*.zip
+  #email
+  #success: delete files
   file delete -force $local_dir_tmp
 }
