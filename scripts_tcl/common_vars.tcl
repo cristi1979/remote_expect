@@ -1,16 +1,16 @@
-foreach script [glob [file join $path_tcl_scripts/expect/ *.tcl]] {
+foreach script [glob [file join $scripts_tcl_dir/expect/ *.tcl]] {
   source $script
 }
 
-foreach script [glob [file join $path_tcl_scripts/common/ *.tcl]] {
+foreach script [glob [file join $scripts_tcl_dir/common/ *.tcl]] {
   source $script
 }
 
-foreach script [glob [file join $path_tcl_scripts/app_logs_paths/ *.tcl]] {
+foreach script [glob [file join $scripts_tcl_dir/app_logs_paths/ *.tcl]] {
   source $script
 }
 
-foreach script [glob [file join $path_tcl_scripts/oracle_scripts/ *.tcl]] {
+foreach script [glob [file join $scripts_tcl_dir/oracle/ *.tcl]] {
   source $script
 }
 
@@ -36,13 +36,15 @@ set files_to_get [list]
 set from_apps [list]
 set saved_output [list]
 set skip_list [list]
+set emails [list "cristian.falcas@mindcti.com"]
 set bkp_rem_dir [directpathname "/tmp/mindcti"]
 set remote_skip_file "$bkp_rem_dir/files_to_skip"
 set local_tmp_dir "/var/tmp/"
 set status_path [directpathname "/var/run/mind"]
-set local_dir_base [directpathname "/media/share/backups/remote_files"]
-set local_dir [directpathname "$local_dir_base/$customer_name"]
-set oracle_sql_dir [directpathname "$path_tcl_scripts/../oracle_sql"]
+set local_dir [directpathname "/media/share/backups/remote_files/$customer_name"]
+set local_dir_outputfiles [directpathname "/media/share/remote"]
+set scripts_sql_dir [directpathname "$scripts_tcl_dir/../scripts_sql"]
+set scripts_bash_dir [directpathname "$scripts_tcl_dir/../scripts_bash"]
 #this is the default filename of the tar gzip result
 set bkp_rem_archive "archive"
 set get_period 60

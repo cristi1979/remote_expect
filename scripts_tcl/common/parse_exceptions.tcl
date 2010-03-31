@@ -3,9 +3,13 @@ proc parse_exceptions {} {
     puts "\n\tERR: File to extract: $::local_dir/$::bkp_rem_archive.tgz does not exist."
     return 1
   }
-  set local_dir_tmp $::local_dir/tmp
-  file delete -force $local_dir_tmp
+
+  set local_dir_tmp_base "$::local_dir_outputfiles/$::customer_name/exceptions/"
+  set local_dir_tmp "$local_dir_tmp_base/tmp_[randomstring 4]"
   file mkdir $local_dir_tmp
+  set local_dir_tmp_base [directpathname "$local_dir_tmp_base"]
+  set local_dir_tmp [directpathname "$local_dir_tmp"]
+
   puts "\n\tMSG: Extracting files locally."
   spawn -noecho tar -xvzf $::local_dir/$::bkp_rem_archive.tgz -C $local_dir_tmp
   expect {
@@ -45,7 +49,7 @@ proc parse_exceptions {} {
       }
     }
     foreach key [array names exceptions_array] {
-      eval spawn "bash $::path_tcl_scripts/parse_exceptions.sh $key $exceptions_array($key)"
+      eval spawn -noecho "bash $::scripts_bash_dir/parse_exceptions.sh $local_dir_tmp_base $::customer_name $::ip $key [join $::emails ","]  $exceptions_array($key)"
       expect {
 	eof {  puts "\n\tMSG: Done for $key"; set ret 0 }
 	timeout { puts "\n\tERR: Could not execute app."; set ret 2 }

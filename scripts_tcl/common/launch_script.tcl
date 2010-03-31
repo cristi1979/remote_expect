@@ -1,7 +1,6 @@
 proc launch_script {{name ""}} {
   set orig_prompt $::prompt
 
-  #scp_put_files "$::path_common_scripts/$name"
   set dir_name [file dirname $name]
   set file_name [file tail $name]
   if { ![file exists $name] || ![file isfile $name] || $name == ""} {
@@ -14,14 +13,9 @@ proc launch_script {{name ""}} {
   ssh_prompt
   if {[test_console]} {return 1}
   ssh_launch_cmd "mkdir -p $::bkp_rem_dir"
-  if {[test_dir $::bkp_rem_dir]} {return 1}
-  if {[ssh_disconnect]} {return 1}
-  set ::prompt $orig_prompt
-  if {[scp_put_files "$name"]} {return 1}
 
-  ssh_connect
-  ssh_prompt
-  if {[test_console]} {return 1}
+  if {[test_dir $::bkp_rem_dir]} {return 1}
+  if {[scp_put_files "$name"]} {return 1}
 
   ssh_launch_cmd "cd $::bkp_rem_dir"
   ssh_launch_cmd "export STATS_OUT_DIR=$::bkp_rem_dir"
@@ -35,6 +29,6 @@ proc launch_script {{name ""}} {
 
 proc exec_unix_statistics {} {
   set myname "$::ip\_run_unix_stats"
-  set cmd [list launch_script "$::path_tcl_scripts/unix_statistics.sh"]
+  set cmd [list launch_script "$::scripts_bash_dir/unix_statistics.sh"]
   return [run_once_command $cmd $myname]
 }

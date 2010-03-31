@@ -6,9 +6,9 @@ if { $argc != 0 } {
 }
 
 set crt_dir [file normalize [file dirname [info script]]]
-set path_tcl_scripts "$crt_dir/../../scripts_tcl/"
-source "$path_tcl_scripts/common_vars.tcl"
-set path_tcl_scripts [directpathname "$crt_dir/../../scripts_tcl/"]
+set scripts_tcl_dir "$crt_dir/../../scripts_tcl/"
+source "$scripts_tcl_dir/common_vars.tcl"
+set scripts_tcl_dir [directpathname "$crt_dir/../../scripts_tcl/"]
 set database_user [string_asis "iristel"]
 set database_pass [string_asis "iristel"]
 set timestamp_path "$::status_path/$customer_name"

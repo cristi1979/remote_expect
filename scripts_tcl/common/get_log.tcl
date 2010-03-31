@@ -13,16 +13,15 @@ proc get_them {logstype {nr_days ""}} {
 
 proc get_unix_statistics {{nr_days ""}} {
   set ::from_apps [list]
-  return [get_them ::unix_statistics $nr_days]
+  set ret [get_them $::str_unix_statistics $nr_days]
+  if {$ret} { return $ret }
+  return [parse_unix_statistics]
 }
 
 proc get_apps_exceptions {{nr_days ""}} {
   set ret [get_them $::str_app_exceptions $nr_days]
-  if {$ret} {
-    return $ret
-  }
-  set ret [parse_exceptions]
-  return $ret
+  if {$ret} { return $ret }
+  return [parse_exceptions]
 }
 
 proc get_apps_logs {{nr_days ""}} {

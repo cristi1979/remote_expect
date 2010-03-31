@@ -174,7 +174,7 @@ function fanstat() {
 }
 
 function pingstat() {
-  my_stat "ping $DB_IP $(TO=$INTERVAL;let TO=$TO/2;echo $TO)"
+  my_stat "ping -n -I $(TO=$INTERVAL;let TO=$TO/2;echo $TO) $DB_IP 56 1"
 }
 
 function tomcatstat {
@@ -222,6 +222,7 @@ function stat_cmd() {
 if [ $OS == "Linux" ]; then 
   echo "cucu"
 elif [ $OS == "SunOS" ]; then
+  stat_cmd "machine_info"
   stat_cmd "iostat -xnsrc -Tu $INTERVAL $COUNT"
   stat_cmd "mpstat $INTERVAL $COUNT"
   stat_cmd "prstat -s cpu -cn10 $INTERVAL $COUNT"
@@ -237,7 +238,6 @@ elif [ $OS == "SunOS" ]; then
   stat_cmd "pingstat"
   stat_cmd "ping -n -I $INTERVAL $DB_IP 56 $COUNT"
   #nfsstat, kstat
-  stat_cmd "machine_info"
   stat_cmd "mind_java_stat"
 else
   echo "can't make stats";
