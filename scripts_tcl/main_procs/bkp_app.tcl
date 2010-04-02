@@ -1,5 +1,5 @@
 proc bkp_app {type file_names {days ""} } {
-  if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; exit 0}
+  if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; return 50}
   set orig_prompt $::prompt
   set ::files_to_get [list]
   lappend ::files_to_get { "somethingthatdoesnotexist" }
@@ -12,7 +12,6 @@ proc bkp_app {type file_names {days ""} } {
   getOS
 
   set ret [ssh_bkp_files_dirs_list $type $file_names $days]
-
   ssh_disconnect
   set ::prompt $orig_prompt
 

@@ -6,10 +6,10 @@ proc scp_get_files {files} {
   expect {
     eof {puts "\n\tERR: EOF. Exit."; set ret 1}
     timeout { 
-      if {nr_times < 5} {
+      if {$nr_times < 5} {
 	puts "\n\tERR: Could not send user/pass. Waiting and retrying..."; 
 	incr nr_times
-	set ::timeout [expr $::timeout * nr_times]
+	set ::timeout [expr {$::timeout * $nr_times}]
 	exp_continue
       } else {
 	puts "\n\tERR: Could not send user/pass. Exit"; 
@@ -37,10 +37,10 @@ proc scp_get_files {files} {
   expect {
     eof {puts "\n\tMSG: EOF.";set ret 0}
     timeout { 
-      if {nr_times < 5} {
+      if {$nr_times < 5} {
 	puts "\n\tERR: Could not connect. Waiting and retrying..."
 	incr nr_times
-	set ::timeout [expr $::timeout * nr_times]
+	set ::timeout [expr {$::timeout * $nr_times}]
 	exp_continue
       } else {
 	puts "\n\tERR: Could not connect. Exit."

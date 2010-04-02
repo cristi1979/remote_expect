@@ -1,5 +1,5 @@
 proc launch_script {{name ""}} {
-  if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; exit 0}
+  if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; return 50}
   set orig_prompt $::prompt
 
   set dir_name [file dirname $name]

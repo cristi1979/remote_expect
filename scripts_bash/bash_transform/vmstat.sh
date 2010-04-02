@@ -1,2 +1,0 @@
-#we can get the exact time of each line from here
-grep -v "kthr      memory            page            disk          faults      cpu" 1257539409_vmstat.log | grep -v "r b w   swap  free  re  mf pi po fr de sr m0 m1 m2 m1   in   sy   cs us sy id" > test

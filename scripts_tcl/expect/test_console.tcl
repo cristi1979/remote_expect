@@ -5,7 +5,7 @@ proc test_console {} {
   exp_send "echo coco\r";
   expect {
     eof { puts "\n\tERR: EOF. Unusual"; set ret 1}
-    timeout { puts "\n\tERR: Could not test console. Exit."; set ret 1 }
+    timeout { puts "\n\tERR: Could not test console. Return error.."; set ret 1 }
     "coco\r\n$::prompt" {
       puts "\n\tMSG: We have a console. Joy.";
       set ret  0

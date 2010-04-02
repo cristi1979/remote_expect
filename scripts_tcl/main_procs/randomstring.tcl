@@ -1,5 +1,5 @@
 proc randomstring {length {chars "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"}} {
-    set range [expr {[string length $chars]-1}]
+    set range [expr {[string length $chars] - 1}]
 
     set txt ""
     for {set i 0} {$i < $length} {incr i} {

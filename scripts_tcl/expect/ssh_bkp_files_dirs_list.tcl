@@ -19,8 +19,8 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
     puts "\n\tERR: Undefined OS: $::operatingsystem"
     set ret 1
   }
+  if [expr {$ret > 0}] {return $ret}
 
-  if [expr $ret>0] {return $ret}
   #from here on, we do only checks
   ##check for tar/gzip errors
   expect {
@@ -31,7 +31,7 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
       set ret 15; 
       exp_continue }
     "tar: Cowardly refusing to create an empty archive" {
-      puts "\n\tERR: No files to archive."; 
+      puts "\n\tERR: Tar error. No files to archive."; 
       set ret 5;
       exp_continue}
     "tar: Missing filenames" {

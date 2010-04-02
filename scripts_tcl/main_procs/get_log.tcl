@@ -15,7 +15,7 @@ proc get_unix_statistics {{nr_days ""}} {
   set ::from_apps [list]
   set ret [get_them $::str_unix_statistics $nr_days]
   if {$ret} { return $ret }
-  return [parse_unix_statistics]
+  return [parse_statistics "unix"]
 }
 
 proc get_apps_exceptions {{nr_days ""}} {
@@ -29,7 +29,9 @@ proc get_apps_logs {{nr_days ""}} {
 }
 
 proc get_apps_statistics {{nr_days ""}} {
-  return [get_them $::str_app_statistics $nr_days]
+  set ret [get_them $::str_app_statistics $nr_days]
+  if {$ret} { return $ret }
+  return [parse_statistics "app"]
 }
 
 proc get_apps {} {

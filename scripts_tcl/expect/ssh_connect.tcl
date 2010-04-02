@@ -16,10 +16,10 @@ proc ssh_connect {} {
     "\r\n$::prompt" { 
       puts "\n\tMSG: Loged in. No password was needed."; 
       set ret [test_console] 
-      if {$ret} {set ret 42}
+      if {$ret} { set ret 42 }
     }
   }
-  if {$ret==42} {return 0}
+  if {$ret == 42} { return 0 }
   if {$ret} {return $ret}
   catch {exp_send -i $spawn_id "$::pass\r"} res
   if {$res == "send: invalid spawn id (4)"} { puts "\n\tERR: No connection. Exit."; return 1 }
@@ -39,9 +39,9 @@ proc ssh_connect {} {
     }
   }
   if {$ret} {return $ret}
-  if { $::prompt==$::impossibleprompt } { ssh_guess_prompt }
+  if { $::prompt == $::impossibleprompt } { ssh_guess_prompt }
 
-  puts "\n\tMSG: Searching for prompt \"$::prompt\""
+  puts "\n\tMSG: Searching for prompt \n\"$::prompt\""
   expect {
     eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
     timeout { puts "\n\tERR: Could not connect. Exit."; set ret 21 }

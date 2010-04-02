@@ -48,24 +48,47 @@ proc parse_exceptions {} {
 	}
       }
     }
+
     foreach key [array names exceptions_array] {
       eval spawn -noecho "bash $::scripts_bash_dir/parse_exceptions.sh $local_dir_tmp_base $key $exceptions_array($key)"
       expect {
 	eof {  puts "\n\tMSG: Done for $key"; set ret 0 }
 	timeout { puts "\n\tERR: Could not execute app."; set ret 2 }
       }
-
       if {!$ret} {
 	catch wait reason
 	set ret [lindex $reason 3]
-	puts "\n\tERR: Exit code was $ret."
+	puts "\n\tERR: Exit code for exceptions parser was $ret."
+	if {!$ret} {
+	  set attachements [join [glob -nocomplain [file join $local_dir_tmp_base/attachements/*.zip]] " -a "]
+	} 
       }
+      if {$ret} { puts "\n\tERR: There was an error."; return $ret }
+    }
+
+    if {$attachements != ""} {
+      set mymessage "Hello,\r\rNew exceptions where found at customer $::customer_name, machine $::ip.\rThey are attached to this email.\rFull exceptions logs can be found at http://10.0.0.99/backups/remote_files/$::customer_name/$::bkp_rem_archive.tgz.\r\rBest regards,\r\tCoco\r.\r"
+      set subject "\"Automatic warning. New exceptions found for $::customer_name, machine $::ip\""
+      set ::timeout $::long_timeout
+      puts "\n\tMSG: Sending email with attachements $attachements."
+      eval spawn -noecho "/bin/mailx -s $subject -a $attachements [join $::emails " "]"
+      exp_send $mymessage
+      expect {
+	eof {  puts "\n\tMSG: Done for $key"; set ret 0 }
+	timeout { puts "\n\tERR: Could not execute app."; set ret 2 }
+      }
+      if {!$ret} {
+	catch wait reason
+	set ret [lindex $reason 3]
+	puts "\n\tERR: Exit code for sending emails was $ret."
+	if {!$ret} {eval file delete $attachements}
+      }
+    } else {
+      puts "\n\tMSG: No new exceptions found."
     }
   } else {
     puts "\n\tERR: Error extracting archive $::local_dir/$::bkp_rem_archive.tgz,"
   }
-  #$local_dir_tmp_base/attachements/*.zip
-  #email
-  #success: delete files
   file delete -force $local_dir_tmp
+  return $ret
 }

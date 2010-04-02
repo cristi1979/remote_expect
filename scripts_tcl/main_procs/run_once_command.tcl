@@ -31,7 +31,7 @@ proc run_once_command {cmd myname} {
   set ::file_data [pid]
   write_file $pid_file
 ##check if update is needed
-  if {[expr [clock seconds] - $val] > 60*$::get_period} {
+  if {[expr {[clock seconds] - $val}] > 60*$::get_period} {
     puts "\n\tMSG: needs update\n\n"
     set ret [eval $cmd]
     if {$ret == 5} {puts "\n\tERR: Tar failed on remote.";return $ret}
