@@ -37,8 +37,8 @@ function create_script {
   echo "	incr ::file_data"
   echo "	puts \"error \$ret is not good. Reached number \$::file_data\""
   echo "	write_file \$nr_errors_file"
-  echo "	if {\$::file_data >= 3} {"
-  echo "		puts \"set disable flag in \"\$crt_dir/ips/200.52.193.223.tcl\"\""
+  echo "	if {\$::file_data >= 5} {"
+  echo "		puts \"set disable flag in \$crt_dir/ips/200.52.193.223.tcl\""
   echo "		set disable [open \"\$crt_dir/ips/200.52.193.223.tcl\" a]"
   echo "		puts \$disable {"
   echo "		set disabled \"\""
@@ -59,7 +59,7 @@ function run_scripts {
   EXEC_FILE=$TMP_DIR/$DATE\_$1\_$tmpext.exec
   create_script $1 $2 > $EXEC_FILE
   chmod +x $EXEC_FILE
-  nice -n 20 $EXEC_FILE 1>&2 >> $OUTPUT_FILE &
+  nice -n 20 $EXEC_FILE &> $OUTPUT_FILE &
   sleep .2
   echo "$1 for $base"
 }

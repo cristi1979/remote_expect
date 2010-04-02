@@ -29,7 +29,7 @@ proc launch_script {{name ""}} {
 }
 
 proc exec_unix_statistics {} {
-  set myname "$::ip\_run_unix_stats"
+  set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip\_run_unix_statistics]
   set cmd [list launch_script "$::scripts_bash_dir/unix_statistics.sh"]
   return [run_once_command $cmd $myname]
 }

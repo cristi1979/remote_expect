@@ -7,6 +7,7 @@ proc set_int {val} {
 }
 
 proc run_once_command {cmd myname} {
+  set ret 0
   set ::bkp_rem_archive $myname
 ##get last successfull update time
   set ts_file "$::timestamp_path/$myname.timestamp"
@@ -18,7 +19,7 @@ proc run_once_command {cmd myname} {
   set lastpid [set_int $::file_data]
   if {$lastpid != 0} {
     puts "MSG: either we are already running or we have a lost pid"
-    if {[catch {exec ps -o command -p $lastpid} results]} {
+    if {[catch {exec "ps -o pid,command -p $lastpid"} results]} {
       puts "MSG: ps returned an error. probably the pid doesn't exist. continue"
     } else {
       puts "ERR: pid already running with command \n$results\n. return"
@@ -31,22 +32,20 @@ proc run_once_command {cmd myname} {
   set ::file_data [pid]
   write_file $pid_file
 ##check if update is needed
-  if {[expr {[clock seconds] - $val}] > 60*$::get_period} {
+  if {[expr {[clock seconds] - $val}] > 60 * $::get_period} {
     puts "\n\tMSG: needs update\n\n"
     set ret [eval $cmd]
-    if {$ret == 5} {puts "\n\tERR: Tar failed on remote.";return $ret}
-    if {$ret == 0} {
-      puts "\n\tMSG: succes and the file is at $::local_dir/$myname"
+    if {$ret == 0 || $ret==5} {
       set ::file_data [clock seconds]
       write_file $ts_file
     } else {
       puts "\n\tERR: Command $cmd failed"
-      return $ret
     }
   } else {
     puts "\n\tERR: the update period has not arived yet.\n\n"
-    return 30;
+    set ret 30;
   }
   file delete $pid_file
-  return 0
+
+  return $ret
 }

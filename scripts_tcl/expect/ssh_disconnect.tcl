@@ -1,11 +1,13 @@
 proc ssh_disconnect {} {
   set spawn_id $::sshid
-  exp_send "exit\r"
+  catch {exp_send "exit\r"} res
+  if {$res == "send: invalid spawn id (4)"} { puts "\n\tERR: No connection. Exit."; return 1 } 
   expect {
     eof { puts "\n\tMSG: Disconnect";}
     timeout {
       puts "\n\tERR: Could not exit."
-      exp_send "exit\r"
+      catch {exp_send "exit\r"} res
+      if {$res == "send: invalid spawn id (4)"} { puts "\n\tERR: No connection. Exit."; return 1 } 
     }
     "$::orig_prompt" {
       exp_send "exit\rexit\r"
