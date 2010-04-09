@@ -69,11 +69,11 @@ mkdir -p "$WORKDIR/attachements"
 if [ -f $CRT -a -s $CRT ];then
   echo "Previous file found: $CRT. Moving to $PRV."
   mv $CRT $PRV
-  $OUR_APP > $CRT
+  $OUR_APP &> $CRT
   diff $PRV $CRT | grep "^>"| sed s/^\>\ // > $DIFF
 else
   echo "No previous file found."
-  $OUR_APP > $CRT
+  $OUR_APP &> $CRT
   cp $CRT $DIFF
 fi
 

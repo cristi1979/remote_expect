@@ -1,6 +1,6 @@
 proc read_file {filename} {
   set ::file_data ""
-  if {[file isfile $filename]} {
+  if {[file isfile "$filename"]} {
     set fp [open "$filename" r]
     set ::file_data [string_asis [read $fp]]
     close $fp

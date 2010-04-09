@@ -1,10 +1,9 @@
 proc launch_sqlplus {} {
   set orig_prompt $::prompt
 
-  set ret [ ssh_connect ]
+  set ret [remote_connect]
   if {$ret} {return $ret}
-  set ret [ ssh_prompt ]
-  if {$ret} {return $ret}
+
   set ret1 [ sqlplus_connect ]
   if {!$ret1} { 
     sqlplus_begin
@@ -18,9 +17,9 @@ proc launch_sqlplus {} {
     sqlplus_disconnect
   }
 
-  set auditdir "$::oracle_scripts_dir/system-audit/"
-  foreach script [glob -type f [file join  $auditdir/\[0-9\]\[0-9\]*.sql]] {
-    sqlplus_launch_scripts [file tail $script] "$::database_user"
+  set auditdir "$::scripts_sql_dir/system-audit/"
+  foreach script [glob -nocomplain -type f [file join  $auditdir/\[0-9\]\[0-9\]*.sql]] {
+    if {[sqlplus_launch_scripts $auditdir [file tail $script] $::database_user]}  {puts "\n\tERR: Error for script $script"}
   }
 
   lappend ::files_to_get { "somethingthatdoesnotexist" } 

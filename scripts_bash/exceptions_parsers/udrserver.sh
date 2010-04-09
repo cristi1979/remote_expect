@@ -14,7 +14,10 @@ function udrserver() {
       pos=2
       if ( (newarray[pos] != "com.mind.udrdistribution.export.utils.exceptions.FTPExUnreachableTarget: Connection timed out") &&
 	  (newarray[pos] != "ipworks.IPWorksException: java.net.BindException: Cannot assign requested address") &&
-	  (newarray[pos] != "com.mind.udrdistribution.export.utils.exceptions.FTPExUnreachableTarget: Connection refused")) {
+	  (newarray[pos] != "com.mind.udrdistribution.export.utils.exceptions.FTPExUnreachableTarget: Connection refused") &&
+	  (newarray[pos] != "java.lang.IllegalStateException: Cannot receive records in this state.") &&
+	  (newarray[pos] !~ "^com.mind.udrdistribution.export.utils.exceptions.FTPExWrongUserOrPassword: PASS \\[ [[:print:]]{1,} \\] : 530 User \\[ [[:print:]]{1,} \\] cannot log in.$") &&
+	  (newarray[pos] != "EXCEPTION LOG") ) {
 	print newarray[0]
 	print newarray[1]
 	print newarray[2]

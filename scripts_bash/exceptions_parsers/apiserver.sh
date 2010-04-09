@@ -9,7 +9,10 @@ function apiserver() {
 	  ($2 != "com.mind.core.Error: Service status is invalid.") &&
 	  ($2 != "com.mind.core.Error: Cannot update a deactivated service.") &&
 	  ($2 != "com.mind.core.Error: Account name cannot contain double quotes.") &&
-	  ($2 != "com.mind.core.Error: Service not assigned to account") ) {
+	  ($2 != "com.mind.core.Error: Service not assigned to account") &&
+	  ($2 != "com.mind.core.Error: This client does not have permission to logon.") &&
+	  ($2 != "com.mind.core.Error: Service is already active.") &&
+	  ($2 != "com.mind.core.Error: Account status is invalid.")) {
 	print MATCH
 	print $1;
 	print $2;
