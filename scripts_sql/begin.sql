@@ -7,5 +7,6 @@ set pages 0 feed OFF;
 set line 20000;
 set TERMOUT OFF;
 SET trimspool on;
-set verify off
+set verify off;
+set markup HTML on;
 spool &1;

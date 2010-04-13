@@ -14,6 +14,7 @@ foreach script [glob [file join $scripts_tcl_dir/oracle/ *.tcl]] {
   source $script
 }
 
+set customer_name [file tail $crt_dir]
 set sshid 0
 set sshpid -1
 set timeout 60
@@ -37,6 +38,8 @@ set from_apps [list]
 set saved_output [list]
 set skip_list [list]
 set emails [list "cristian.falcas@mindcti.com"]
+set oracle_sid "BILL"
+set oracle_port 1521
 set bkp_rem_dir [directpathname "/tmp/mindcti"]
 set remote_skip_file "$bkp_rem_dir/files_to_skip"
 set status_path [directpathname "/var/run/mind"]

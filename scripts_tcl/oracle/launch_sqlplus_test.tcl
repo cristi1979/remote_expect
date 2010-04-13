@@ -12,14 +12,12 @@ proc launch_sqlplus {} {
     puts "\n\n=========================== output"
     puts $::saved_output
     puts "\n\n==========================="
-    sqlplus_disconnect
-  } else {
-    sqlplus_disconnect
   }
+  sqlplus_disconnect
 
   set auditdir "$::scripts_sql_dir/system-audit/"
   foreach script [glob -nocomplain -type f [file join  $auditdir/\[0-9\]\[0-9\]*.sql]] {
-    if {[sqlplus_launch_scripts $auditdir [file tail $script] $::database_user]}  {puts "\n\tERR: Error for script $script"}
+    if {[sqlplus_launch_scripts $auditdir [file tail $script] $::database_user]}   { puts "\n\tERR: Error for script $script" }
   }
 
   lappend ::files_to_get { "somethingthatdoesnotexist" } 

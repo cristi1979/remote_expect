@@ -1,4 +1,5 @@
 proc bkp_app {type file_names {days ""} } {
+  set orig_prompt $::prompt
   set ret [remote_connect]
   if {$ret} {return $ret}
 

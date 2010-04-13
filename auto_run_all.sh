@@ -4,7 +4,8 @@ BASEDIR=$(cd $(dirname "$0"); pwd)
 CUSTOMERS_PATH="$BASEDIR/customers/"
 MACHINES_DIR="ips"
 HEADER_NAME="header.tcl"
-TMP_DIR="/tmp/mind_remote/"
+#TMP_DIR="/tmp/mind_remote/"
+TMP_DIR="/media/share/remote/auto_scripts"
 
 mkdir -p $TMP_DIR
 
@@ -13,7 +14,8 @@ function create_script {
   echo "source \"$mydirs/$HEADER_NAME\""
   echo "source \"\$crt_dir/ips/$filename\""
   echo "set ::get_period $INT"
-  echo "set ret [$1 $2]"
+  echo "catch {set ret [$1 $2]} res"
+  echo "if {![string is integer -strict \$res]} { puts \"\n\tERR: \$res\"; set ret 1 }"
   echo "puts \$ret"
   echo "set nr_errors_file \"\$crt_dir/ips/$filename.errnr\""
   echo "if { (\$ret == 0) || "

@@ -1,6 +1,5 @@
 proc remote_connect {} {
   if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; return 50}
-  set orig_prompt $::prompt
   set ::files_to_get [list]
   lappend ::files_to_get { "somethingthatdoesnotexist" }
   set ret [ssh_connect]

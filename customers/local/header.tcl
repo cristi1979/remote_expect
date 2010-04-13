@@ -1,5 +1,7 @@
 set database_ip "10.0.0.1"
-set customer_name "local"
+set database_user {iristel}
+set database_pass {iristel}
+set oracle_sid "BILL1022"
 
 if { $argc != 0 } {
   set local_dir [lindex $argv 0];
@@ -9,8 +11,6 @@ set crt_dir [file normalize [file dirname [info script]]]
 set scripts_tcl_dir "$crt_dir/../../scripts_tcl/"
 source "$scripts_tcl_dir/global_vars.tcl"
 set scripts_tcl_dir [directpathname "$crt_dir/../../scripts_tcl/"]
-set database_user [string_asis "iristel"]
-set database_pass [string_asis "iristel"]
 set timestamp_path "$::status_path/$customer_name"
 
 file mkdir $local_dir

@@ -12,7 +12,8 @@ function apiserver() {
 	  ($2 != "com.mind.core.Error: Service not assigned to account") &&
 	  ($2 != "com.mind.core.Error: This client does not have permission to logon.") &&
 	  ($2 != "com.mind.core.Error: Service is already active.") &&
-	  ($2 != "com.mind.core.Error: Account status is invalid.")) {
+	  ($2 != "com.mind.core.Error: Account status is invalid.") &&
+	  ($2 != "com.mind.core.Error: Account code already exists!") ) {
 	print MATCH
 	print $1;
 	print $2;
