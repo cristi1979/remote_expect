@@ -11,7 +11,7 @@ proc sqlplus_launch_command {cmd {file ""}} {
     }
   } 
 
-  exp_send "$cmd\;\r"
+  exp_send "$cmd\r"
   expect {
     eof { puts "\n\tERR: EOF. Unusual"; return 1 }
     timeout { puts "\n\tERR: Timeout. Return error."; return 1 }
@@ -21,7 +21,7 @@ proc sqlplus_launch_command {cmd {file ""}} {
   }
 
   if {$file != ""} {
-    exp_send "spool off\;\r"
+    exp_send "spool off\r"
     expect {
       eof { puts "\n\tERR: EOF. Unusual"; return 1 }
       timeout { puts "\n\tERR: Timeout. Return error."; return 1 }

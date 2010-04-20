@@ -1,11 +1,12 @@
 proc test_dir {dir} {
-  set res [ssh_launch_cmd "if \[ -e $dir \];then echo OK;else echo NOK;fi"]
-  if [ string match "*NOK\r\n$::prompt" $res ] {
+  set ret 0
+  if {![ssh_launch_cmd "if \[ -e $dir \];then echo OK;else echo NOK;fi"] && $::saved_output!="OK"} {
     puts "\n\tERR: Not OK. Directory was not created.";
-    return 1
+    set ret 1
   } else {
     puts "\n\tMSG: Dir was created.";
-    return 0
+    set ret 0
   }
+  return $ret
 }
 

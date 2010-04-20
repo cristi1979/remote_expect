@@ -1,7 +1,7 @@
 proc ssh_disconnect {} {
   set spawn_id $::sshid
   catch {exp_send "exit\r"} res
-  if {$res == "send: invalid spawn id (4)"} { puts "\n\tERR: No connection. Exit."; return 1 } 
+  if {$res == "send: invalid spawn id (4)" || $res == "can not find channel named \"0\""} { puts "\n\tERR: No connection. Exit."; return 1 }
   expect {
     eof { puts "\n\tMSG: Disconnect";}
     timeout {

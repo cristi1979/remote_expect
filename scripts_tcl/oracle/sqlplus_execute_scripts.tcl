@@ -6,7 +6,7 @@ proc sqlplus_execute_scripts {path} {
   set orig_prompt $::prompt
 
   set ret [remote_connect]
-  if {$ret} {return $ret}
+  if {$ret} {ssh_disconnect; return $ret}
 
   set auditdir $path
   foreach script [lsort [glob -nocomplain -type f [file join  $auditdir/\[0-9\]\[0-9\]*.sql]]] {

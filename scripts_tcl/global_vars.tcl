@@ -14,6 +14,7 @@ foreach script [glob [file join $scripts_tcl_dir/oracle/ *.tcl]] {
   source $script
 }
 
+set copy_tools "yes"
 set customer_name [file tail $crt_dir]
 set sshid 0
 set sshpid -1
@@ -28,6 +29,9 @@ set file_data ""
 set extra_exp ""
 set extra_send ""
 set operatingsystem ""
+set operatingsystemproc ""
+set operatingsystemver ""
+set osproc ""
 set ossolaris "solaris"
 set oslinux "linux"
 #so we don't backup everything:
@@ -40,8 +44,9 @@ set skip_list [list]
 set emails [list "cristian.falcas@mindcti.com"]
 set oracle_sid "BILL"
 set oracle_port 1521
-set bkp_rem_dir [directpathname "/tmp/mindcti"]
-set remote_skip_file "$bkp_rem_dir/files_to_skip"
+set bkp_rem_dir "/tmp/mindcti"
+set bkp_rem_dir_freespace [expr {1*1024*1024}]
+set remote_skip_file "files_to_skip"
 set status_path [directpathname "/var/run/mind"]
 set local_dir [directpathname "/media/share/backups/remote_files/$customer_name"]
 set local_dir_outputfiles [directpathname "/media/share/remote"]

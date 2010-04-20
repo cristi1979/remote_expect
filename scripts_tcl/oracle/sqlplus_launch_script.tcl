@@ -5,7 +5,7 @@ proc sqlplus_launch_scripts {dir script {parameters [list]}} {
 
   regsub -all {[ \r\t\n]+} $script "" remote_name
   set output_file "$::bkp_rem_dir/oracle-$remote_name.out"
-  set remote_script "$::bkp_rem_dir/oracle-$remote_name.sql"
+  set remote_script "oracle-$remote_name.sql"
 
   set connect_data "WHENEVER SQLERROR EXIT SQL.SQLCODE;
 WHENEVER OSERROR  EXIT -1;

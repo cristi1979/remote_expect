@@ -11,18 +11,16 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
 
   if {![llength $file_names]} {puts "\n\tERR: No files to archive.";return 5;}
   
-  if {$::operatingsystem==$::ossolaris} {
-    set ret [ssh_posix_bkp $type $file_names $days]
-  } elseif {$::operatingsystem==$::oslinux} {
-    set ret [ssh_posix_bkp $type $file_names $days]
+  if {$::operatingsystem==$::ossolaris || $::operatingsystem==$::oslinux} {
+    set ret [ssh_bkp $type $file_names $days]
   } else {
     puts "\n\tERR: Undefined OS: $::operatingsystem"
     set ret 1
   }
   if [expr {$ret > 0}] {return $ret}
 
-  #from here on, we do only checks
-  ##check for tar/gzip errors
+  # from here on, we do only checks
+  ## check for tar/gzip errors
   expect {
     eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
     timeout { puts "\n\tERR: Timeout. Return error."; set ret 1;exp_send "\003\r"; exp_continue}

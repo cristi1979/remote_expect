@@ -15,8 +15,8 @@ proc launch_script {{name ""}} {
   if {[test_console]} {return 1}
   ssh_launch_cmd "mkdir -p $::bkp_rem_dir"
 
-  if {[test_dir $::bkp_rem_dir]} {return 1}
-  if {[scp_put_files "$name"]} {return 1}
+  if {[test_dir $::bkp_rem_dir]} {ssh_disconnect; return 1}
+  if {[scp_put_files "$name"]} {ssh_disconnect; return 1}
 
   ssh_launch_cmd "cd $::bkp_rem_dir"
   ssh_launch_cmd "export STATS_OUT_DIR=$::bkp_rem_dir"

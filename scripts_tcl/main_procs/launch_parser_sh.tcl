@@ -56,7 +56,7 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 	    # from the array, for each element, remove quotes, split it by comma and join by / all, but first
 	    set tmp_list [split [string trim $key \"] ","]
 	    set file_name_regexp [join [lrange $tmp_list 1 [llength $tmp_list]] \/]
-	    if {[string match $file_name_regexp $rem_file_path]} {
+	    if {[string match $file_name_regexp* $rem_file_path]} {
 	      if { ![info exists type_array($::tmp_array($key))] } {
 		set type_array($::tmp_array($key)) $item
 	      } else {
@@ -73,6 +73,7 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 
 #+++ for is from here
       #launch the script for each app and break in case of error
+parray type_array
       foreach key [array names type_array] {
 	if {$parser_type == "exceptions"} {
 	  set attachements ""

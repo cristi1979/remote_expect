@@ -1,7 +1,7 @@
 proc bkp_app {type file_names {days ""} } {
   set orig_prompt $::prompt
   set ret [remote_connect]
-  if {$ret} {return $ret}
+  if {$ret} {ssh_disconnect; return $ret}
 
   set ret [ssh_bkp_files_dirs_list $type $file_names $days]
   ssh_disconnect
