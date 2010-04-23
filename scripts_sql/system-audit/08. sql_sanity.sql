@@ -122,8 +122,8 @@ order by 1 desc
 
 select lpad('=',10,'=') || 'Sequence_limits' || lpad('=',10,'=') from dual;
 select sequence_name seq,
-       to_char(max_value) limit,
-       last_number current, to_char((to_number(to_char(max_value)) - last_number) / increment_by) remaining,
+       to_char(max_value) limit_,
+       last_number current_, to_char((to_number(to_char(max_value)) - last_number) / increment_by) remaining,
        decode(greatest(100-(trunc((to_char((to_number(to_char(max_value)) - last_number) / increment_by)/to_char(max_value))*100,2)), 80),80,'no','yes') problematic
 from user_sequences;
 -----------------------------------------

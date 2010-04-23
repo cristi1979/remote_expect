@@ -4,8 +4,8 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
   set ::timeout $::long_timeout
   set ret 0
 
-  if {[lsearch -exact [list d f] $type]==-1} {
-    puts "\n\tERR: Wrong value for type: $type. Should be f (files) or d (dir)."
+  if {[lsearch -exact [list d f l] $type]==-1} {
+    puts "\n\tERR: Wrong value for type: $type. Should be f (files), or l (exact files) or d (dir)."
     return 1
   }
 

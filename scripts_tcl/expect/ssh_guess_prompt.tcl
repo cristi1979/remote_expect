@@ -27,7 +27,7 @@ proc ssh_guess_prompt {} {
 	  puts "\n\tMSG: Nothing yet. Retrying."
 	  exp_continue 
 	}
-	if {$prompt1 != $prompt2 && $prompt2 !- ""} { 
+	if {$prompt1 != $prompt2 && $prompt2 != ""} { 
 	  set tries 0
 	  puts "\n\tMSG: Not sure about the prompt yet. Retrying."
 	  set prompt1 ""

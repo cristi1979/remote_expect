@@ -10,13 +10,16 @@ proc sqlplus_execute_scripts {path} {
 
   set auditdir $path
   foreach script [lsort [glob -nocomplain -type f [file join  $auditdir/\[0-9\]\[0-9\]*.sql]]] {
-    if {[sqlplus_launch_scripts $auditdir [file tail $script] $::database_user]}   { puts "\n\tERR: Error for script $script" }
+    set ret [sqlplus_launch_scripts $auditdir [file tail $script] $::database_user]
+    if {$ret} { puts "\n\tERR: Error for script $script." }
+    if {$ret==100} { puts "\n\tERR: No sqlplus."; break }
+    if {$ret==1} { puts "\n\tERR: Timeout."; break }
   }
 
   lappend ::files_to_get { "somethingthatdoesnotexist" } 
-  set ret [ssh_bkp_files_dirs_list f $::files_to_get]
+  if {!$ret} { set ret [ssh_bkp_files_dirs_list l $::files_to_get] }
   ssh_disconnect
-  if {$ret==5} {return 0;}
+  if {$ret==5 || $ret==100} {return 0;}
   if {$ret} {return $ret}
   set ret [scp_get_files [lindex $::files_to_get end]]
   return $ret

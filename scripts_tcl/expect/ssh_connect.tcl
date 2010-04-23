@@ -1,5 +1,5 @@
 proc ssh_connect {} {
-  set ::sshpid [spawn ssh $::user@$::ip]
+  set ::sshpid [spawn ssh -C $::user@$::ip]
   set ::sshid $spawn_id
 
   set ret 2;

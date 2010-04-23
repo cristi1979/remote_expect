@@ -11,7 +11,7 @@ proc ssh_launch_cmd {cmd {output_file "&1"} {error_file "&2"}} {
     eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
     timeout { puts "\n\tERR: Timeout. Return error."; set ret 1; exp_send "\003\r"; exp_continue }
     "\r\n$::prompt" {
-      puts "\n\tMSG: Command ended."
+      #puts "\n\tMSG: Command ended."
       set ::timeout $crt_timeout
       if {$output_file!="&1"} { lappend ::files_to_get "$output_file" }
       if {$error_file!="&2"} { lappend ::files_to_get "$error_file" }

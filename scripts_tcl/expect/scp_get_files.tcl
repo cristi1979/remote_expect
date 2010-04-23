@@ -2,6 +2,7 @@ proc scp_get_files {files} {
   spawn scp -r $::user@$::ip:[join $files " "] $::local_dir
   set nr_times 0
   set crt_timeout $::timeout
+  set ::timeout $::long_timeout
 
   expect {
     eof {puts "\n\tERR: EOF. Exit."; set ret 1}
@@ -32,7 +33,6 @@ proc scp_get_files {files} {
   }
   if {$ret} {return $ret}
   catch {exp_send -i $spawn_id "$::pass\r"} res
-  set ::timeout $crt_timeout
   if {$res == "send: invalid spawn id (4)"} { return 1 }
   expect {
     eof {puts "\n\tMSG: EOF.";set ret 0}

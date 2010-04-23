@@ -13,4 +13,6 @@ proc rtsserver {{app_dir "/home/mind/mindcti/rts"}} {
   myhash -add ::applications_array [list $::str_app_logs $app_dir "log" "FinanceInfo\[0-9\]"] [list $myname]
 
   myhash -add ::applications_array [list $::str_app_statistics $app_dir "log" "RTSStatistics\[0-9\]"] [list $myname]
+
+  myhash -add ::applications_array [list $::str_app_skipdirs $app_dir "cdr_bkp" ""] [list $myname]
 }

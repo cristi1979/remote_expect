@@ -9,7 +9,7 @@ proc ssh_disconnect {} {
       catch {exp_send "exit\r"} res
       if {$res == "send: invalid spawn id (4)"} { puts "\n\tERR: No connection. Exit."; return 1 } 
     }
-    "$::orig_prompt" {
+    "\r\n$::orig_prompt" {
       exp_send "exit\rexit\r"
       exp_continue
     }
@@ -18,5 +18,6 @@ proc ssh_disconnect {} {
   if {![catch {exec ps -o command -p $::sshpid} results]} {
     exec kill -9 $::sshpid
   }
+  set ::prompt $::orig_prompt
   return 0;
 }

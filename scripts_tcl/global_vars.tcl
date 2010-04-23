@@ -40,7 +40,6 @@ set maximum_size_to_backup [expr {1*1024*1024*1024}]
 set files_to_get [list]
 set from_apps [list]
 set saved_output [list]
-set skip_list [list]
 set emails [list "cristian.falcas@mindcti.com"]
 set oracle_sid "BILL"
 set oracle_port 1521
@@ -60,7 +59,7 @@ myhash -add ::applications_array [list $::str_unix_statistics $bkp_rem_dir "" "*
 set str_app_exceptions "apps_exceptions"
 set str_app_logs "apps_logs"
 set str_app_statistics "apps_statistics"
-set str_app_skipdirs "apps_dir"
+set str_app_skipdirs "apps_skip_dirs"
 ## applications_array has the following format: applications_array->type->app_dir->relative_path_to_log_dir->files = app_name
 array set applications_array {}
 array set tmp_array {}

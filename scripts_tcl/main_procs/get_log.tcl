@@ -35,28 +35,20 @@ proc get_apps_statistics {{nr_days ""}} {
 }
 
 proc get_apps {} {
-  set app_skip [list]
   set app_dir [list]
 
   myhash -getnode ::applications_array $::str_app_logs $::from_apps
   myhash -clean ::tmp_array
   foreach key [array names ::tmp_array] {
-    set tmp_list [split [string trim $key \"] ","]
-    lappend app_dir [lindex $tmp_list 1]
-    lappend app_skip [join [lrange $tmp_list 1 [llength $tmp_list]-2] \/]
+    lappend app_dir [lindex [split [string trim $key \"] ","] 1]
   }
 
-  myhash -getnode ::applications_array $::str_app_skipdirs $::from_apps
-  myhash -clean ::tmp_array
+  set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip"_apps_dirs"]
+  return [run_once_command [list bkp_app d [lsort -unique $app_dir]] $myname]
+}
 
-  foreach key [array names ::tmp_array] {
-    set tmp_list [split [string trim $key \"] ","]
-    foreach name [lindex $tmp_list 2] {
-      lappend app_skip [ join [list [lindex $tmp_list 1] [string_asis [string trim $name \"]]] \/]
-    }
-  }
-
-  set ::skip_list $app_skip
-  set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip\_$::str_app_skipdirs]
-  return [run_once_command [list bkp_app d $app_dir] $myname]
+proc get_system_audit {} {
+  set myname "$::ip\_system_audit"
+  set ::bkp_rem_archive $myname
+  return [run_once_command [list sqlplus_execute_scripts "$::scripts_sql_dir/system-audit/"] $myname]
 }
