@@ -4,25 +4,23 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
   set ::timeout $::long_timeout
   set ret 0
 
-  if {[lsearch -exact [list d f] $type]==-1} {
-    puts "\n\tERR: Wrong value for type: $type. Should be f (files) or d (dir)."
+  if {[lsearch -exact [list d f l] $type]==-1} {
+    puts "\n\tERR: Wrong value for type: $type. Should be f (files), or l (exact files) or d (dir)."
     return 1
   }
 
   if {![llength $file_names]} {puts "\n\tERR: No files to archive.";return 5;}
   
-  if {$::operatingsystem==$::ossolaris} {
-    set ret [ssh_posix_bkp $type $file_names $days]
-  } elseif {$::operatingsystem==$::oslinux} {
-    set ret [ssh_posix_bkp $type $file_names $days]
+  if {$::operatingsystem==$::ossolaris || $::operatingsystem==$::oslinux} {
+    set ret [ssh_bkp $type $file_names $days]
   } else {
     puts "\n\tERR: Undefined OS: $::operatingsystem"
     set ret 1
   }
+  if [expr {$ret > 0}] {return $ret}
 
-  if [expr $ret>0] {return $ret}
-  #from here on, we do only checks
-  ##check for tar/gzip errors
+  # from here on, we do only checks
+  ## check for tar/gzip errors
   expect {
     eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
     timeout { puts "\n\tERR: Timeout. Return error."; set ret 1;exp_send "\003\r"; exp_continue}
@@ -31,15 +29,20 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
       set ret 15; 
       exp_continue }
     "tar: Cowardly refusing to create an empty archive" {
-      puts "\n\tERR: No files to archive."; 
+      puts "\n\tERR: Tar error. No files to archive."; 
       set ret 5;
       exp_continue}
     "tar: Missing filenames" {
       puts "\n\tERR: tar: Missing filenames."; 
       set ret 5;
       exp_continue}
-    "bash: $::bkp_rem_dir/$::bkp_rem_archive.tgz: No such file or directory*\r\n$::prompt" {
+    "bash: $::bkp_rem_dir/$::bkp_rem_archive.tgz: No such file or directory\r\n" {
       puts "\n\tERR: There was a problem with dir $::bkp_rem_dir\n"
+      set ret 1;
+      exp_continue
+    }
+    "bash: $::bkp_rem_dir/$::bkp_rem_archive.tgz: Permission denied\r\n" {
+      puts "\n\tERR: Can't create file.\n"
       set ret 1;
       exp_continue
     }
@@ -48,6 +51,7 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
       set ret 1;
       exp_continue
     }
+    #-re "(.*)\n" {exp_continue}
     "\r\n$::prompt" { 
       lappend saved_output $expect_out(buffer);
       set tarerr [ssh_get_lasterror]

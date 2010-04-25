@@ -1,5 +1,5 @@
 proc ssh_connect {} {
-  set ::sshpid [spawn ssh $::user@$::ip]
+  set ::sshpid [spawn ssh -C $::user@$::ip]
   set ::sshid $spawn_id
 
   set ret 2;
@@ -11,23 +11,26 @@ proc ssh_connect {} {
       exp_send "yes\r"
       exp_continue
     }
-    "$::user@$::ip's password: " {
-      puts "\n\tMSG: Logging in."
-      set ret 0
-    }
-    "Password: " {
-      puts "\n\tMSG: Logging in."
-      set ret 0
+    "$::user@$::ip's password: " { puts "\n\tMSG: Logging in.";  set ret 0 }
+    "Password: " { puts "\n\tMSG: Logging in."; set ret 0 }
+    "\r\n$::prompt" { 
+      puts "\n\tMSG: Loged in. No password was needed."; 
+      set ret [test_console] 
+      if {$ret} { set ret 42 }
     }
   }
+  if {$ret == 42} { return 0 }
   if {$ret} {return $ret}
   catch {exp_send -i $spawn_id "$::pass\r"} res
-  if {$res=="send: invalid spawn id (4)"} { puts "\n\tERR: No connection. Exit."; return 1 }
+  if {$res == "send: invalid spawn id (4)"} { puts "\n\tERR: No connection. Exit."; return 1 }
 
   if {$::extra_exp != ""} {
     expect {
-      eof {  puts "\n\tERR: EOF. Unusual"; set ret 1  }
+      eof {  puts "\n\tERR: EOF. Unusual"; set ret 1 }
       timeout { puts "\n\tERR: Could not send extra step. Exit."; set ret 1 }
+      "Permission denied, please try again.\r" {puts "\n\tERR: Wrong username or password."; set ret 40}
+      "$::user@$::ip's password: " {puts "\n\tERR: Wrong username or password."; set ret 40}
+      "Password: " {puts "\n\tERR: Wrong username or password."; set ret 40}
       "$::extra_exp" {
 	exp_send "$::extra_send\r\r"
 	puts "\n\tMSG: Extra step: $::extra_send"
@@ -36,17 +39,16 @@ proc ssh_connect {} {
     }
   }
   if {$ret} {return $ret}
-  if { $::prompt==$::impossibleprompt } { ssh_guess_prompt }
+  if { $::prompt == $::impossibleprompt } { ssh_guess_prompt }
 
-  puts "\n\tMSG: Searching for prompt \"$::prompt\""
+  puts "\n\tMSG: Searching for prompt \n\"$::prompt\""
   expect {
     eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
     timeout { puts "\n\tERR: Could not connect. Exit."; set ret 21 }
-    "Permission denied, please try again." {
-      puts "\n\tERR: Wrong username or password."
-      set ret 40;
-    }
-    "\r\n$::prompt" { puts "\n\tMSG: Loged in."; set ret 0 }
+    "Permission denied, please try again." { puts "\n\tERR: Wrong username or password."; set ret 40 }
+    "$::user@$::ip's password: " {puts "\n\tERR: Wrong username or password."; set ret 40}
+    "Password: " {puts "\n\tERR: Wrong username or password."; set ret 40}
+    "\r\n$::prompt" { puts "\n\tMSG: Loged in."; set ret [test_console] }
   }
 
   return $ret;
