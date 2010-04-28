@@ -13,6 +13,7 @@ proc get_them {logstype {nr_days ""}} {
 
 proc get_unix_statistics {{nr_days ""}} {
   set ::from_apps [list]
+  unix_statistics
   set ret [get_them $::str_unix_statistics $nr_days]
   if {$ret} { return $ret }
   return [launch_parser_sh "statistics" "unix"]
@@ -43,7 +44,7 @@ proc get_apps {} {
     lappend app_dir [lindex [split [string trim $key \"] ","] 1]
   }
 
-  set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip"_apps_dirs"]
+  set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip\_apps_dirs]
   return [run_once_command [list bkp_app d [lsort -unique $app_dir]] $myname]
 }
 

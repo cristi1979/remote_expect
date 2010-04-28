@@ -1,12 +1,12 @@
 proc launch_parser_sh {parser_type {stats_type ""}} {
   if {$parser_type != "statistics" && $parser_type != "exceptions"} {
     puts "\n\tERR: Unknown type for parser: $parser_type. We expect statistics or exceptions."
-    return 1
+    return $::ERR_IMPOSSIBLE
   }
 
   if {![file exists $::local_dir/$::bkp_rem_archive.tgz]} {
     puts "\n\tERR: File to extract: $::local_dir/$::bkp_rem_archive.tgz does not exist."
-    return 1
+    return $::ERR_IMPOSSIBLE
   }
 #set local dirs and extract files
   set local_dir_tmp_base "$::local_dir_outputfiles/$::customer_name/$::ip/$parser_type/"
@@ -16,33 +16,33 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
   set local_dir_tmp [directpathname "$local_dir_tmp"]
 
   puts "\n\tMSG: Extracting files locally."
-  spawn -noecho tar -xvzf $::local_dir/$::bkp_rem_archive.tgz -C $local_dir_tmp
+  spawn -noecho tar -xpvzf $::local_dir/$::bkp_rem_archive.tgz -C $local_dir_tmp
   expect {
-    eof {  puts "\n\tMSG: Done"; set ret 0 }
-    timeout { puts "\n\tERR: Could not extract files."; set ret 2 }
-    "tar: Error is not recoverable: exiting now" { puts "\n\tERR: Extract error."; set ret 2; }
+    eof {  puts "\n\tMSG: Done"; set ret $::OK }
+    timeout { puts "\n\tERR: Could not extract files."; set ret $::ERR_CANTEXTRACT }
+    "tar: Error is not recoverable: exiting now" { puts "\n\tERR: Extract error."; set ret $::ERR_TAR_GENERIC; }
   }
 
   if {!$ret} {
     catch wait reason
-    set ret [lindex $reason 3]
+    set ret [expr [lindex $reason 3] + $::ERR_TAR_ERROR]
   }
 
-  if {!$ret} {
+  if {![expr $ret - $::ERR_TAR_ERROR]} {
     #for unix statistics we don't need much to do
     if {$parser_type=="statistics" && $stats_type == "unix"} {
       eval spawn -noecho "bash $::scripts_bash_dir/parse_statistics.sh $stats_type $local_dir_tmp $::customer_name $::ip"
       expect {
-	eof {  puts "\n\tMSG: Done."; set ret 0 }
-	timeout { puts "\n\tERR: Could not execute app."; set ret 2 }
+	eof {  puts "\n\tMSG: Done."; set ret $::OK }
+	timeout { puts "\n\tERR: Could not execute app."; set ret $::ERR_CANT_EXECUTE_APP }
       }
-      if {!$ret} { catch wait reason; set ret [lindex $reason 3] }
+      if {!$ret} { catch wait reason; set ret [expr [lindex $reason 3] + $::ERR_APP_ERROR ]}
     } else {
       #  get from the applications array only the part we need: exceptions/statistics from the monitored apps
       array unset type_array
       if {$parser_type == "exceptions"} {
 	myhash -getnode ::applications_array $::str_app_exceptions $::from_apps
-      } else {
+      } elseif {$parser_type == "statistics"} {
 	myhash -getnode ::applications_array $::str_app_statistics $::from_apps
       }
       myhash -clean ::tmp_array
@@ -73,22 +73,21 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 
 #+++ for is from here
       #launch the script for each app and break in case of error
-parray type_array
+      set attachements ""
       foreach key [array names type_array] {
 	if {$parser_type == "exceptions"} {
-	  set attachements ""
 	  eval spawn -noecho "bash $::scripts_bash_dir/parse_exceptions.sh $local_dir_tmp_base $key $type_array($key)"
-	} else {
+	} elseif {$parser_type == "statistics"} {
 	  eval spawn -noecho "bash $::scripts_bash_dir/parse_statistics.sh $stats_type $key $local_dir_tmp_base $type_array($key)"
 	}
 	expect {
-	  eof {  puts "\n\tMSG: Done for $key"; set ret 0 }
-	  timeout { puts "\n\tERR: Could not execute app."; set ret 2 }
+	  eof {  puts "\n\tMSG: Done for $key"; set ret $::OK }
+	  timeout { puts "\n\tERR: Could not execute app."; set ret $::ERR_CANT_EXECUTE_APP }
 	}
 	#check for exit code to be zero. If not, break for loop
 	if {!$ret} {
 	  catch wait reason
-	  set ret [lindex $reason 3]
+	  set ret [expr [lindex $reason 3] + $::ERR_APP_ERROR ]
 	  puts "\n\tERR: Exit code for bash parser was $ret."
 	  if {!$ret && $parser_type == "exceptions"} {
 	    set attachements [join [glob -nocomplain [file join $local_dir_tmp_base/attachements/*.zip]] " -a "]
@@ -108,14 +107,14 @@ parray type_array
 	eval spawn -noecho "/bin/mailx -s $subject -a $attachements [join $::emails " "]"
 	exp_send $mymessage
 	expect {
-	  eof {  puts "\n\tMSG: Done for $key"; set ret 0 }
-	  timeout { puts "\n\tERR: Could not execute app."; set ret 2 }
+	  eof {  puts "\n\tMSG: Done for $key"; set ret $::OK }
+	  timeout { puts "\n\tERR: Could not execute app."; set ret $::ERR_CANT_EXECUTE_APP }
 	}
 	if {!$ret} {
 	  catch wait reason
-	  set ret [lindex $reason 3]
+	  set ret [expr [lindex $reason 3] + $::ERR_APP_ERROR ]
 	  puts "\n\tERR: Exit code for sending emails was $ret."
-	  if {!$ret} {eval file delete $attachements}
+	  if {![expr $ret- $::ERR_APP_ERROR]} {eval file delete $attachements}
 	}
       }
 #--- until here

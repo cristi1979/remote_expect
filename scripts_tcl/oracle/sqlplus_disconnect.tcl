@@ -3,9 +3,9 @@ proc sqlplus_disconnect {} {
   exp_send "quit\r"
   set ::prompt $::sqlplus_prev_prompt
   expect {
-    eof { puts "\n\tERR: EOF. Unusual"; return 1 } 
-    timeout { puts "\n\tERR: Could not disconnect."; return 1 }
-    "$::prompt" { puts "\n\tMSG: Disconnected from sqlplus."; return 0 }
+    eof { puts "\n\tERR: EOF. Unusual"; return $::ERR_GENERIC } 
+    timeout { puts "\n\tERR: Could not disconnect."; return $::ERR_GENERIC }
+    "$::prompt" { puts "\n\tMSG: Disconnected from sqlplus."; return $::OK }
   }
-  return 1;
+  return $::ERR_GENERIC;
 }

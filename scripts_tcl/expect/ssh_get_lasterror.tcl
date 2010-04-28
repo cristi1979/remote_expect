@@ -5,6 +5,6 @@ proc ssh_get_lasterror {} {
   if {[string is integer -strict $ret]} { 
     return $ret 
   } else {
-    return -1000
+    return $::ERR_IMPOSSIBLE
   }
 }

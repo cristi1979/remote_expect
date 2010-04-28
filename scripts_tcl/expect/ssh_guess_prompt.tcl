@@ -2,7 +2,7 @@ proc ssh_guess_prompt {} {
   set spawn_id $::sshid
   set crt_timeout $::timeout
   set ::timeout 5
-  set ret 0;
+  set ret $::OK;
   set output [list]
   set tries 0
   set totaltries 0
@@ -12,7 +12,7 @@ proc ssh_guess_prompt {} {
   puts "\n\tMSG: trying to guess the prompt."
   exp_send "\r"
   expect {
-    eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
+    eof { puts "\n\tERR: EOF. Unusual"; set ret $::ERR_EOF }
     timeout { 
       if {$tries == 1} {
 	if {$prompt1 == ""} { 

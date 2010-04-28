@@ -197,8 +197,9 @@ function tomcatstat {
 
 function allnetstat() {
   ifconfig -a | grep flags | grep -v LOOPBACK | cut -d " " -f 1 | sed s/://g | while read IF; do 
-	PREP=$IF\_$CRT_FILENR
-    FILE_NAME="$STATS_OUT_DIR/$NAME-mind_netstat_$PREP.log"
+    PREP="$IF-$NAME"
+    #FILE_NAME="$STATS_OUT_DIR/$NAME-mind_netstat_$PREP.log"
+    FILE_NAME="$STATS_OUT_DIR/mindstatistics_netstat_$PREP-$CRT_FILENR.log"
     echo "" > $FILE_NAME
     rm -f $FILE_NAME
     #perl -e 'print int(time)."\n"' > $FILE_NAME
@@ -210,7 +211,7 @@ function allnetstat() {
 
 function stat_cmd() {
   COMMAND=${1%% *}
-  FILE_NAME="$STATS_OUT_DIR/$NAME-mind_${COMMAND##*/}_$CRT_FILENR.log"
+  FILE_NAME="$STATS_OUT_DIR/mindstatistics_${COMMAND##*/}-$NAME-$CRT_FILENR.log"
   echo "" > $FILE_NAME
   rm -f $FILE_NAME
   #perl -e 'print int(time)."\n"' > $FILE_NAME

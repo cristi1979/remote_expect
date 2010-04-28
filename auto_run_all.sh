@@ -18,18 +18,21 @@ function create_script {
   echo "if {![string is integer -strict \$res]} { puts \"\n\tERR: \$res\"; set ret 1 }"
   echo "puts \$ret"
   echo "set nr_errors_file \"\$crt_dir/ips/$filename.errnr\""
-  echo "if { (\$ret == 0) || "
-# 5: Tar failed on remote
-  echo "  (\$ret == 5) || "
-#10: pid already running
-  echo "  (\$ret == 10) || "
-#20: Could not send user/pass
-  echo "  (\$ret == 20) || "
-#30: update period has not arrived yet
-  echo "  (\$ret == 30) || "
-#40: Wrong username or password.
-#50: Machine is disabled
-  echo "  (\$ret == 50) } {"
+  echo "if { (\$ret == \$::OK) || "
+#: Tar failed on remote
+  echo "  (\$ret == \$::ERR_ZERO_SIZE) || "
+#: pid already running
+  echo "  (\$ret == \$::ERR_ALREADY_RUNNING) || "
+#: Could not send user/pass
+  echo "  (\$ret == \$::ERR_CANT_CONNECT) || "
+#: update period has not arrived yet
+  echo "  (\$ret == \$::ERR_NOT_YET) || "
+#: no basic ERR_APP_ERROR, ERR_SQLPLUS_ERR , ERR_TAR_ERROR
+  echo "  (\$ret == \$::ERR_APP_ERROR) || "
+  echo "  (\$ret == \$::ERR_SQLPLUS_ERR) || "
+  echo "  (\$ret == \$::ERR_TAR_ERROR) || "
+#: Machine is disabled
+  echo "  (\$ret == \$::ERR_DISABLED) } {"
   echo "	puts \"ignore error \$ret\""
   echo "	file delete \"$OUTPUT_FILE\" \"$EXEC_FILE\" \"\$nr_errors_file\""
   echo "} else {"

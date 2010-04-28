@@ -2,10 +2,10 @@ proc ssh_launch_background_cmd {cmd {output_file "/dev/null"} {error_file "/dev/
   set spawn_id $::sshid
   exp_send "$cmd 1>$output_file 2>$error_file &\r"
   expect {
-    eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
-    timeout { puts "\n\tERR: Timeout. Return error."; set ret 1 }
+    eof { puts "\n\tERR: EOF. Unusual"; set ret $::ERR_EOF }
+    timeout { puts "\n\tERR: Timeout. Return error."; set ret $::ERR_TIMEOUT }
     "\r\n$::prompt" {
-      set ret 0
+      set ret $::OK
     }
   }
   return $ret

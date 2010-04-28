@@ -1,6 +1,6 @@
 proc ssh_copy_gnutools {} {
   set spawn_id $::sshid 
-  set ret 0
+  set ret $::OK
   set check_prg "$::bkp_rem_dir/gnu_files/ls"
 
   if {$::copy_tools=="yes"} {
@@ -8,13 +8,13 @@ proc ssh_copy_gnutools {} {
       ssh_launch_cmd "($check_prg --help &>/dev/null && exit 0;exit 1)"
       if {![ssh_get_lasterror]} {
 	puts "\n\tMSG: Gnu tools found."
-	set ret 0
+	set ret $::OK
       } else {
 	puts "\n\tMSG: Copy our own gnu programs."
 	set prgname $::operatingsystemver$::operatingsystemproc.tgz
 	if {[scp_put_files "$::scripts_tcl_dir/../solaris_progs/$prgname"]} {
 	  puts "\n\tERR: Could not copy gnu tools."
-	  set ret 1
+	  set ret $::ERR_GENERIC
 	} else {
 	  ssh_launch_cmd "gunzip -dc $::bkp_rem_dir/$prgname | tar -xvf -"
 	  ssh_launch_cmd "chmod +x $::bkp_rem_dir/gnu_files/*"
@@ -25,9 +25,9 @@ proc ssh_copy_gnutools {} {
 	  ssh_launch_cmd "($check_prg --help &>/dev/null && exit 0;exit 1)"
 	  if {[ssh_get_lasterror]} {
 	    puts "\n\tERR: Gnu tools copied, but can't execute them."
-	    set ret 1
+	    set ret $::ERR_GENERIC
 	  } else {
-	    set ret 0
+	    set ret $::OK
 	  }
 	}
       }
@@ -35,7 +35,7 @@ proc ssh_copy_gnutools {} {
       puts "\n\tERR: We will copy the gnu tools only for $::ossolaris. We have here $::operatingsystem."
     }
   } else {
-    set ret 1
+    set ret $::ERR_GENERIC
   }
   return $ret
 }

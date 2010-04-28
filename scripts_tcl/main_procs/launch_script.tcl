@@ -1,31 +1,31 @@
 proc launch_script {{name ""}} {
-  if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; return 50}
+  if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; return $::ERR_DISABLED}
   set orig_prompt $::prompt
 
   set dir_name [file dirname $name]
   set file_name [file tail $name]
   if { ![file exists $name] || ![file isfile $name] || $name == ""} {
     puts "\n\tERR: File $name does not exist.";
-    return 1;
+    return $::ERR_GENERIC;
   }
   
   set ret [ssh_connect]
   if {$ret} {return $ret}
   ssh_prompt
-  if {[test_console]} {return 1}
+  if {[test_console]} {return $::ERR_GENERIC}
   ssh_launch_cmd "mkdir -p $::bkp_rem_dir"
 
-  if {[test_dir $::bkp_rem_dir]} {ssh_disconnect; return 1}
-  if {[scp_put_files "$name"]} {ssh_disconnect; return 1}
+  if {[test_dir $::bkp_rem_dir]} {ssh_disconnect; return $::ERR_GENERIC}
+  if {[scp_put_files "$name"]} {ssh_disconnect; return $::ERR_GENERIC}
 
   ssh_launch_cmd "cd $::bkp_rem_dir"
   ssh_launch_cmd "export STATS_OUT_DIR=$::bkp_rem_dir"
   ssh_launch_cmd "export DB_IP=$::database_ip"
   ssh_launch_background_cmd "bash $::bkp_rem_dir/$file_name"
 
-  if {[ssh_disconnect]} {return 1}
+  if {[ssh_disconnect]} {return $::ERR_GENERIC}
   set ::prompt $orig_prompt
-  return 0
+  return $::OK
 }
 
 proc exec_unix_statistics {} {

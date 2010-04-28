@@ -24,7 +24,7 @@ proc launch_sqlplus {} {
   set ::bkp_rem_archive "oracle"
   set ret [ssh_bkp_files_dirs_list f $::files_to_get]
   ssh_disconnect
-  if {$ret==5} {return 0;}
+  if {$ret==$::ERR_ZERO_SIZE} {return $::OK;}
   if {$ret} {return $ret}
   set ret [scp_get_files [lindex $::files_to_get end]]
   return $ret

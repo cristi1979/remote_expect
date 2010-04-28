@@ -2,12 +2,12 @@ proc set_int {val} {
   if {[string is integer -strict $val]} {
     return [expr int($val)]
   } else {
-    return 0
+    return $::OK
   }
 }
 
 proc run_once_command {cmd myname} {
-  set ret 0
+  set ret $::OK
   set ::bkp_rem_archive $myname
 ##get last successfull update time
   set ts_file "$::timestamp_path/$myname.timestamp"
@@ -23,7 +23,7 @@ proc run_once_command {cmd myname} {
       puts "MSG: ps returned an error. probably the pid doesn't exist. continue"
     } else {
       puts "ERR: pid already running with command \n$results\n. return"
-      return 10
+      return $::ERR_ALREADY_RUNNING
     }
   } else {
     puts "no previous process. continue"
@@ -35,7 +35,7 @@ proc run_once_command {cmd myname} {
   if {[expr {[clock seconds] - $val}] > 60 * $::get_period} {
     puts "\n\tMSG: needs update\n\n"
     set ret [eval $cmd]
-    if {$ret == 0 || $ret==5} {
+    if {$ret == $::OK || $ret==$::ERR_ZERO_SIZE} {
       set ::file_data [clock seconds]
       write_file $ts_file
     } else {
@@ -43,7 +43,7 @@ proc run_once_command {cmd myname} {
     }
   } else {
     puts "\n\tERR: the update period has not arived yet.\n\n"
-    set ret 30;
+    set ret $::ERR_NOT_YET;
   }
   file delete $pid_file
 

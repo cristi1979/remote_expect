@@ -1,7 +1,7 @@
 proc sqlplus_launch_scripts {dir script {parameters [list]}} {
   set spawn_id $::sshid
   set ::sqlplus_prev_prompt $::prompt
-  set ret 0
+  set ret $::OK
 
   regsub -all {[ \r\t\n]+} $script "" remote_name
   set output_file "$::bkp_rem_dir/oracle-$remote_name.out"
@@ -21,11 +21,11 @@ connect $::database_user/$::database_pass@\'(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)
 
   exp_send "cat > \"$remote_script\" << EOF_COCO_RADA\r[join [list $connect_data $begin_data $scr_data $end_data] "\n"]\r\rEOF_COCO_RADA\r"
   expect {
-    eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
-    timeout { puts "\n\tERR: Timeout. Return error."; set ret 1 }
+    eof { puts "\n\tERR: EOF. Unusual"; set ret $::ERR_EOF }
+    timeout { puts "\n\tERR: Timeout. Return error."; set ret $::ERR_TIMEOUT }
     "\r\n$::prompt" {
       puts "\n\tMSG: Finish to write script on remote."
-      set ret 0
+      set ret $::OK
     }
   } 
 
@@ -34,15 +34,15 @@ connect $::database_user/$::database_pass@\'(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)
   set ::timeout 600 
   exp_send "rm $output_file; sqlplus -S /nolog  @$remote_script $output_file $parameters \r"
   expect {
-    eof { puts "\n\tERR: EOF. Unusual"; set ret 1 }
-    timeout { puts "\n\tERR: Timeout. Return error."; set ret 12 }
+    eof { puts "\n\tERR: EOF. Unusual"; set ret $::ERR_EOF }
+    timeout { puts "\n\tERR: Timeout. Return error."; set ret $::ERR_TIMEOUT }
     -re "\r\nSP2-\[0-9\].*" { 
       puts "\n\tERR: sqlplus error."
       exp_send "quit\r"; 
-      set ret 3
+      set ret $::ERR_SQLPLUS_ERR
      }
-    "bash: sqlplus: command not found" { puts "\n\tERR: Can't find sqlplus."; set ret 100 }
-    "$::prompt" { puts "\n\tMSG: Script finished executing."; set ret 0 }
+    "bash: sqlplus: command not found" { puts "\n\tERR: Can't find sqlplus."; set ret $::ERR_NO_SQLPLUS }
+    "$::prompt" { puts "\n\tMSG: Script finished executing."; set ret $::OK }
   }
   set ::timeout $crt_timeout
 

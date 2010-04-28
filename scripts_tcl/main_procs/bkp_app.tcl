@@ -7,7 +7,7 @@ proc bkp_app {type file_names {days ""} } {
   ssh_disconnect
   set ::prompt $orig_prompt
 
-  if {$ret==5} {puts "\n\tERR: no archive";return $ret}
+  if {$ret==$::ERR_ZERO_SIZE} {puts "\n\tERR: no archive";return $ret}
   if { $ret } {
     puts "\n\tERR: Something went wrong."
   } else {
