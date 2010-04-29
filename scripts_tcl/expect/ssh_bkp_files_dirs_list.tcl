@@ -73,7 +73,7 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
       "\r\n$::prompt" { puts "\n\tMSG: File $::bkp_rem_dir/$::bkp_rem_archive.tgz deleted." }
     }
   }
-  if {$ret} {return $ret}
+  if {$ret && $ret!=$::ERR_ZERO_SIZE} {return $ret}
   ##check if the output file exists and has some size
   exp_send "if \[ -s $::bkp_rem_dir/$::bkp_rem_archive.tgz \]; then echo OK; else echo NOK;fi\r"
   expect {

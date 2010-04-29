@@ -19,7 +19,7 @@ proc ssh_bkp {type file_names {days ""}} {
   set string_count { awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}' }
 
   if {$type=="l"} {
-    ssh_launch_cmd "ls -la \"[join [lsort -unique $file_names] \"\ \"]\" | $string_count"
+    ssh_launch_cmd "ls -la \"[join [lsort -unique [lindex $file_names 0]] \"\ \"]\" | $string_count"
     set totalsize [lindex [split $::saved_output] end]
     puts "\n\tMSG: Dir total size is $totalsize"
 
@@ -30,55 +30,62 @@ proc ssh_bkp {type file_names {days ""}} {
       puts "\n\tERR: Total size of files in dir to backup is zero."
       return $::ERR_ZERO_SIZE
     } else {
-      exp_send "tar -cvf - \"[join [lsort -unique $file_names] \"\ \"]\" | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
+      exp_send "tar -cvf - \"[join [lsort -unique [lindex $file_names 0]] \"\ \"]\" | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
     }
   } elseif {$type=="f"} {
     if {$days == ""} { set period "" } else { set period "-mtime -$days" }
+
     set string_getmax "awk 'BEGIN{size=0} {if (size+\$2<$::maximum_size_to_backup) {size=size+\$2;print \$NF} else {exit 100}}'"
-    set regexpgrep {[0-9]\{0,8\}\(_[0-9]\{0,3\}\)\?.log\(.gz\|\.[0-9]\{0,3\}\)\?$}
+    set awk_cmd {awk '{print $6"-"$7,$5,$NF}'}
+
     set ggrep "/usr/sfw/bin/ggrep"
     set egrep "/usr/xpg4/bin/egrep"
     set ourgrep "$::bkp_rem_dir/gnu_files/grep"
     set ourls "$::bkp_rem_dir/gnu_files/ls"
     set perl_sort {perl -e ' foreach(@ARGV) { if (-e $_) { $s=(stat($_))[7]; @d=localtime ((stat($_))[9]); printf "%4d-%02d-%02d-%02d:%02d:%02d.000000000 %d %s\n", $d[5]+1900,$d[4]+1,$d[3],$d[2],$d[1],$d[0],$s,$_ }} ' | sort -r}
-    set awk_cmd {awk '{print $6"-"$7,$5,$NF}'}
+
     set find_all [list]
 
+### build an array containing as key the path and regexp and as value a list of common files
     foreach item $file_names {
-	
-	regexp {([[:alnum:]]|-|\.|_|\[|\]|\`|\'|\$|\(|\)|\*)+} [file tail $item] file_name
-	set dir_name  [file dirname $item]
-	set somelist  [lindex [array get somearray $dir_name] end]
-	lappend somelist "'$file_name'"
-	set somearray($dir_name) $somelist
-      }
-    #find can't hadle .*, grep can't handle * - we modify for find the string
-ssh_launch_cmd "echo >  $::bkp_rem_dir/all_files_in_dirs"
-    foreach dir [array names somearray] {
-	set fixed_list [list]
-	foreach elem $somearray($dir) { 
-	  regsub -- "\\\.\\\*" "$elem" "\*" elem;
-	  lappend fixed_list $elem;
+	regexp {([[:alnum:]]|-|\.|_|\[|\])+} [file tail [lindex $item 0]] file_name
+	set dir_name  [file dirname [lindex $item 0]]
+	set key [list $dir_name [lindex $item 1]]
+	set somelist [list]
+	if {[info exists somearray($key)]} {
+	  set somelist $somearray($key)
 	}
-	regsub -- "\\\.\\\*" "$dir" "\*" dirfix;
-ssh_launch_cmd "find $dirfix/. \! -name . -prune -type $type | sed s#\\\/.\\\/#\\\/# | xargs $perl_sort >>  $::bkp_rem_dir/all_files_in_dirs"
+	lappend somelist "'$file_name'"
+	set somearray($key) $somelist
+      }
+
+ssh_launch_cmd "echo \"\" >  $::bkp_rem_dir/all_files_in_dirs"
+    foreach key [array names somearray] {
+	set dirfix [lindex $key 0]
+	regsub -all "\\\.\\\*" [lindex $key 0] "\*" dirfind
+	set regexpfix [lindex $key 1]
+	set files $somearray($key)
+ssh_launch_cmd "find $dirfind/. \! -name . -prune -type $type | sed s#\\\/.\\\/#\\\/# | xargs $perl_sort >>  $::bkp_rem_dir/all_files_in_dirs"
+
 	### /. \! -name . -prune - don't descend dir. And we fix it back for grep with  | sed s#\\\/.\\\/#\\\/# |
-	set find_cmd "find $dirfix/. \! -name . -prune \\( -name [join [lsort -unique $fixed_list] \\*\.log\\*\ -o\ -name\ ]\\*\.log\\* \\) -size +1c -type $type $period | sed s#\\\/.\\\/#\\\/#"
-	set ggrep_cmd " '$dir/\\([join [lsort -unique $somearray($dir)] \\|]\\)$regexpgrep'"
-	set egrep_cmd  " -e '$dir/'\\([join [lsort -unique $somearray($dir)] \\|]\\)$regexpgrep"
-	lappend find_all "$find_cmd | \r
+	set find_cmd "find $dirfind/. \! -name . -prune \\( -name [join [lsort -unique $files] \\*\ -o\ -name\ ]\\* \\) -size +1c -type $type $period | sed s#\\\/.\\\/#\\\/#"
+
+	set ggrep_cmd " '$dirfix/\\([join [lsort -unique $files] \\|]\\)$regexpfix'"
+	set egrep_cmd  " -e '$dirfix/'\\([join [lsort -unique $files] \\|]\\)$regexpfix"
+	set grep_cmd "
     ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;\r
     (grep --help &>/dev/null && exit 0; exit 1) 						&& echo gnu grep 1>&2 	&& (grep $ggrep_cmd; exit 0)	 	&& exit 0;\r
     ($ggrep --help &>/dev/null && exit 0; exit 1)					&& echo $ggrep 1>&2 	&& ($ggrep $ggrep_cmd; exit 0)	 	&& exit 0;\r
-    ($egrep -q -e \\\[0-9\\\]\\{1,2\\} $egrep &>/dev/null && exit 0; exit 1) 	&& echo $egrep 1>&2	&& ($egrep $egrep_cmd; exit 0)	 	&& exit 0;\r
+    ($egrep -e \\\[0-9\\\]\\{1,2\\} $egrep &>/dev/null && exit 0; exit 1) 	&& echo $egrep 1>&2	&& ($egrep $egrep_cmd; exit 0)	 	&& exit 0;\r
     ($ourgrep --help &>/dev/null && exit 0;exit 1) 					&& echo $ourgrep 1>&2 	&& ($ourgrep $ggrep_cmd; exit 0)	&& exit 0;\r
     echo lame grep && grep \".log\";
     )"
+	lappend find_all "$find_cmd | $grep_cmd"
     }
 ssh_launch_cmd "tar -cvf - $::bkp_rem_dir/all_files_in_dirs | gzip - > $::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
 lappend ::files_to_get "$::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
 
-    set sort_cmd "([join $find_all ";"]) | \r
+    set sort_cmd "
     ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;\r
     (ls --full-time /dev/null &>/dev/null && exit 0; exit 1)	&& echo gnu ls sort 1>&2 	 && (xargs -L 10000 ls --full-time | $awk_cmd | sort -r; exit 0)		&& exit 0;\r
     (ls -E /dev/null &>/dev/null && exit 0; exit 1) 		&& echo sol10 ls sort 1>&2 && (xargs -L 10000 ls -E | $awk_cmd | sort -r; exit 0)			&& exit 0;\r
@@ -86,45 +93,25 @@ lappend ::files_to_get "$::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
     ($ourls --full-time /dev/null &>/dev/null && exit 0;exit 1) 	&& echo $ourls 1>&2  && (xargs -L 10000 $ourls --full-time | $awk_cmd | sort -r; exit 0)	&& exit 0;\r
     echo lame sort && ls -la | $awk_cmd | sort -r;
     )"
-    regsub -all {[ \r\t\n]+} "$sort_cmd | ($string_getmax; echo AWK_FORCED_STOP=\$? 1>&2) | xargs tar -cvf - | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz" " " run_cmd
+    regsub -all {[ \r\t\n]+} "([join $find_all ";"]) | $sort_cmd | ($string_getmax; echo AWK_FORCED_STOP=\$? 1>&2) | xargs tar -cvf - | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz" " " run_cmd
     exp_send "$run_cmd\r"
   } elseif {$type=="d"} {
 
-    set app_skip [list]
-    ## add dirs to skip list
-    myhash -getnode ::applications_array $::str_app_logs $::from_apps
-    myhash -clean ::tmp_array
-    foreach key [array names ::tmp_array] {
-      set tmp_list [split [string trim $key \"] ","]
-      lappend app_skip [join [lrange $tmp_list 1 [llength $tmp_list]-2] \/]
-    }
-
-    ## add rest of defined skip lists
-    myhash -getnode ::applications_array $::str_app_skipdirs $::from_apps
-    myhash -clean ::tmp_array
-    foreach key [array names ::tmp_array] {
-      set tmp_list [split [string trim $key \"] ","]
-      foreach name [lindex $tmp_list 2] {
-	lappend app_skip [ join [list [lindex $tmp_list 1] [string_asis [string trim $name \"]]] \/]
-      }
-    }
-
-    set skip_list [lsort -unique $app_skip]
-
     set tmp_list [list]
     set find_all [list]
-    foreach dir $file_names {
+    foreach item $file_names {
+      set dir_name  [lindex $item 0]
       set app_path ""
-      foreach name $skip_list { 
+      foreach name $::skip_list { 
 	set app_path ""
-	regexp -- "^$dir" "$name" app_path
+	regexp -- "^$dir_name" "$name" app_path
 	if {$app_path!=""} {
 	  lappend tmp_list "-name \"[lindex [split $name \/] end]\"" 
 	}
       }
       set find_extra ""
       if {[llength $tmp_list]>0} {set find_extra "\\( [join $tmp_list " -o "] \\) -prune -o"}
-      lappend find_all "find $dir $find_extra -ls"
+      lappend find_all "find $dir_name $find_extra -ls"
     }
     
     ssh_launch_cmd "([join $find_all ";"]) | $string_count"
@@ -134,13 +121,13 @@ lappend ::files_to_get "$::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
     if [expr {$totalsize > $::maximum_size_to_backup}] {
       puts "\n\tERR: Total size of files to backup is too big. Skip."
       set ::bkp_rem_archive "$::ip\_dir_list_for_app_bkp"
-      ssh_launch_cmd "([join $find_all ";"]) | sort -k 7 > $::bkp_rem_dir/$::bkp_rem_archive\r"
+      ssh_launch_cmd "([join $find_all ";"]) | sort -k 7 > $::bkp_rem_dir/$::bkp_rem_archive && tar -cvf - $::bkp_rem_dir/$::bkp_rem_archive | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz\r"
       return $::OK
     } elseif [expr {$totalsize == 0}] {
       puts "\n\tERR: Total size of files in dir to backup is zero."
       return $::ERR_ZERO_SIZE
     } else {
-      ssh_launch_cmd "ls -d \"[join $skip_list \"\ \"]\" > $::bkp_rem_dir/$::remote_skip_file"
+      ssh_launch_cmd "ls -d \"[join $::skip_list \"\ \"]\" > $::bkp_rem_dir/$::remote_skip_file"
       exp_send "tar -cvXf $::bkp_rem_dir/$::remote_skip_file - [join $file_names] | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
     }
   }

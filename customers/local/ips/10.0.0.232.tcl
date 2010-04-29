@@ -8,7 +8,6 @@ set prompt [string_asis "\[UAT2\]/u03/dumps> "]
 
 array set ::applications_array {}
 #oracle "/tmp/coco/"
-test "/usr/local/share/"
 cdrcollector "/home/cristi/Downloads/test/u01/mind/cdr"
 udrserver "/home/cristi/Downloads/test/u01/mind/udrserver"
 apiserver "/home/cristi/Downloads/test/u01/mind/xmlapi"

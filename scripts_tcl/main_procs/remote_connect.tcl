@@ -14,6 +14,5 @@ proc remote_connect {} {
    return $::ERR_GENERIC;
   }
 
-  set improved_path {PATH=$PATH:/sbin:/usr/sbin:/usr/cluster/bin:/usr/bin:/usr/xpg4/bin/:/usr/sfw/bin/:/usr/local/bin/:/tmp/mindcti/$(uname -a | cut -d " " -f 3,6 | sed s/\ //)/bin/:/usr/ucb:/etc/:/usr/platform/sun4u/sbin/:/usr/platform/$(uname -i)/sbin/}
-  return [expr [ssh_launch_cmd "cd $::bkp_rem_dir"] && [ssh_launch_cmd "export $improved_path"] && [getOS] && [getProc] &&[getVer] && [getHostname] && [ssh_copy_gnutools]]
+  return [expr [set_environment] && [getOS] && [getProc] &&[getVer] && [getHostname] && [ssh_copy_gnutools] ]
 }

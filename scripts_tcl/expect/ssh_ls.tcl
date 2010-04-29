@@ -1,4 +1,4 @@
-proc ls {} {
+proc ssh_ls {} {
   set spawn_id $::sshid
   exp_send "ls -lart ./\r"
   expect {

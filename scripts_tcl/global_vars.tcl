@@ -21,7 +21,8 @@ set sshpid -1
 set timeout 60
 set long_timeout 180
 set oracle_timeout 300
-set orig_prompt ""
+set mind_version ""
+set orig_prompt "noprompt"
 set impossibleprompt "this should not be match by any prompt [randomstring 14]"
 set prompt $impossibleprompt
 set new_prompt "[randomstring 4]_mind_remote_console:: \r\n"
@@ -39,6 +40,7 @@ set oslinux "linux"
 set maximum_size_to_backup [expr {1*1024*1024*1024}]
 set files_to_get [list "somethingthatdoesnotexist"]
 set from_apps [list]
+set skip_list [list]
 set saved_output [list]
 set emails [list "cristian.falcas@mindcti.com"]
 set oracle_sid "BILL"
@@ -63,3 +65,7 @@ set str_app_skipdirs "apps_skip_dirs"
 ## applications_array has the following format: applications_array->type->app_dir->relative_path_to_log_dir->files = app_name
 array set applications_array {}
 array set tmp_array {}
+
+set regexpmind {\([0-9]\{0,8\}\(_[0-9]\{0,5\}\)\?.log\|.log.[0-9]\{4\}-[0-9]\{2\}[0-9]\{2\}\)\(.gz\|.[0-9]\{1,5\}\)\?$}
+set regexpall {*}
+set regexpempty {$}

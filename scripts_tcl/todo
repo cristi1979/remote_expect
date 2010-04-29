@@ -7,3 +7,5 @@ search in files: udrserver CommandChecker: shutDown ;	Thread(main, Thread(Thread
 
 #R:\Infrastructure\JBoss\v4.2.2\Files\
 #R:\iPhonEX\7.00\Files\
+
+action class="com.installshield.product

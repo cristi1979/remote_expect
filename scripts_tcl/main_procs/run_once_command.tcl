@@ -2,7 +2,7 @@ proc set_int {val} {
   if {[string is integer -strict $val]} {
     return [expr int($val)]
   } else {
-    return $::OK
+    return 0
   }
 }
 
@@ -20,7 +20,7 @@ proc run_once_command {cmd myname} {
   if {$lastpid != 0} {
     puts "MSG: either we are already running or we have a lost pid"
     if {[catch {exec "ps -o pid,command -p $lastpid"} results]} {
-      puts "MSG: ps returned an error. probably the pid doesn't exist. continue"
+      puts "MSG: ps returned an error. Probably the pid doesn't exist. Continue"
     } else {
       puts "ERR: pid already running with command \n$results\n. return"
       return $::ERR_ALREADY_RUNNING
@@ -36,6 +36,7 @@ proc run_once_command {cmd myname} {
     puts "\n\tMSG: needs update\n\n"
     set ret [eval $cmd]
     if {$ret == $::OK || $ret==$::ERR_ZERO_SIZE} {
+      puts "\n\tMSG: Command $cmd terminated successfully."
       set ::file_data [clock seconds]
       write_file $ts_file
     } else {

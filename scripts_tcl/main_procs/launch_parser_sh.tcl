@@ -23,12 +23,10 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
     "tar: Error is not recoverable: exiting now" { puts "\n\tERR: Extract error."; set ret $::ERR_TAR_GENERIC; }
   }
 
-  if {!$ret} {
-    catch wait reason
-    set ret [expr [lindex $reason 3] + $::ERR_TAR_ERROR]
-  }
+  if {!$ret} { catch wait reason; set ret [expr [lindex $reason 3] + $::ERR_TAR_ERROR] }
 
-  if {![expr $ret - $::ERR_TAR_ERROR]} {
+  if {[expr $ret - $::ERR_TAR_ERROR]==0} {
+    set ret [expr $ret - $::ERR_TAR_ERROR]
     #for unix statistics we don't need much to do
     if {$parser_type=="statistics" && $stats_type == "unix"} {
       eval spawn -noecho "bash $::scripts_bash_dir/parse_statistics.sh $stats_type $local_dir_tmp $::customer_name $::ip"
@@ -57,12 +55,13 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 	    set tmp_list [split [string trim $key \"] ","]
 	    set file_name_regexp [join [lrange $tmp_list 1 [llength $tmp_list]] \/]
 	    if {[string match $file_name_regexp* $rem_file_path]} {
-	      if { ![info exists type_array($::tmp_array($key))] } {
-		set type_array($::tmp_array($key)) $item
+	      set app_name [lindex $::tmp_array($key) 0]
+	      if { ![info exists type_array()] } {
+		set type_array($app_name) $item
 	      } else {
-		set tmp_list $type_array($::tmp_array($key))
+		set tmp_list $type_array($app_name)
 		lappend tmp_list $item
-		set type_array($::tmp_array($key)) $tmp_list
+		set type_array($app_name) $tmp_list
 	      }
 	      break
 	    }
@@ -81,19 +80,23 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 	  eval spawn -noecho "bash $::scripts_bash_dir/parse_statistics.sh $stats_type $key $local_dir_tmp_base $type_array($key)"
 	}
 	expect {
-	  eof {  puts "\n\tMSG: Done for $key"; set ret $::OK }
+	  eof {  puts "\n\tMSG: Done executing parser for $key"; set ret $::OK }
 	  timeout { puts "\n\tERR: Could not execute app."; set ret $::ERR_CANT_EXECUTE_APP }
 	}
+
 	#check for exit code to be zero. If not, break for loop
 	if {!$ret} {
 	  catch wait reason
 	  set ret [expr [lindex $reason 3] + $::ERR_APP_ERROR ]
-	  puts "\n\tERR: Exit code for bash parser was $ret."
-	  if {!$ret && $parser_type == "exceptions"} {
+	  if {[expr $ret - $::ERR_APP_ERROR]!=0} { 
+	    puts "\n\tERR: Exit code for bash parser was [expr $ret - $::ERR_APP_ERROR]." 
+	  } else {
+	    set ret [expr $ret - $::ERR_APP_ERROR ]
+	  }
+	  if {[expr $ret - $::ERR_APP_ERROR]==0 && $parser_type == "exceptions"} {
 	    set attachements [join [glob -nocomplain [file join $local_dir_tmp_base/attachements/*.zip]] " -a "]
-	  } 
+	  }
 	}
-	if {$ret} { puts "\n\tERR: There was an error."; return $ret }
       }
 #+++ until here
 
@@ -113,8 +116,12 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 	if {!$ret} {
 	  catch wait reason
 	  set ret [expr [lindex $reason 3] + $::ERR_APP_ERROR ]
-	  puts "\n\tERR: Exit code for sending emails was $ret."
-	  if {![expr $ret- $::ERR_APP_ERROR]} {eval file delete $attachements}
+	  if {![expr $ret- $::ERR_APP_ERROR]} {
+	    eval file delete $attachements
+	  } else {
+	    puts "\n\tERR: Exit code for sending emails was [expr $ret- $::ERR_APP_ERROR]."
+	  }
+	  set ret [expr $ret- $::ERR_APP_ERROR]
 	}
       }
 #--- until here
