@@ -58,8 +58,7 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
     #-re "(.*)\n" {exp_continue}
     "\r\n$::prompt" { 
       lappend saved_output $expect_out(buffer);
-      set tarerr [ssh_get_lasterror]
-      if {$tarerr} {puts "\n\tERR: Tar exited with error code: $tarerr"}
+      if {[ssh_get_lasterror]} {puts "\n\tERR: Tar exited with error code: $tarerr"}
       if {!$ret} {puts "\n\tMSG: Backup file created.\n"};
       }
     #-re \[0-9\]|\[a-z\]|\[A-Z\] { lappend saved_output $expect_out(buffer); exp_continue }
@@ -73,7 +72,7 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
       "\r\n$::prompt" { puts "\n\tMSG: File $::bkp_rem_dir/$::bkp_rem_archive.tgz deleted." }
     }
   }
-  if {$ret && $ret!=$::ERR_ZERO_SIZE} {return $ret}
+  if {$ret} {return $ret}
   ##check if the output file exists and has some size
   exp_send "if \[ -s $::bkp_rem_dir/$::bkp_rem_archive.tgz \]; then echo OK; else echo NOK;fi\r"
   expect {

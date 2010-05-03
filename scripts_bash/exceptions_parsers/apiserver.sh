@@ -17,14 +17,14 @@ function apiserver() {
 	  ($2 != "com.mind.core.Error: Account code already exists!")  &&
 	  ($2 != "com.mind.core.Error: Operation is not allowed - user provider different from account provider") &&
 	  ($2 != "com.mind.core.Error: Enter a positive value for Credit limit.") &&
-	  (#2 != "com.mind.core.Error: id is invalid.") &&
-	  (#2 != "com.mind.core.Error: System logon failed. Wrong password.") &&
-	  (#2 != "com.mind.core.Error: Api session not initialized") &&
-	  (#2 != "com.mind.core.Error: ANI group does not exist") &&
-	  (#2 != "com.mind.core.Error: For prepaid accounts, there can never be more than one active session at a time") &&
-	  (#2 != "com.mind.core.Error: The element type "balance_calculation_method" must be terminated by the matching end-tag \"</balance_calculation_method>\".") &&
-	  (#2 != "com.mind.core.Error: Account not found")  &&
-	  (#2 != "com.mind.core.Error: Enter a positive value for Amount.")) {
+	  ($2 != "com.mind.core.Error: id is invalid.") &&
+	  ($2 != "com.mind.core.Error: System logon failed. Wrong password.") &&
+	  ($2 != "com.mind.core.Error: Api session not initialized") &&
+	  ($2 != "com.mind.core.Error: ANI group does not exist") &&
+	  ($2 != "com.mind.core.Error: For prepaid accounts, there can never be more than one active session at a time") &&
+	  ($2 != "com.mind.core.Error: The element type "balance_calculation_method" must be terminated by the matching end-tag \"</balance_calculation_method>\".") &&
+	  ($2 != "com.mind.core.Error: Account not found")  &&
+	  ($2 != "com.mind.core.Error: Enter a positive value for Amount.")) {
 	print MATCH
 	print $1;
 	print $2;

@@ -5,6 +5,7 @@ proc ssh_get_lasterror {} {
   if {[string is integer -strict $ret]} { 
     return $ret 
   } else {
+    puts "\n\tERR: Can't extraxct integer from saved output: $::saved_output."
     return $::ERR_IMPOSSIBLE
   }
 }

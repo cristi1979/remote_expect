@@ -20,7 +20,6 @@ proc ssh_launch_cmd {cmd {output_file "&1"} {error_file "&2"}} {
       regsub -all {[ \r\t\n]+} $::saved_output " " ::saved_output
       set ::saved_output [string trim $::saved_output " "]
       #lappend ::saved_output $expect_out(buffer)
-      if {!$ret} { set ret $::OK }
     }
   }
   return $ret;

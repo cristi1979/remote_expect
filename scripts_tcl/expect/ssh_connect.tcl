@@ -39,7 +39,7 @@ proc ssh_connect {} {
     }
   }
   if {$ret} {return $ret}
-  if { $::prompt == $::impossibleprompt } { ssh_guess_prompt }
+  if { $::prompt == $::impossibleprompt } { ssh_guess_prompt; exp_send "\r"; }
 
   puts "\n\tMSG: Searching for prompt \n\"$::prompt\""
   expect {

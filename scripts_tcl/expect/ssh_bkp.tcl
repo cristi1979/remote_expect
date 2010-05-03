@@ -17,6 +17,7 @@ proc ssh_bkp {type file_names {days ""}} {
 # last sort
 # sort -r
   set string_count { awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}' }
+  ssh_launch_cmd "echo \"\" >  $::bkp_rem_dir/$::bkp_rem_archive.tgz"
 
   if {$type=="l"} {
     ssh_launch_cmd "ls -la \"[join [lsort -unique [lindex $file_names 0]] \"\ \"]\" | $string_count"
@@ -70,14 +71,14 @@ ssh_launch_cmd "find $dirfind/. \! -name . -prune -type $type | sed s#\\\/.\\\/#
 	### /. \! -name . -prune - don't descend dir. And we fix it back for grep with  | sed s#\\\/.\\\/#\\\/# |
 	set find_cmd "find $dirfind/. \! -name . -prune \\( -name [join [lsort -unique $files] \\*\ -o\ -name\ ]\\* \\) -size +1c -type $type $period | sed s#\\\/.\\\/#\\\/#"
 
-	set ggrep_cmd " '$dirfix/\\([join [lsort -unique $files] \\|]\\)$regexpfix'"
+	set ggrep_cmd " '$dirfix/\\([join [lsort -unique $files] \\|]\\)$regexpfix' "
 	set egrep_cmd  " -e '$dirfix/'\\([join [lsort -unique $files] \\|]\\)$regexpfix"
 	set grep_cmd "
-    ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;\r
-    (grep --help &>/dev/null && exit 0; exit 1) 						&& echo gnu grep 1>&2 	&& (grep $ggrep_cmd; exit 0)	 	&& exit 0;\r
-    ($ggrep --help &>/dev/null && exit 0; exit 1)					&& echo $ggrep 1>&2 	&& ($ggrep $ggrep_cmd; exit 0)	 	&& exit 0;\r
-    ($egrep -e \\\[0-9\\\]\\{1,2\\} $egrep &>/dev/null && exit 0; exit 1) 	&& echo $egrep 1>&2	&& ($egrep $egrep_cmd; exit 0)	 	&& exit 0;\r
-    ($ourgrep --help &>/dev/null && exit 0;exit 1) 					&& echo $ourgrep 1>&2 	&& ($ourgrep $ggrep_cmd; exit 0)	&& exit 0;\r
+    ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;
+    (grep --help &>/dev/null && exit 0; exit 1) 						&& echo gnu grep 1>&2 	&& (grep $ggrep_cmd; exit 0)	 	&& exit 0;
+    ($ggrep --help &>/dev/null && exit 0; exit 1)					&& echo $ggrep 1>&2 	&& ($ggrep $ggrep_cmd; exit 0)	 	&& exit 0;
+    ($egrep -e \\\[0-9\\\]\\{1,2\\} $egrep &>/dev/null && exit 0; exit 1) 	&& echo $egrep 1>&2	&& ($egrep $egrep_cmd; exit 0)	 	&& exit 0;
+    ($ourgrep --help &>/dev/null && exit 0;exit 1) 					&& echo $ourgrep 1>&2 	&& ($ourgrep $ggrep_cmd; exit 0)	&& exit 0;
     echo lame grep && grep \".log\";
     )"
 	lappend find_all "$find_cmd | $grep_cmd"
@@ -86,14 +87,14 @@ ssh_launch_cmd "tar -cvf - $::bkp_rem_dir/all_files_in_dirs | gzip - > $::bkp_re
 lappend ::files_to_get "$::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
 
     set sort_cmd "
-    ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;\r
-    (ls --full-time /dev/null &>/dev/null && exit 0; exit 1)	&& echo gnu ls sort 1>&2 	 && (xargs -L 10000 ls --full-time | $awk_cmd | sort -r; exit 0)		&& exit 0;\r
-    (ls -E /dev/null &>/dev/null && exit 0; exit 1) 		&& echo sol10 ls sort 1>&2 && (xargs -L 10000 ls -E | $awk_cmd | sort -r; exit 0)			&& exit 0;\r
-    (perl -e \"\" &>/dev/null && exit 0; exit 1) 			&& echo perl sort 1>&2	 && (xargs -L 10000 $perl_sort  | sort -r; exit 0)				&& exit 0;\r
-    ($ourls --full-time /dev/null &>/dev/null && exit 0;exit 1) 	&& echo $ourls 1>&2  && (xargs -L 10000 $ourls --full-time | $awk_cmd | sort -r; exit 0)	&& exit 0;\r
+    ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;
+    (ls --full-time /dev/null &>/dev/null && exit 0; exit 1)	&& echo gnu ls sort 1>&2 	 && (xargs -L 10000 ls --full-time | $awk_cmd | sort -r; exit 0)		&& exit 0;
+    (ls -E /dev/null &>/dev/null && exit 0; exit 1) 		&& echo sol10 ls sort 1>&2 && (xargs -L 10000 ls -E | $awk_cmd | sort -r; exit 0)			&& exit 0;
+    (perl -e \"\" &>/dev/null && exit 0; exit 1) 			&& echo perl sort 1>&2	 && (xargs -L 10000 $perl_sort  | sort -r; exit 0)				&& exit 0;
+    ($ourls --full-time /dev/null &>/dev/null && exit 0;exit 1) 	&& echo $ourls 1>&2  && (xargs -L 10000 $ourls --full-time | $awk_cmd | sort -r; exit 0)	&& exit 0;
     echo lame sort && ls -la | $awk_cmd | sort -r;
     )"
-    regsub -all {[ \r\t\n]+} "([join $find_all ";"]) | $sort_cmd | ($string_getmax; echo AWK_FORCED_STOP=\$? 1>&2) | xargs tar -cvf - | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz" " " run_cmd
+    regsub -all {[ \r\t\n\s]+} "([join $find_all ";"]) | $sort_cmd | ($string_getmax; echo AWK_FORCED_STOP=\$? 1>&2) | xargs tar -cvf - | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz" " " run_cmd
     exp_send "$run_cmd\r"
   } elseif {$type=="d"} {
 

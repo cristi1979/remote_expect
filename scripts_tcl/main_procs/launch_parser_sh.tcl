@@ -93,7 +93,7 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 	  } else {
 	    set ret [expr $ret - $::ERR_APP_ERROR ]
 	  }
-	  if {[expr $ret - $::ERR_APP_ERROR]==0 && $parser_type == "exceptions"} {
+	  if {!$ret && $parser_type == "exceptions"} {
 	    set attachements [join [glob -nocomplain [file join $local_dir_tmp_base/attachements/*.zip]] " -a "]
 	  }
 	}

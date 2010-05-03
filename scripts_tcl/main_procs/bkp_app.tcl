@@ -14,9 +14,15 @@ proc bkp_app {type file_names {days ""} } {
 
   if { $ret && $ret!=$::ERR_ZERO_SIZE} {
     puts "\n\tERR: Something went wrong."
+  } elseif {$ret==$::ERR_ZERO_SIZE} {
+    puts "\n\tERR: No files to retrieve."
   } else {
     puts "\n\tMSG: Backup successfull."
-    set ret [scp_get_files [join $::files_to_get]]
+    set ret1 [scp_get_files [join $::files_to_get]]
+    if {$ret1} {
+      puts "\n\tERR: Something went wrong with scp."
+      return $ret1
+    }
   }
   return $ret
 }
