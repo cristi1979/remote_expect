@@ -1,5 +1,5 @@
 proc scp_get_files {files} {
-  spawn scp -r $::user@$::ip:[join $files " "] $::local_dir
+  spawn scp -p $::user@$::ip:[join $files " "] $::local_dir
   set nr_times 0
   set crt_timeout $::timeout
   set ::timeout $::long_timeout

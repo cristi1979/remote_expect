@@ -1,0 +1,23 @@
+EXCEPTION LOG
+--------------------------------------------------------------------------------------------------
+
+
+Description : 
+
+java.net.BindException: Address already in use
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.PlainSocketImpl.bind(PlainSocketImpl.java:331)
+	at java.net.ServerSocket.bind(ServerSocket.java:318)
+	at java.net.ServerSocket.<init>(ServerSocket.java:185)
+	at java.net.ServerSocket.<init>(ServerSocket.java:97)
+	at com.mind.utils.network.TCPListener.<init>(Unknown Source)
+	at com.mind.mediation.common.utils.mmi.common.remote.Listener.<init>(Unknown Source)
+	at com.mind.mediation.common.utils.mmi.common.remote.AppRemoteMMIManager.<init>(Unknown Source)
+	at com.mind.mediation.applications.realtimeserver.modules.mmi.common.remote.RTSRemoteMMIManager.<init>(Unknown Source)
+	at com.mind.mediation.applications.realtimeserver.RTS.createMMIManager(Unknown Source)
+	at com.mind.mediation.applications.realtimeserver.RTS.createThreads(Unknown Source)
+	at com.mind.mediation.common.Mediation.init(Unknown Source)
+	at com.mind.mediation.applications.realtimeserver.RTS.init(Unknown Source)
+	at com.mind.mediation.applications.realtimeserver.RTS.main(Unknown Source)
+
+Date :30/04/10  03:14:50.582

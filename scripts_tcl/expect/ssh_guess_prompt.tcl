@@ -1,7 +1,7 @@
 proc ssh_guess_prompt {} {
   set spawn_id $::sshid
   set crt_timeout $::timeout
-  set ::timeout 1
+  set ::timeout 5
   set ret $::OK;
   set output [list]
   set totaltries 0
@@ -39,7 +39,7 @@ proc ssh_guess_prompt {} {
 	    if {$prompt1 != $prompt2} { 
 	      incr totaltries
 	      puts "\n\tMSG: Not sure about the prompt yet. Retrying."
-	      set prompt1 ""
+	      set prompt1 $prompt2
 	      set prompt2 ""
 	      exp_send "\r";
 	      exp_continue 

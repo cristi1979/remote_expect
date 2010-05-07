@@ -1,4 +1,4 @@
-proc sipmanagement {logs_type {app_dir ""} {app_logs ""}} {
+proc tomcat {logs_type {app_dir ""} {app_logs ""}} {
   switch $logs_type {
     "exceptions" {
         return [list \

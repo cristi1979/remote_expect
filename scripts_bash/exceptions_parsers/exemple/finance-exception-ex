@@ -1,0 +1,40 @@
+2010-05-01 06:00:45,211 FATAL Description :
+
+java.sql.SQLException: ORA-00060: deadlock detected while waiting for resource
+ SQL=UPDATE ACCOUNTS SET CHARGES = NVL ( CHARGES, 0 ) + ? WHERE ID = ?
+	at com.mind.utils.db.MindQuery.executeUpdate(MindQuery.java:480)
+	at com.mind.finance.engine.rc.logic.bridges.db.DBRCAccountBridge.updateCharges(DBRCAccountBridge.java:625)
+	at com.mind.finance.engine.rc.logic.actions.SaveData.updateAccountCharges(SaveData.java:145)
+	at com.mind.finance.engine.rc.logic.actions.SaveData.saveTransactions(SaveData.java:550)
+	at com.mind.finance.engine.rc.logic.actions.SaveData.perform(SaveData.java:340)
+	at com.mind.finance.engine.rc.logic.RCCalc.doCalculate(RCCalc.java:347)
+	at com.mind.finance.engine.rc.logic.RCCalc.calculate(RCCalc.java:295)
+	at com.mind.finance.engine.rc.RCEngine.calculate(RCEngine.java:455)
+	at com.mind.finance.server.process.rc.RCProcessThread.handleRCProcessorMessage(RCProcessThread.java:202)
+	at com.mind.finance.server.process.rc.RCProcessThread.checkAndHandleRCProcessMessage(RCProcessThread.java:161)
+	at com.mind.finance.server.process.rc.RCProcessThread.process(RCProcessThread.java:122)
+	at com.mind.finance.server.process.ProcessThread.processMessage(ProcessThread.java:110)
+	at com.mind.finance.server.process.ProcessThread.work(ProcessThread.java:133)
+	at com.mind.utils.threads.messagethread.reconnectthread.ReconnectThread.execute(ReconnectThread.java:144)
+	at com.mind.utils.threads.BaseThread.run(BaseThread.java:282)
+	at java.lang.Thread.run(Thread.java:595)
+2010-05-05 10:28:23,075 FATAL Description :
+RCEngine.calculate failed
+java.sql.SQLException: ORA-00060: deadlock detected while waiting for resource
+ SQL=UPDATE ACCOUNTS SET CHARGES = NVL ( CHARGES, 0 ) + ? WHERE ID = ?
+	at com.mind.utils.db.MindQuery.executeUpdate(MindQuery.java:480)
+	at com.mind.finance.engine.rc.logic.bridges.db.DBRCAccountBridge.updateCharges(DBRCAccountBridge.java:625)
+	at com.mind.finance.engine.rc.logic.actions.SaveData.updateAccountCharges(SaveData.java:145)
+	at com.mind.finance.engine.rc.logic.actions.SaveData.saveTransactions(SaveData.java:550)
+	at com.mind.finance.engine.rc.logic.actions.SaveData.perform(SaveData.java:340)
+	at com.mind.finance.engine.rc.logic.RCCalc.doCalculate(RCCalc.java:347)
+	at com.mind.finance.engine.rc.logic.RCCalc.calculate(RCCalc.java:295)
+	at com.mind.finance.engine.rc.RCEngine.calculate(RCEngine.java:455)
+	at com.mind.finance.server.process.rc.RCProcessThread.handleRCProcessorMessage(RCProcessThread.java:202)
+	at com.mind.finance.server.process.rc.RCProcessThread.checkAndHandleRCProcessMessage(RCProcessThread.java:161)
+	at com.mind.finance.server.process.rc.RCProcessThread.process(RCProcessThread.java:122)
+	at com.mind.finance.server.process.ProcessThread.processMessage(ProcessThread.java:110)
+	at com.mind.finance.server.process.ProcessThread.work(ProcessThread.java:133)
+	at com.mind.utils.threads.messagethread.reconnectthread.ReconnectThread.execute(ReconnectThread.java:144)
+	at com.mind.utils.threads.BaseThread.run(BaseThread.java:282)
+	at java.lang.Thread.run(Thread.java:595)

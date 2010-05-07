@@ -1,4 +1,4 @@
-proc unix_statistics {{app_dir "/tmp/mindcti"}} {
+proc unix_statistics {} {
   set myname [lindex [info level 0] 0]
 
   set reg [logs_regular_expresions $myname]

@@ -1,11 +1,32 @@
-proc finance {{app_dir "/home/mind/mindcti/finance"}} {
-  set myname [lindex [info level 0] 0]
-
-  myhash -add ::applications_array [list $::str_app_exceptions $app_dir "log" "FinanceExceptions"] [list $myname]
-  myhash -add ::applications_array [list $::str_app_exceptions $app_dir "log" "FinanceErrors"] [list $myname]
-
-  myhash -add ::applications_array [list $::str_app_logs $app_dir "log" "FinanceInfo"] [list $myname]
-
-  myhash -add ::applications_array [list $::str_app_statistics $app_dir "log" "FinanceThreadStatistics"] [list $myname]
-  myhash -add ::applications_array [list $::str_app_statistics $app_dir "log" "FinanceProcessStatistics"] [list $myname]
+proc finance {logs_type {app_dir ""} {app_logs ""}} {
+  switch $logs_type {
+    "exceptions" {
+        return [list \
+		  "FinanceExceptions"\
+		  "FinanceErrors"\
+		]
+    }
+    "logs" {
+        return [list \
+		  "FinanceInfo"\
+		]
+    }
+    "statistics" {
+        return [list \
+			"FinanceThreadStatistics"\
+			"FinanceProcessStatistics"\
+		]
+    }
+    "skip" {
+        return [list \
+			"XXX_XXX"\
+		]
+    }
+	"extra" {
+	}
+    default {
+      puts "\n\tERR: Wrong parameter: $logs_type."
+	  exit 1;
+    }
+  } 
 }

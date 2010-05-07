@@ -46,7 +46,7 @@ proc get_apps {} {
   puts "\n\n\t\t##############################################\n\t\t## MSG:Starting to work on get applications \n\t\t##############################################\n\n"
 
   set app_dir [list]
-  myhash -getnode ::applications_array $::str_app_logs $::from_apps
+  myhash -getnode ::applications_array $::str_app_skipdirs $::from_apps
   myhash -clean ::tmp_array
   foreach key [array names ::tmp_array] {
     lappend app_dir [lindex [split [string trim $key \"] ","] 1]

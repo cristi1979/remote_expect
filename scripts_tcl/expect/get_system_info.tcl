@@ -27,6 +27,9 @@ proc getProc {} {
     "i686" {
       set ::operatingsystemproc "x86"
     }
+    "x86_64" {
+      set ::operatingsystemproc "x86_64"
+    }
     default {
       set ::operatingsystemproc ""
     }

@@ -1,15 +1,24 @@
-proc csr {logs_type {app_dir ""} {app_logs ""}} {
+proc provisioning {logs_type {app_dir ""} {app_logs ""}} {
   switch $logs_type {
     "exceptions" {
         return [list \
-		  "CSRCoreErrors"\
-		  "CSRWebErrors"\
+		  "ProvisioningAPI-Exceptions"\
+		  "PPA-Exceptions"\
+		  "PM-Exceptions"\
+		  "Cirpack-Rejected-Invalid-.*"\
+		  "Cirpack-Exceptions"\
 		]
     }
     "logs" {
         return [list \
-		  "CSRCore"\
-		  "CSRWeb"\
+		  "ProvisioningAPI-Sql"\
+		  "ProvisioningAPI"\
+		  "PPA-Sql"\
+		  "PPA"\
+		  "PM-Sql"\
+		  "PM"\
+		  "Cirpack"\
+		  "Cirpack-Reject"\
 		]
     }
     "statistics" {
@@ -23,7 +32,7 @@ proc csr {logs_type {app_dir ""} {app_logs ""}} {
 		]
     }
 	"extra" {
-	}
+		}
     default {
       puts "\n\tERR: Wrong parameter: $logs_type."
 	  exit 1;

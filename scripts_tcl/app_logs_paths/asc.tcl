@@ -1,11 +1,32 @@
-proc asc {{app_dir "/home/mind/mindcti/asc"}} {
-  set myname [lindex [info level 0] 0]
-
-  set reg [logs_regular_expresions $myname]
-  myhash -add ::applications_array [list $::str_app_exceptions $app_dir "log" "ASCExceptions\[0-9\]"] [list $myname $reg]
-
-  myhash -add ::applications_array [list $::str_app_logs $app_dir "log" "ASCInfo\[0-9\]"] [list $myname $reg]
-  myhash -add ::applications_array [list $::str_app_logs $app_dir "log" "RCInfo\[0-9\]"] [list $myname $reg]
-
-  myhash -add ::applications_array [list $::str_app_statistics $app_dir "log" "ASCStatistics\[0-9\]"] [list $myname $reg]
+proc asc {logs_type {app_dir ""} {app_logs ""}} {
+  switch $logs_type {
+    "exceptions" {
+        return [list \
+			"ASCExceptions\[0-9\]"\
+		]
+    }
+    "logs" {
+        return [list \
+			"ASCInfo\[0-9\]"\
+			"FinanceInfo\[0-9\]"\
+			"RCInfo\[0-9\]"\
+		]
+    }
+    "statistics" {
+        return [list \
+			"ASCStatistics\[0-9\]"\
+		]
+    }
+    "skip" {
+        return [list \
+			"XXX_XXX"\
+		]
+    }
+	"extra" {
+	}
+    default {
+      puts "\n\tERR: Wrong parameter: $logs_type."
+	  exit 1;
+    }
+  } 
 }

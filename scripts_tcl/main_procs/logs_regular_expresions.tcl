@@ -2,6 +2,7 @@ proc logs_regular_expresions {app} {
   puts "\n\tMSG: App $app using regular expresion for mind version $::mind_version."
   switch $app {
 	"rtsserver" -
+	"recalc" -
 	"cdrprocessor" -
 	"cdrcollector" -
 	"asc" -
@@ -24,6 +25,7 @@ proc logs_regular_expresions {app} {
 	      return $::regexpmind
 	    }
 	}
+	"tomcat" -
 	"sipmanagement" {
 	    return {\(.out\|.[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}.log\)$}
 	}
@@ -36,6 +38,6 @@ proc logs_regular_expresions {app} {
 	"unix_statistics" {
 	    return {.*.log$}
 	}
-	default {return$::regexpmind}
+	default { return $::regexpmind }
   }
 }

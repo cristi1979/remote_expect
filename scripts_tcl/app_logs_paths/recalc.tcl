@@ -1,15 +1,14 @@
-proc csr {logs_type {app_dir ""} {app_logs ""}} {
+proc recalc {logs_type {app_dir ""} {app_logs ""}} {
   switch $logs_type {
     "exceptions" {
         return [list \
-		  "CSRCoreErrors"\
-		  "CSRWebErrors"\
+		  "RecalcExceptions\[0-9\]"\
 		]
     }
     "logs" {
         return [list \
-		  "CSRCore"\
-		  "CSRWeb"\
+		  "Recalc\[0-9\]"\
+		  "FinanceInfo\[0-9\]"\
 		]
     }
     "statistics" {

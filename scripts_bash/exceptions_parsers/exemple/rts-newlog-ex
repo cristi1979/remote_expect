@@ -1,0 +1,23 @@
+2010-05-06 00:01:53,503 ERROR Description :
+Tariff not found in global list. Tariff code = KN_P10H777, Tariff date = 2010-05-04 00:00:00.0, accountID: 13661173, service ID: 16285395
+com.mind.finance.engine.FinanceException
+	at com.mind.finance.engine.bp.logic.actions.allocation.AllocateServiceBuckets.perform(AllocateServiceBuckets.java:161)
+	at com.mind.finance.engine.bp.logic.actions.allocation.AllocatePeriodBuckets.perform(AllocatePeriodBuckets.java:120)
+	at com.mind.finance.engine.bp.logic.actions.allocation.AllocateAccountBuckets.perform(AllocateAccountBuckets.java:92)
+	at com.mind.finance.engine.bp.logic.BPAllocator.allocate(BPAllocator.java:238)
+	at com.mind.finance.engine.bp.BPEngine.allocate(BPEngine.java:150)
+	at com.mind.mediation.common.logic.processing.discounts.BucketManager.fillBuckets(BucketManager.java:105)
+	at com.mind.mediation.common.logic.processing.unified.data.ServiceDataProcess.getResolveDetails(ServiceDataProcess.java:873)
+	at com.mind.mediation.applications.realtimeserver.logic.processing.RTSDataProcess.processToCdrIfNeeded(RTSDataProcess.java:800)
+	at com.mind.mediation.applications.realtimeserver.logic.processing.RTSDataProcess.handleActiveCallFound(RTSDataProcess.java:634)
+	at com.mind.mediation.applications.realtimeserver.logic.processing.RTSDataProcess.callInterim(RTSDataProcess.java:568)
+	at com.mind.mediation.applications.realtimeserver.logic.protocols.radius.data.juniper.JuniperDataInterimRequest.doProcess(JuniperDataInterimRequest.java:130)
+	at com.mind.mediation.applications.realtimeserver.logic.protocols.radius.data.RadiusDataRequest.process(RadiusDataRequest.java:181)
+	at com.mind.mediation.applications.realtimeserver.logic.protocols.RTSTransaction.process(RTSTransaction.java:420)
+	at com.mind.mediation.applications.realtimeserver.modules.processing.RTSRequestHandler.handleRegularMode(RTSRequestHandler.java:252)
+	at com.mind.mediation.applications.realtimeserver.modules.processing.RTSRequestHandler.handleTransaction(RTSRequestHandler.java:354)
+	at com.mind.mediation.applications.realtimeserver.modules.processing.RTSRequestHandler.work(RTSRequestHandler.java:396)
+	at com.mind.utils.threads.messagethread.reconnectthread.ReconnectThread.execute(ReconnectThread.java:144)
+	at com.mind.mediation.applications.realtimeserver.modules.processing.RTSRequestHandler.execute(RTSRequestHandler.java:444)
+	at com.mind.utils.threads.BaseThread.run(BaseThread.java:282)
+	at java.lang.Thread.run(Thread.java:595)

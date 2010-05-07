@@ -8,10 +8,10 @@ set prompt [string_asis "\[UAT2\]/u03/dumps> "]
 
 array set ::applications_array {}
 #oracle "/tmp/coco/"
-cdrcollector "/home/cristi/Downloads/test/u01/mind/cdr"
-udrserver "/home/cristi/Downloads/test/u01/mind/udrserver"
-apiserver "/home/cristi/Downloads/test/u01/mind/xmlapi"
-rtsserver "/home/cristi/Downloads/test/u01/mind/rts"
+add_app cdrcollector "/home/cristi/Downloads/test/u01/mind/cdr"
+add_app udrserver "/home/cristi/Downloads/test/u01/mind/udrserver"
+add_app apiserver "/home/cristi/Downloads/test/u01/mind/xmlapi"
+add_app rtsserver "/home/cristi/Downloads/test/u01/mind/rts"
 
 set extra_exp [string_asis "ORACLE_SID = \[NOT_SET\] ? "]
 set extra_send "BILL1022"

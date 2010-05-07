@@ -1,15 +1,14 @@
-proc csr {logs_type {app_dir ""} {app_logs ""}} {
+proc rmweb {logs_type {app_dir ""} {app_logs ""}} {
   switch $logs_type {
     "exceptions" {
         return [list \
-		  "CSRCoreErrors"\
-		  "CSRWebErrors"\
+		  "RMWebCSRErrors"\
+		  "RMWebCSRExceptions"\
 		]
     }
     "logs" {
         return [list \
-		  "CSRCore"\
-		  "CSRWeb"\
+		  "RMWebCSR"\
 		]
     }
     "statistics" {

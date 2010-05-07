@@ -1,10 +1,30 @@
-proc events {{app_dir "/home/mind/mindcti/jboss"}} {
-  set myname [lindex [info level 0] 0]
-
-  set reg [logs_regular_expresions $myname]
-  myhash -add ::applications_array [list $::str_app_exceptions $app_dir "log" "EVENTSErrors\[0-9\]"] [list $myname $reg]
-
-  myhash -add ::applications_array [list $::str_app_logs $app_dir "log" "EVENTSInfo\[0-9\]"] [list $myname $reg]
-
-  myhash -add ::applications_array [list $::str_app_statistics $app_dir "log" "eventsnicanicaSTATS.log"] [list $myname $reg]
+proc events {logs_type {app_dir ""} {app_logs ""}} {
+  switch $logs_type {
+    "exceptions" {
+        return [list \
+		  "EVENTSErrors\[0-9\]"\
+		]
+    }
+    "logs" {
+        return [list \
+		  "EVENTSInfo\[0-9\]"\
+		]
+    }
+    "statistics" {
+        return [list \
+			"XXX_XXX"\
+		]
+    }
+    "skip" {
+        return [list \
+			"XXX_XXX"\
+		]
+    }
+	"extra" {
+	}
+    default {
+      puts "\n\tERR: Wrong parameter: $logs_type."
+	  exit 1;
+    }
+  } 
 }

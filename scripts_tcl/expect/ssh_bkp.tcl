@@ -88,10 +88,10 @@ lappend ::files_to_get "$::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
 
     set sort_cmd "
     ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;
-    (ls --full-time /dev/null &>/dev/null && exit 0; exit 1)	&& echo gnu ls sort 1>&2 	 && (xargs -L 10000 ls --full-time | $awk_cmd | sort -r; exit 0)		&& exit 0;
-    (ls -E /dev/null &>/dev/null && exit 0; exit 1) 		&& echo sol10 ls sort 1>&2 && (xargs -L 10000 ls -E | $awk_cmd | sort -r; exit 0)			&& exit 0;
+    (ls --full-time /dev/null &>/dev/null && exit 0; exit 1)	&& echo gnu ls sort 1>&2 	 && (xargs -r -L 10000 ls --full-time | $awk_cmd | sort -r; exit 0)		&& exit 0;
+    (ls -E /dev/null &>/dev/null && exit 0; exit 1) 		&& echo sol10 ls sort 1>&2 && (xargs -L 10000 ls -E /dodo | $awk_cmd | sort -r; exit 0)			&& exit 0;
     (perl -e \"\" &>/dev/null && exit 0; exit 1) 			&& echo perl sort 1>&2	 && (xargs -L 10000 $perl_sort  | sort -r; exit 0)				&& exit 0;
-    ($ourls --full-time /dev/null &>/dev/null && exit 0;exit 1) 	&& echo $ourls 1>&2  && (xargs -L 10000 $ourls --full-time | $awk_cmd | sort -r; exit 0)	&& exit 0;
+    ($ourls --full-time /dev/null &>/dev/null && exit 0;exit 1) 	&& echo $ourls 1>&2  && (xargs -r -L 10000 $ourls --full-time | $awk_cmd | sort -r; exit 0)	&& exit 0;
     echo lame sort && ls -la | $awk_cmd | sort -r;
     )"
     regsub -all {[ \r\t\n\s]+} "([join $find_all ";"]) | $sort_cmd | ($string_getmax; echo AWK_FORCED_STOP=\$? 1>&2) | xargs tar -cvf - | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz" " " run_cmd
@@ -129,7 +129,11 @@ lappend ::files_to_get "$::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
       return $::ERR_ZERO_SIZE
     } else {
       ssh_launch_cmd "ls -d \"[join $::skip_list \"\ \"]\" > $::bkp_rem_dir/$::remote_skip_file"
-      exp_send "tar -cvXf $::bkp_rem_dir/$::remote_skip_file - [join $file_names] | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
+      if {$::operatingsystem == $::oslinux } {
+	exp_send "tar -cvX $::bkp_rem_dir/$::remote_skip_file -f - [join $file_names] | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
+      } else {
+	exp_send "tar -cvXf $::bkp_rem_dir/$::remote_skip_file - [join $file_names] | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
+      }
     }
   }
   return $::OK

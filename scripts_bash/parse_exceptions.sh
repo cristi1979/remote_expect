@@ -5,9 +5,8 @@ if [ $# -lt $NR_ARGS ];then
   echo "We need work_dir app files. We got: $@"
   exit 1
 fi
-
 HERE=$(cd $(dirname "$0"); pwd)
-ALL_APPLICATIONS=( $(ls $HERE/../scripts_tcl/app_logs_paths/ | sed s/\.tcl\// | awk '{printf "%s ",$0} END {print ""}') )
+ALL_APPLICATIONS=( $(ls /usr/local/remote_expect/scripts_tcl/app_logs_paths/ | sed s/\.tcl\// | awk '{printf "%s ",$0} END {print ""}') )
 declare -a FILES
 OUR_APP=""
 WORK_DIR="/tmp"
@@ -25,9 +24,12 @@ for var in ${@}; do
     OUR_APP=$var;
   else
     FILES=( "${FILES[@]}" "$var" )
-    dos2unix -q $var
+    dos2unix -q -k $var
   fi
 done
+FILES1=$(ls -dtr ${FILES[@]})
+unset FILES
+FILES=( "${FILES1[@]}" )
 
 for app in ${ALL_APPLICATIONS[@]}; do
   if [ $app == $OUR_APP ];then
@@ -59,7 +61,7 @@ if ! [ -f $SCRIPT_NAME -a -s $SCRIPT_NAME ];then
 fi
 . $SCRIPT_NAME
 
-echo "Start script $SCRIPT_NAME"
+echo "Start script $SCRIPT_NAME for application $OUR_APP and with files ${FILES[@]}."
 
 CRT=$WORKDIR/$OUR_APP\_current
 PRV=$WORKDIR/$OUR_APP\_previous
@@ -68,7 +70,7 @@ RESULT=$WORKDIR/attachements/$OUR_APP\_exceptions_$(date +%Y-%m-%d_%H.%M.%S).zip
 mkdir -p "$WORKDIR/attachements"
 if [ -f $CRT -a -s $CRT ];then
   echo "Previous file found: $CRT. Moving to $PRV."
-  mv $CRT $PRV
+  mv -f $CRT $PRV
   $OUR_APP &> $CRT
   diff $PRV $CRT | grep "^>"| sed s/^\>\ // > $DIFF
 else
@@ -79,7 +81,7 @@ fi
 
 if [ -f $DIFF -a -s $DIFF ];then
   echo "Archiving result."
-  unix2dos -q $DIFF
+  unix2dos -q -k $DIFF
   zip -9 -j $RESULT $DIFF
   exit $?
 fi

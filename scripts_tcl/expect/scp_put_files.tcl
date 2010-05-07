@@ -1,6 +1,6 @@
 proc scp_put_files {files} {
   if {[file readable $files]} {puts "ok"} else {puts "NOK"}
-  set spawnid [spawn scp $files $::user@$::ip:$::bkp_rem_dir/]
+  set spawnid [spawn scp -p $files $::user@$::ip:$::bkp_rem_dir/]
   expect {
     eof {puts "\n\tERR: EOF. Exit."; set ret $ERR_EOF}
     timeout { puts "\n\tERR: Could not send user/pass. Exit."; set ret $::ERR_USER_PASS }

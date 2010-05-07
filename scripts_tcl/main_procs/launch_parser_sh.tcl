@@ -1,4 +1,5 @@
 proc launch_parser_sh {parser_type {stats_type ""}} {
+  set ::timeout $::long_timeout
   if {$parser_type != "statistics" && $parser_type != "exceptions"} {
     puts "\n\tERR: Unknown type for parser: $parser_type. We expect statistics or exceptions."
     return $::ERR_IMPOSSIBLE
@@ -37,15 +38,16 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
       if {!$ret} { catch wait reason; set ret [expr [lindex $reason 3] + $::ERR_APP_ERROR ]}
     } else {
       #  get from the applications array only the part we need: exceptions/statistics from the monitored apps
-      array unset type_array
       if {$parser_type == "exceptions"} {
 	myhash -getnode ::applications_array $::str_app_exceptions $::from_apps
       } elseif {$parser_type == "statistics"} {
 	myhash -getnode ::applications_array $::str_app_statistics $::from_apps
       }
       myhash -clean ::tmp_array
-      # this will feel type_array with what we want
+
+      # this will fill type_array with what we want
 #=== for is from here
+      array unset type_array
       foreach item [get_files_rec $local_dir_tmp f] {
 	if {[file size $item] > 1} {
 	  # we get the remote file full path: extract the local_dir from file name
@@ -54,9 +56,10 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 	    # from the array, for each element, remove quotes, split it by comma and join by / all, but first
 	    set tmp_list [split [string trim $key \"] ","]
 	    set file_name_regexp [join [lrange $tmp_list 1 [llength $tmp_list]] \/]
+	    regsub -- "\\.\\*" $file_name_regexp "\*" file_name_regexp
 	    if {[string match $file_name_regexp* $rem_file_path]} {
 	      set app_name [lindex $::tmp_array($key) 0]
-	      if { ![info exists type_array()] } {
+	      if { ![info exists type_array($app_name)] } {
 		set type_array($app_name) $item
 	      } else {
 		set tmp_list $type_array($app_name)

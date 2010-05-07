@@ -1,0 +1,16 @@
+2010-05-05 01:02:10,610 ERROR Description :
+Account with code: 0000000105 is performing a call
+com.mind.finance.engine.FinanceException
+	at com.mind.finance.engine.rc.logic.actions.SaveData.checkCalls(SaveData.java:403)
+	at com.mind.finance.engine.rc.logic.actions.SaveData.perform(SaveData.java:338)
+	at com.mind.finance.engine.rc.logic.RCCalc.doCalculate(RCCalc.java:347)
+	at com.mind.finance.engine.rc.logic.RCCalc.calculate(RCCalc.java:295)
+	at com.mind.finance.engine.rc.RCEngine.calculate(RCEngine.java:455)
+	at com.mind.finance.server.process.rc.RCProcessThread.handleRCProcessorMessage(RCProcessThread.java:202)
+	at com.mind.finance.server.process.rc.RCProcessThread.checkAndHandleRCProcessMessage(RCProcessThread.java:161)
+	at com.mind.finance.server.process.rc.RCProcessThread.process(RCProcessThread.java:122)
+	at com.mind.finance.server.process.ProcessThread.processMessage(ProcessThread.java:110)
+	at com.mind.finance.server.process.ProcessThread.work(ProcessThread.java:133)
+	at com.mind.utils.threads.messagethread.reconnectthread.ReconnectThread.execute(ReconnectThread.java:144)
+	at com.mind.utils.threads.BaseThread.run(BaseThread.java:282)
+	at java.lang.Thread.run(Thread.java:595)
