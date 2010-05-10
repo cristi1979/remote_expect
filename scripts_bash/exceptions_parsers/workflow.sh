@@ -1,15 +1,13 @@
 function workflow() {
   for filename in ${FILES[@]}; do
-  cat $filename | gawk --re-interval '{
-	pos = 5;
-	val = $(pos+1);
-	for (i=pos+2;i<=NF;i++) {
-	    val = val" "$i;
-	}
+  gawk --re-interval '{
+	c=split(FILENAME,arr,"/");fname=arr[c];
 
-	if (  !($pos == "[CmdUtils]" && ((val == "Cannot find any unfinished tasks for node Init Context Data") || (val =~ "^No process found with id [[:digit:]]{1,}$"))) ) {
-	    print $0
+	if ( !($0 ~ "\\[CmdUtils\\]" && ( ($0 ~ "Cannot find any unfinished tasks for node Init Context Data") || ($0 ~ "No process found with id [[:digit:]]{1,}") || ($0 ~ "Cannot find any unfinished tasks for node [[:print:]]{1,}") ) ) &&
+	    !($0 ~ "\\[CoreEjbClient\\]" && ( ($0 ~ "Opera\\?iunea nu este permis\\?.") || ($0 ~ "Utilizatorul nu poate \\?terge cont") ) )) {
+	    print $0;
+	    print "++++++++++++++++++++++++ "fname"\n";
 	}
-  }' 
+  }'  $filename
   done
 } 

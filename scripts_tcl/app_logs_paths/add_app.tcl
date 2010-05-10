@@ -7,19 +7,19 @@ proc add_app {app_name app_dir {logs_dir "log"}} {
     set reg [logs_regular_expresions $app_name]
 
   foreach word $exceptions_list {
-	myhash -add ::applications_array [list $::str_app_exceptions $logs_dir "$word"] [list $app_name $reg]
+    if {$word!="XXX_XXX"} {	myhash -add ::applications_array [list $::str_app_exceptions $logs_dir "$word"] [list $app_name $reg] }
   }
 
   foreach word $logs_list {
-	myhash -add ::applications_array [list $::str_app_logs $logs_dir "$word"] [list $app_name $reg]
+	if {$word!="XXX_XXX"} {	myhash -add ::applications_array [list $::str_app_logs $logs_dir "$word"] [list $app_name $reg] }
   }
 
   foreach word $stats_list {
-	myhash -add ::applications_array [list $::str_app_statistics $logs_dir "$word"] [list $app_name $reg]
+	if {$word!="XXX_XXX"} {	myhash -add ::applications_array [list $::str_app_statistics $logs_dir "$word"] [list $app_name $reg] }
   }
 
   foreach word $skip_list {
-	myhash -add ::applications_array [list $::str_app_skipdirs $app_dir "$word"] [list $app_name $reg]
+	if {$word!="XXX_XXX"} {	myhash -add ::applications_array [list $::str_app_skipdirs $app_dir "$word"] [list $app_name $reg] }
   }
   
   $app_name "extra" $app_dir $logs_dir

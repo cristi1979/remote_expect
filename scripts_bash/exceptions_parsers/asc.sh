@@ -2,7 +2,8 @@ function asc() {
   reg='FATAL Description :'
 
   for filename in ${FILES[@]}; do
-  cat $filename | gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{
+  gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{
+	c=split(FILENAME,arr,"/");fname=arr[c];
     if (NR>1) {
       split(MATCH, array, " ")
       if ( array[3] == "ERROR" ) {
@@ -14,10 +15,10 @@ function asc() {
       } 
       if ( ($pos != "coco")) {
 	print MATCH, $1;
-	print "++++++++++++++++++++++++\n";
+	print "++++++++++++++++++++++++ "fname"\n";
       }
     }
     MATCH=RT
-  }'   
+  }' $filename
   done
 } 

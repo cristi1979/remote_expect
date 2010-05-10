@@ -1,7 +1,8 @@
 function csr() {
   reg="(ERROR|FATAL|INFO): [[:print:]]{1,}"
   for filename in ${FILES[@]}; do
-  cat $filename | gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{ 
+  gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{ 
+	c=split(FILENAME,arr,"/");fname=arr[c];
     if (NR>1) { 
       split(MATCH, array, " ")
       if ( array[3] == "ERROR" ) {
@@ -87,18 +88,21 @@ function csr() {
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Invoice for new account should include goods, adjustments and/or interest calculation only.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Invoice was not generated - amount due [[:print:]]{1,}[[:digit:]]{1,}.[[:digit:]]{1,} is less than [[:print:]]{1,}[[:digit:]]{1,}.[[:digit:]]{1,}.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Cannot add finance transaction for non-billable account.$") &&
-	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Quantity is invalid.$")		) {
+	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Quantity is invalid.$") &&
+
+	    ($pos == "com.mind.csr.core.CSRException: Aceast? condi?ie este deja existent?.") &&
+	    ($pos == "com.mind.csr.core.CSRException: Contul nu a fost g\\?sit.") ) {
 	print MATCH, $1;
 	print $2
 	if (pos==2) {
 	    print $3
 	    print $4
 	}
-	print "++++++++++++++++++++++++\n";
+	print "++++++++++++++++++++++++ "fname"\n";
       }
     }
     MATCH=RT 
-  }'
+  }' $filename
 #   cat $filename | gawk --re-interval '{
 # 	pos = 5;
 # 	val = $(pos+1);

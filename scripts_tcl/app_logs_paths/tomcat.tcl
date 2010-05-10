@@ -17,18 +17,18 @@ proc tomcat {logs_type {app_dir ""} {app_logs ""}} {
     }
     "skip" {
         return [list \
-			"XXX_XXX"\
+			"nohup.out"\
 		]
     }
 	"extra" {
 	  set myname [lindex [info level 0] 0]
 	  set reg [logs_regular_expresions $myname]
 
-	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "manager"] [list $myname $reg]
-	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "localhost"] [list $myname $reg]
-	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "host-manager"] [list $myname $reg]
-	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "catalina"] [list $myname $reg]
-	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "admin"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "logs" "manager"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "logs" "localhost"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "logs" "host-manager"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "logs" "catalina"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "logs" "admin"] [list $myname $reg]
 	}
     default {
       puts "\n\tERR: Wrong parameter: $logs_type."

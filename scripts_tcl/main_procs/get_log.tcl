@@ -1,6 +1,7 @@
 proc get_them {logstype {nr_days ""}} {
   puts "\n\n\t\t##############################################\n\t\t## MSG:Starting to work on $logstype \n\t\t##############################################\n\n"
   myhash -getnode ::applications_array $logstype $::from_apps
+
   myhash -clean ::tmp_array
   set file_names [list]
 
@@ -15,6 +16,7 @@ proc get_them {logstype {nr_days ""}} {
      lappend file_names [list $aname $aregexp]
   }
   set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip\_$logstype]
+  if {![llength $file_names]} {puts "\n\tERR: No files to archive.";return $::ERR_ZERO_SIZE;}
   return [run_once_command [list bkp_app f $file_names $nr_days] $myname]
 }
 

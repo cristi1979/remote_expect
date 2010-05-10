@@ -1,16 +1,19 @@
 function cdrprocessor() {
 
   function oldlogscdrprocessor() {
-    cat $1 | gawk --re-interval -v FS=";" '{
+    gawk --re-interval -v FS=";" '{
+	c=split(FILENAME,arr,"/");fname=arr[c];
 	if ($NF!=" <!-- USER NOT FOUND.") {
 	    print $0
+		print "++++++++++++++++++++++++ "fname"\n";
 	}
-    }'
+    }' $1
   }
 
   function newlogscdrprocessor() {
     reg='(ERROR|FATAL) Description :'
-    cat $1 | gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{ 
+    gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{ 
+	c=split(FILENAME,arr,"/");fname=arr[c];
 	if (NR>1) {
 	  split(MATCH, array, " ")
       if ( array[3] == "ERROR" ) {
@@ -24,11 +27,11 @@ function cdrprocessor() {
 		print MATCH, $1;
 		print $2;
 		print $3;
-		print "++++++++++++++++++++++++\n";
+		print "++++++++++++++++++++++++ "fname"\n";
 	    }
 	}
 	MATCH=RT 
-    }'
+    }' $1
   }
 
   for filename in ${FILES[@]}; do

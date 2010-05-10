@@ -2,7 +2,8 @@ function apiserver() {
   reg='ERROR Description :'
 
   for filename in ${FILES[@]}; do
-  cat $filename | gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{
+  gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{
+	c=split(FILENAME,arr,"/");fname=arr[c];
     if (NR>1) {
       split(MATCH, array, " ")
       if ( array[3] == "ERROR" ) {
@@ -33,14 +34,15 @@ function apiserver() {
 	  ($pos != "com.mind.core.Error: For prepaid accounts, there can never be more than one active session at a time") &&
 	  ($pos != "com.mind.core.Error: The element type "balance_calculation_method" must be terminated by the matching end-tag \"</balance_calculation_method>\".") &&
 	  ($pos != "com.mind.core.Error: Account not found")  &&
+	  ($pos != "com.mind.core.Error: Session [[:digit:]]{1,} not found or expired")  &&
 	  ($pos != "com.mind.core.Error: Enter a positive value for Amount.")) {
 	print MATCH, $1;
 	print $2;
 	print $3;
-	print "++++++++++++++++++++++++\n";
+	print "++++++++++++++++++++++++ "fname"\n";
       }
     }
     MATCH=RT
-  }'  
+  }' $filename
   done
 } 

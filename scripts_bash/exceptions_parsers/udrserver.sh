@@ -2,7 +2,8 @@ function udrserver() {
   reg='--------------------------------------------------------------------------------------------------'
 
   for filename in ${FILES[@]}; do
-  cat $filename | gawk --re-interval -v RS="$reg\n" -v FS="\n" '{
+  gawk --re-interval -v RS="$reg\n" -v FS="\n" '{
+	c=split(FILENAME,arr,"/");fname=arr[c];
     if (NR>1) {
       split($0,array, "\n")
       max=0
@@ -24,9 +25,9 @@ function udrserver() {
 	print newarray[1]
 	print newarray[2]
 	print newarray[3]
-	print "++++++++++++++++++++++++\n";
+	print "++++++++++++++++++++++++ "fname"\n";
       }
     }
-  }'
+  }' $filename
   done
 } 

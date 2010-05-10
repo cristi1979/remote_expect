@@ -58,7 +58,8 @@ proc ssh_bkp_files_dirs_list {type file_names {days ""}} {
     #-re "(.*)\n" {exp_continue}
     "\r\n$::prompt" { 
       lappend saved_output $expect_out(buffer);
-      if {[ssh_get_lasterror]} {puts "\n\tERR: Tar exited with error code: $tarerr"}
+      set tarerr [ssh_get_lasterror]
+      if {$tarerr} {puts "\n\tERR: Tar exited with error code: $tarerr"}
       if {!$ret} {puts "\n\tMSG: Backup file created.\n"};
       }
     #-re \[0-9\]|\[a-z\]|\[A-Z\] { lappend saved_output $expect_out(buffer); exp_continue }
