@@ -1,7 +1,7 @@
 proc remote_connect {} {
   if {[info exists ::disabled]} {puts "\n\tDisabled flag is set. Exit now."; return $::ERR_DISABLED}
   set ::files_to_get [list]
-  lappend ::files_to_get { "somethingthatdoesnotexist" }
+  lappend ::files_to_get $::impossible_file
   set ret [ssh_connect]
   if {$ret} {puts "\n\tERR: Can't connect.";return $ret}
   set ret [ssh_prompt]

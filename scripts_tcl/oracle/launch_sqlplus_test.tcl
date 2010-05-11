@@ -20,7 +20,6 @@ proc launch_sqlplus {} {
 #     if {[sqlplus_launch_scripts $auditdir [file tail $script] $::database_user]}   { puts "\n\tERR: Error for script $script" }
 #   }
 # 
-#   lappend ::files_to_get { "somethingthatdoesnotexist" } 
   set ::bkp_rem_archive "oracle"
   set ret [ssh_bkp_files_dirs_list f $::files_to_get]
   ssh_disconnect

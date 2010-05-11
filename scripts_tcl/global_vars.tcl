@@ -38,7 +38,8 @@ set ossolaris "solaris"
 set oslinux "linux"
 #so we don't backup everything:
 set maximum_size_to_backup [expr {1*1024*1024*1024}]
-set files_to_get [list "somethingthatdoesnotexist"]
+set impossible_file "somethingthatdoesnotexist"
+set files_to_get [list $impossible_file]
 set from_apps [list]
 set skip_list [list]
 set saved_output [list]
@@ -55,7 +56,7 @@ set scripts_sql_dir [directpathname "$scripts_tcl_dir/../scripts_sql"]
 set scripts_bash_dir [directpathname "$scripts_tcl_dir/../scripts_bash"]
 #this is the default filename of the tar gzip result
 set bkp_rem_archive "archive"
-set get_period 60
+set get_period 240
 set copy_tools "no"
 set str_unix_statistics "unix_statistics"
 set str_app_exceptions "apps_exceptions"

@@ -16,7 +16,7 @@ proc sqlplus_execute_scripts {path} {
     if {$ret==$::ERR_TIMEOUT} { puts "\n\tERR: Timeout."; break }
   }
 
-  lappend ::files_to_get { "somethingthatdoesnotexist" } 
+  lappend ::files_to_get $::impossible_file
   if {!$ret} { set ret [ssh_bkp_files_dirs_list l $::files_to_get] }
   ssh_disconnect
   if {$ret==$::ERR_ZERO_SIZE || $ret==$::ERR_NO_SQLPLUS} {return $::OK;}
