@@ -23,6 +23,12 @@ for var in ${@}; do
   elif [ $POS = 2 ]; then
     OUR_APP=$var;
   else
+    ext=${var#*.}
+    if [ $ext == "gz" ]; then 
+	gunzip $var
+	filename=${var%.*}
+	var=$filename
+    fi
     FILES=( "${FILES[@]}" "$var" )
     dos2unix -q -k $var
   fi

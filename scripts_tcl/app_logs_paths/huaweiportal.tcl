@@ -1,15 +1,13 @@
-proc csr {logs_type {app_dir ""} {app_logs ""}} {
+proc huaweiportal {logs_type {app_dir ""} {app_logs ""}} {
   switch $logs_type {
     "exceptions" {
         return [list \
-		"CSRCoreErrors"\
-		"CSRWebErrors"\
+		  "HuaweiErrors"\
 		]
     }
     "logs" {
         return [list \
-		"CSRCore"\
-		"CSRWeb"\
+		  "HuaweiInfo"\
 		]
     }
     "statistics" {

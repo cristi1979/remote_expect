@@ -12,6 +12,7 @@ function csr() {
 	  } else {
 		pos =1
       } 
+
       if ( ($pos != "") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Cannot generate an invoice with usage. A periodic invoice should be generated.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Print report failed.$") &&
@@ -83,15 +84,24 @@ function csr() {
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Amount is invalid.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Amount must be entered.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Cannot generate invoice. The account has missed a periodic invoice.$") &&
-	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Discount is invalid.$") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Discount is invalid.") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Invalid scheduled date.[[:cntrl:]]{2}The scheduled date must be greater than current date.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Invoice for new account should include goods, adjustments and/or interest calculation only.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Invoice was not generated - amount due [[:print:]]{1,}[[:digit:]]{1,}.[[:digit:]]{1,} is less than [[:print:]]{1,}[[:digit:]]{1,}.[[:digit:]]{1,}.$") &&
-	    ($pos !~ "^com.mind.csr.core.CSRException: Cannot add finance transaction for non-billable account.$") &&
-	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Quantity is invalid.$") &&
+	    ($pos != "com.mind.csr.core.CSRException: Cannot add finance transaction for non-billable account.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Quantity is invalid.") &&
+	    ($pos != "com.mind.csr.core.CSRException: ID or Code must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Tariff must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Tariff age is invalid.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Provider must be entered.") &&
 
-	    ($pos == "com.mind.csr.core.CSRException: Aceast? condi?ie este deja existent?.") &&
-	    ($pos == "com.mind.csr.core.CSRException: Contul nu a fost g\\?sit.") ) {
+	    ($pos != "com.mind.csr.core.CSRException: Número do PIN 036741155511 já existe!") &&
+	    ($pos != "com.mind.csr.core.CSRException: O voucher năo possui serviço para recarga, por favor, verifique o PIN.") &&
+
+	    ($pos != "com.mind.csr.core.CSRException: Aceast? condi?ie este deja existent?.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Contul are procese comerciale active.") &&
+	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: C?mpul Card [[:print:]]{1,} trebuie selectat.$") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Contul nu a fost g\\?sit.[[:print:]]{1,}$") ) {
 	print MATCH, $1;
 	print $2
 	if (pos==2) {

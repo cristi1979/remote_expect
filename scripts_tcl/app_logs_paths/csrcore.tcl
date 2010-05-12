@@ -1,20 +1,19 @@
-proc csr {logs_type {app_dir ""} {app_logs ""}} {
+proc csrcore {logs_type {app_dir ""} {app_logs ""}} {
   switch $logs_type {
     "exceptions" {
         return [list \
-		"CSRCoreErrors"\
-		"CSRWebErrors"\
+		"APIErrors"\
+		"APIExceptions"\ 
 		]
     }
     "logs" {
         return [list \
-		"CSRCore"\
-		"CSRWeb"\
+		"APIInfo"\
 		]
     }
     "statistics" {
         return [list \
-			"XXX_XXX"\
+			"APIStatistics"\
 		]
     }
     "skip" {

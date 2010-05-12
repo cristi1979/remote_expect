@@ -29,6 +29,7 @@ proc logs_regular_expresions {app} {
 	"sipmanagement" {
 	    return {\(.out\|.[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}.log\)$}
 	}
+	"huaweiportal" -
 	"csr" -
 	"events" -
 	"workflow" -
