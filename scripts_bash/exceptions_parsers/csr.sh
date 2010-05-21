@@ -2,7 +2,7 @@ function csr() {
   reg="(ERROR|FATAL|INFO): [[:print:]]{1,}"
   for filename in ${FILES[@]}; do
   gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{ 
-	c=split(FILENAME,arr,"/");fname=arr[c];
+    c=split(FILENAME,arr,"/");fname=arr[c];
     if (NR>1) { 
       split(MATCH, array, " ")
       if ( array[3] == "ERROR" ) {
@@ -12,6 +12,7 @@ function csr() {
 	  } else {
 		pos =1
       } 
+
       if ( ($pos != "") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Cannot generate an invoice with usage. A periodic invoice should be generated.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Print report failed.$") &&
@@ -83,15 +84,45 @@ function csr() {
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Amount is invalid.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Amount must be entered.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Cannot generate invoice. The account has missed a periodic invoice.$") &&
-	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Discount is invalid.$") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Discount is invalid.") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Invalid scheduled date.[[:cntrl:]]{2}The scheduled date must be greater than current date.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Invoice for new account should include goods, adjustments and/or interest calculation only.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Invoice was not generated - amount due [[:print:]]{1,}[[:digit:]]{1,}.[[:digit:]]{1,} is less than [[:print:]]{1,}[[:digit:]]{1,}.[[:digit:]]{1,}.$") &&
-	    ($pos !~ "^com.mind.csr.core.CSRException: Cannot add finance transaction for non-billable account.$") &&
-	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Quantity is invalid.$") &&
+	    ($pos != "com.mind.csr.core.CSRException: Cannot add finance transaction for non-billable account.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Quantity is invalid.") &&
+	    ($pos != "com.mind.csr.core.CSRException: ID or Code must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Tariff must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Tariff age is invalid.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Provider must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Account category Commercial is not supported by assigned package/product.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Item key is mandatory when is used as mediation field.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Scheduled date must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: The new item is already assigned.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Payment amount must include payment for all selected invoices.") &&
 
-	    ($pos == "com.mind.csr.core.CSRException: Aceast? condi?ie este deja existent?.") &&
-	    ($pos == "com.mind.csr.core.CSRException: Contul nu a fost g\\?sit.") ) {
+	    ($pos !~ "^com.mind.csr.core.CSRException: Número do PIN [[:print:]]{1,} já existe\\!$") &&
+	    ($pos != "com.mind.csr.core.CSRException: Número do PIN deve ser introduzido.") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Voucher [[:print:]]{1,} está inutilizável.$") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Năo é possível carregar o cartăo. Número do PIN  [[:print:]]{1,} năo existe\\.") &&
+	    ($pos != "com.mind.csr.core.CSRException: O voucher năo possui serviço para recarga, por favor, verifique o PIN.") &&
+
+	    ($pos != "com.mind.csr.core.CSRException: Aceast? condi?ie este deja existent?.") &&
+	    ($pos != "com.mind.csr.core.CSRException: C?mpul Data de ?ncheiere a planului de tarifare este incorect.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Contul are procese comerciale active.") &&
+	    ($pos !~ "^com.mind.csr.(web|core).(CSRWebException|CSRException): Trebuie introdus c\\?mpul") &&
+	    ($pos != "com.mind.csr.core.CSRException: Introduce?i cel pu?in un criteriu de c?utare.") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: S-au g\\?sit prea multe rezultate pentru ") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: De la data trebuie s\\? fie mai mare sau egal\\(\\?\\) cu [[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}.$") &&
+	    ($pos != "com.mind.csr.core.CSRException: P?n? la data trebuie s? fie mai mare sau egal(?) cu De la data.") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Acest cont are tranzac\\?ii comerciale\\.") &&
+	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: C\\?mpul Card [[:print:]]{1,} trebuie selectat\\.$") &&
+	    ($pos != "com.mind.csr.core.CSRException: Cod banc? nu a fost g?sit.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Numele si prenumele tipului de contact exist? deja") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Trebuie introdus? data planificat?.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Imprimarea raportului a e?uat.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Utilizatorul nu poate edita Clas? credit limitat") &&
+	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Nu s-a g\\?sit [[:print:]]{1,}\\$.") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Contul nu a fost g\\?sit\\.") ) {
 	print MATCH, $1;
 	print $2
 	if (pos==2) {
@@ -103,16 +134,5 @@ function csr() {
     }
     MATCH=RT 
   }' $filename
-#   cat $filename | gawk --re-interval '{
-# 	pos = 5;
-# 	val = $(pos+1);
-# 	for (i=pos+2;i<=NF;i++) {
-# 	    val = val" "$i;
-# 	}
-# 
-# 	if (  !($pos == "[DoCCProcessorPayment]" && ((val == "Read timed out") || (val == "Connection reset") || (val == "Connection refused"))) ) {
-# 	    print $0
-# 	}
-#   }'
   done
 } 

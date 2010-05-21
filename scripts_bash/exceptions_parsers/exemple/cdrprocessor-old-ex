@@ -1,0 +1,55 @@
+EXCEPTION LOG
+--------------------------------------------------------------------------------------------------
+
+
+Description : 
+
+IP=195.38.29.226, Port=21, RemoteDir=/ftp/
+java.io.IOException: Can't obtain connection to host
+	at com.mind.utils.ftp.client.engine.Ftp.throwIOException(Unknown Source)
+	at com.mind.utils.ftp.client.engine.FtpControlSocket.connect(Unknown Source)
+	at com.mind.utils.ftp.client.engine.Ftp.connect(Unknown Source)
+	at com.mind.mediation.applications.collector.drivers.FtpDriver.connect(Unknown Source)
+	at com.mind.mediation.applications.collector.gateway.CollectThread.processGateway(Unknown Source)
+	at com.mind.mediation.applications.collector.gateway.CollectThread.execute(Unknown Source)
+	at com.mind.utils.threads.BaseThread.run(Unknown Source)
+	at java.lang.Thread.run(Thread.java:536)
+Caused by: java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:305)
+	at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:171)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:158)
+	at java.net.Socket.connect(Socket.java:434)
+	at java.net.Socket.connect(Socket.java:384)
+	at java.net.Socket.<init>(Socket.java:291)
+	at java.net.Socket.<init>(Socket.java:147)
+	... 7 more
+
+Date :08/05/10  08:54:50.978
+--------------------------------------------------------------------------------------------------
+
+
+Description : 
+
+IP=195.38.29.226, Port=21, RemoteDir=/ftp/
+java.io.IOException: Can't obtain connection to host
+	at com.mind.utils.ftp.client.engine.Ftp.throwIOException(Unknown Source)
+	at com.mind.utils.ftp.client.engine.FtpControlSocket.connect(Unknown Source)
+	at com.mind.utils.ftp.client.engine.Ftp.connect(Unknown Source)
+	at com.mind.mediation.applications.collector.drivers.FtpDriver.connect(Unknown Source)
+	at com.mind.mediation.applications.collector.gateway.CollectThread.processGateway(Unknown Source)
+	at com.mind.mediation.applications.collector.gateway.CollectThread.execute(Unknown Source)
+	at com.mind.utils.threads.BaseThread.run(Unknown Source)
+	at java.lang.Thread.run(Thread.java:536)
+Caused by: java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:305)
+	at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:171)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:158)
+	at java.net.Socket.connect(Socket.java:434)
+	at java.net.Socket.connect(Socket.java:384)
+	at java.net.Socket.<init>(Socket.java:291)
+	at java.net.Socket.<init>(Socket.java:147)
+	... 7 more
+
+Date :08/05/10  08:59:51.422

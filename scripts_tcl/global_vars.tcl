@@ -48,7 +48,8 @@ set oracle_sid "BILL"
 set oracle_port 1521
 set bkp_rem_dir "/tmp/mindcti"
 set bkp_rem_dir_freespace [expr {1*1024*1024}]
-set remote_skip_file "files_to_skip"
+set remote_tar_skip_file "tar_files_to_skip"
+set remote_tar_include_files "tar_files_to_include"
 set status_path [directpathname "/var/run/mind"]
 set local_dir [directpathname "/media/share/backups/remote_files/$customer_name"]
 set local_dir_outputfiles [directpathname "/media/share/remote"]

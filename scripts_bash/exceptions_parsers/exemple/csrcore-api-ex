@@ -1,0 +1,7 @@
+2010-05-12 09:10:43,017 ERROR: [http-0.0.0.0-8080-8] [GetAccountsByFilter]  API Exception. Code: 110226 Description: Advanced filter must be entered. XML in: <request xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="getAccountsByFilter.xsd"><session id="281" key="randomkey"/><advanced_filter><parent  code=""/></advanced_filter><provider code="NETONE"/></request> XML out: <?xml version="1.0" encoding="UTF-8"?>
+<response xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="getAccountsByFilter.xsd">
+  <error>
+    <code>110226</code>
+    <message>Advanced filter must be entered.</message>
+  </error>
+</response>

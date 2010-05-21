@@ -17,7 +17,7 @@ proc ssh_bkp {type file_names {days ""}} {
 # last sort
 # sort -r
   set string_count { awk 'BEGIN{size=0}{size=size+$7}END{printf "%20.3f\n",size}' }
-  ssh_launch_cmd "echo \"\" >  $::bkp_rem_dir/$::bkp_rem_archive.tgz"
+  ssh_launch_cmd "rm -f  $::bkp_rem_dir/$::bkp_rem_archive.tgz"
 
   if {$type=="l"} {
     ssh_launch_cmd "ls -la \"[join [lsort -unique [lindex $file_names 0]] \"\ \"]\" | $string_count"
@@ -75,10 +75,11 @@ ssh_launch_cmd "find $dirfind/. \! -name . -prune -type $type | sed s#\\\/.\\\/#
 	set egrep_cmd  " -e '$dirfix/'\\([join [lsort -unique $files] \\|]\\)$regexpfix"
 	set grep_cmd "
     ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;
-    (grep --help &>/dev/null && exit 0; exit 1) 						&& echo gnu grep 1>&2 	&& (grep $ggrep_cmd; exit 0)	 	&& exit 0;
-    ($ggrep --help &>/dev/null && exit 0; exit 1)					&& echo $ggrep 1>&2 	&& ($ggrep $ggrep_cmd; exit 0)	 	&& exit 0;
-    ($egrep -e \\\[0-9\\\]\\{1,2\\} $egrep &>/dev/null && exit 0; exit 1) 	&& echo $egrep 1>&2	&& ($egrep $egrep_cmd; exit 0)	 	&& exit 0;
-    ($ourgrep --help &>/dev/null && exit 0;exit 1) 					&& echo $ourgrep 1>&2 	&& ($ourgrep $ggrep_cmd; exit 0)	&& exit 0;
+    (grep --ugabugabuga /dev/null &>/dev/null && exit 0; exit 1) 				&& echo grep is insane 1>&2 	&& exit 1;
+    (grep --help &>/dev/null && exit 0; exit 1) 						&& echo gnu grep 1>&2 		&& (grep $ggrep_cmd; exit 0)	 	&& exit 0;
+    ($ggrep --help &>/dev/null && exit 0; exit 1)					&& echo $ggrep 1>&2 		&& ($ggrep $ggrep_cmd; exit 0)	 	&& exit 0;
+    ($egrep -e \\\[0-9\\\]\\{1,2\\} $egrep &>/dev/null && exit 0; exit 1) 	&& echo $egrep 1>&2		&& ($egrep $egrep_cmd; exit 0)	 	&& exit 0;
+    ($ourgrep --help &>/dev/null && exit 0;exit 1) 					&& echo $ourgrep 1>&2 		&& ($ourgrep $ggrep_cmd; exit 0)	&& exit 0;
     echo lame grep && grep \".log\";
     )"
 	lappend find_all "$find_cmd | $grep_cmd"
@@ -88,13 +89,24 @@ lappend ::files_to_get "$::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
 
     set sort_cmd "
     ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;
-    (ls --full-time /dev/null &>/dev/null && exit 0; exit 1)	&& echo gnu ls sort 1>&2 	 && (xargs -r -L 10000 ls --full-time | $awk_cmd | sort -r; exit 0)		&& exit 0;
-    (ls -E /dev/null &>/dev/null && exit 0; exit 1) 		&& echo sol10 ls sort 1>&2 && (xargs -L 10000 ls -E /dodo | $awk_cmd | sort -r; exit 0)			&& exit 0;
-    (perl -e \"\" &>/dev/null && exit 0; exit 1) 			&& echo perl sort 1>&2	 && (xargs -L 10000 $perl_sort  | sort -r; exit 0)				&& exit 0;
+    (ls --ugabugabuga /dev/null &>/dev/null && exit 0; exit 1)		&& echo ls is insane 1>&2 	 && exit 1;
+    (ls --full-time /dev/null &>/dev/null && exit 0; exit 1)		&& echo gnu ls sort 1>&2 	 && (xargs -r -L 10000 ls --full-time | $awk_cmd | sort -r; exit 0)	&& exit 0;
+    (ls -E /dev/null &>/dev/null && exit 0; exit 1) 			&& echo sol10 ls sort 1>&2 && (xargs -L 10000 ls -E /dodo | $awk_cmd | sort -r; exit 0)		&& exit 0;
+    (perl -e \"\" &>/dev/null && exit 0; exit 1) 				&& echo perl sort 1>&2	 && (xargs -L 10000 $perl_sort  | sort -r; exit 0)				&& exit 0;
     ($ourls --full-time /dev/null &>/dev/null && exit 0;exit 1) 	&& echo $ourls 1>&2  && (xargs -r -L 10000 $ourls --full-time | $awk_cmd | sort -r; exit 0)	&& exit 0;
     echo lame sort && ls -la | $awk_cmd | sort -r;
     )"
-    regsub -all {[ \r\t\n\s]+} "([join $find_all ";"]) | $sort_cmd | ($string_getmax; echo AWK_FORCED_STOP=\$? 1>&2) | xargs tar -cvf - | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz" " " run_cmd
+
+    set tar_cmd "
+    ( LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$::bkp_rem_dir/gnu_files/;
+    (tar -cvf - -ugabugabuga /dev/null &>/dev/null && exit 0; exit 1)	&& echo tar is insane 1>&2	&& exit 1;
+    (tar -cvf - -T /dev/null &>/dev/null && exit 0; exit 1)	&& echo gnu tar 1>&2	&& (tar -cvf - -T $::bkp_rem_dir/$::bkp_rem_archive; exit 0)		&& exit 0;
+    (tar -cvf - -I /dev/null &>/dev/null && exit 0; exit 1) 	&& echo sol tar 1>&2		&& (tar -cvf - -I $::bkp_rem_dir/$::bkp_rem_archive; exit 0)		&& exit 0;
+    echo lame no usable tar 1>&2 && exit 1;
+    )"
+
+    regsub -all {[ \r\t\n\s]+} "([join $find_all ";"]) | $sort_cmd | ($string_getmax; echo AWK_FORCED_STOP=\$? 1>&2) > $::bkp_rem_dir/$::bkp_rem_archive && $tar_cmd | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz" " " run_cmd
+    
     exp_send "$run_cmd\r"
   } elseif {$type=="d"} {
 
@@ -128,11 +140,11 @@ lappend ::files_to_get "$::bkp_rem_dir/$::ip\_all_files_in_dirs.tgz"
       puts "\n\tERR: Total size of files in dir to backup is zero."
       return $::ERR_ZERO_SIZE
     } else {
-      ssh_launch_cmd "ls -d \"[join $::skip_list \"\ \"]\" > $::bkp_rem_dir/$::remote_skip_file"
+      ssh_launch_cmd "ls -d \"[join $::skip_list \"\ \"]\" > $::bkp_rem_dir/$::remote_tar_skip_file"
       if {$::operatingsystem == $::oslinux } {
-	exp_send "tar -cvX $::bkp_rem_dir/$::remote_skip_file -f - [join $file_names] | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
+	exp_send "tar -cvX $::bkp_rem_dir/$::remote_tar_skip_file -f - [join $file_names] | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
       } else {
-	exp_send "tar -cvXf $::bkp_rem_dir/$::remote_skip_file - [join $file_names] | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
+	exp_send "tar -cvXf $::bkp_rem_dir/$::remote_tar_skip_file - [join $file_names] | gzip - > $::bkp_rem_dir/$::bkp_rem_archive.tgz; echo $?\r"
       }
     }
   }

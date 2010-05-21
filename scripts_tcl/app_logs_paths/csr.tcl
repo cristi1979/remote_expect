@@ -2,14 +2,14 @@ proc csr {logs_type {app_dir ""} {app_logs ""}} {
   switch $logs_type {
     "exceptions" {
         return [list \
-		  "CSRCoreErrors"\
-		  "CSRWebErrors"\
+		"CSRCoreErrors"\
+		"CSRWebErrors"\
 		]
     }
     "logs" {
         return [list \
-		  "CSRCore"\
-		  "CSRWeb"\
+		"CSRCore"\
+		"CSRWeb"\
 		]
     }
     "statistics" {

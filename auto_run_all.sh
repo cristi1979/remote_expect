@@ -49,7 +49,7 @@ function create_script {
   echo "		}"
   echo "		close \$disable"
   echo "	}"
-  echo "	if { (\$ret == \$::ERR_USER_PASS) || "
+  echo "	if { (\$ret == \$::ERR_USER_PASS) || (\$ret == \$::ERR_TIMEOUT) || "
   echo "	 	(\$ret == \$::ERR_CANT_CONNECT) } {"
   echo "		file delete \"$OUTPUT_FILE\" \"$EXEC_FILE\" \"\$nr_errors_file\""
   echo "	}"
