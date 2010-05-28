@@ -29,7 +29,7 @@ proc myhash {cmd hash_array {path ""} {vals ""}} {
     }
     "-getnode" {
 	if {[llength $vals]>1} {
-	  puts "\n\tERR: Vals for getnode should be something like: app."
+	  puts "\n\tERR: Vals for getnode should be something like: app. We have: $vals."
 	  return $::ERR_GENERIC
 	}
 	array unset ::tmp_array

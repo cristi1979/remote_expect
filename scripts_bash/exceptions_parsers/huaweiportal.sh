@@ -15,7 +15,7 @@ function huaweiportal() {
 
       if ( ($pos != "") &&
 	    ($pos != "com.mind.csr.core.CSRException: Contas nƒÉo existe.") &&
-	    ($pos !~ "^com.mind.csr.core.CSRException: Voucher [[:print:]]{1,} est· inutiliz·vel.$") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Voucher [[:print:]]{1,}  est√° inutiliz√°vel$") &&
 	    ($pos != "com.mind.csr.core.CSRException: Advanced filter must be entered.") ) {
 	print MATCH, $1;
 	print $2

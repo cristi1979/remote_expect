@@ -74,7 +74,6 @@ proc get_apps {} {
   }
 
   set ::skip_list [lsort -unique $app_skip]
-
   set myname [string map {* - [ - ] - : "" / _ \\ _} $::ip\_apps_dirs]
   return [run_once_command [list bkp_app d [lsort -unique $app_dir]] $myname]
 }
