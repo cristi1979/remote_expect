@@ -1,5 +1,5 @@
 function cdrcollector() {
-  reg='ERROR Description :'
+  reg='(ERROR|FATAL|INFO) Description :'
 
   for filename in ${FILES[@]}; do
   gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{
@@ -12,14 +12,15 @@ function cdrcollector() {
 		pos = 1
 	  } else {
 		pos =1
-      } 
+      }
       if ( ($pos != "java.io.IOException: Can'"'"'t obtain connection to host") &&
 	  ($pos != "com.mind.utils.ftp.client.engine.FtpException: Data: CloseSocket, Transfer Aborted")  &&
 	  ($pos != "java.io.IOException: 550 Requested action not taken, file not found or no access.") &&
+	  ($pos != "java.io.IOException: Can'"'"'t resolve host address") &&
+	  ($pos !~ "^java.io.IOException: 550 CWD failed. \"\\/[[:alnum:]]{1,}\": directory not found.$") &&
 	  ($pos != "com.mind.utils.ftp.client.engine.FtpException: Can'"'"'t login to host - USER command") &&
 	  ($pos != "com.mind.utils.ftp.client.engine.FtpException: Can'"'"'t login to host - PASS command")) {
-	print MATCH
-	print $1;
+	print MATCH,$1;
 	print $2;
 	print $3;
 	print "++++++++++++++++++++++++ "fname"\n";
@@ -28,4 +29,4 @@ function cdrcollector() {
     MATCH=RT
   }' $filename
   done
-} 
+}

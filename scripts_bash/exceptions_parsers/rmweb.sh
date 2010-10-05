@@ -12,7 +12,7 @@ function rmweb() {
       } 
 
       if (	 ($pos !~ "^coco$")		) {
-	print MATCH, $1;
+	print MATCH,$1;
 	print $2
 	if (pos==2) {
 	    print $3

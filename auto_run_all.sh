@@ -41,7 +41,7 @@ function create_script {
   echo "	incr ::file_data"
   echo "	puts \"error \$ret is not good. Reached number \$::file_data\""
   echo "	write_file \$nr_errors_file"
-  echo "	if {\$::file_data >= 5} {"
+  echo "	if {\$::file_data >= 11115} {"
   echo "		puts \"set disable flag in \$crt_dir/ips/$filename\""
   echo "		set disable [open \"\$crt_dir/ips/$filename\" a]"
   echo "		puts \$disable {"

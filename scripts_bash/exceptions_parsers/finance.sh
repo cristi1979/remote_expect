@@ -16,7 +16,7 @@ function finance() {
 	if ( ($pos !~ "^Account with code: [[:print:]]{2,} is performing a call$") &&
 	    ($pos !~ "^[[:print:]]{2,},Origin:Batch,MessageType:none fatal failure because account has unterminated call$") &&
 	    ($pos !~ "^Save data, for accountid: [[:digit:]]{1,}, failed$")) {
-	    print MATCH, $1;
+	    print MATCH,$1;
 	    print $2;
 	    print $3;
 	    print "++++++++++++++++++++++++ "fname"\n";

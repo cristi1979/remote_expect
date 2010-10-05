@@ -14,7 +14,7 @@ function asc() {
 		pos =1
       } 
       if ( ($pos != "coco")) {
-	print MATCH, $1;
+	print MATCH,$1;
 	print "++++++++++++++++++++++++ "fname"\n";
       }
     }

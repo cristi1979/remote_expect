@@ -1,9 +1,9 @@
 function csr() {
   reg="(ERROR|FATAL|INFO): [[:print:]]{1,}"
   for filename in ${FILES[@]}; do
-  gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{ 
+  gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{
     c=split(FILENAME,arr,"/");fname=arr[c];
-    if (NR>1) { 
+    if (NR>1) {
       split(MATCH, array, " ")
       if ( array[3] == "ERROR" ) {
 		pos = 1;
@@ -11,13 +11,67 @@ function csr() {
 		pos = 1
 	  } else {
 		pos =1
-      } 
+      }
 
       if ( ($pos != "") &&
 	    ($pos != "com.mind.csr.core.CSRException: Account category Commercial is not supported by assigned package/product.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Account type must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Tariff plan is not overridden") &&
+	    ($pos != "com.mind.csr.core.CSRException: Data cre?rii survine datei data activ?rii.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Trebuie introdus c?mpul Sum?.") &&
+	    ($pos != "com.mind.csr.core.CSRException: C?mpul C?mp avansat '"'"'Num?r de ?nregistrare TVA'"'"' trebuie s? fie numeric.") &&
+	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Nu s-a g?sit [[:print:]]{1,}\\/[[:print:]]{1,}.$")  &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Trebuie introdus c?mpul Suma.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Invoice for new account should include goods or adjustments only.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Account does not exist.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Codul activ al tarifului nu poate fi schimbat.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Partea de domeniu a adresei de E-mail este incorect?.") &&
+	    ($pos != "com.mind.csr.core.CSRException: C?mpul Pachet trebuie selectat.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Sec?iunea expediere nepermis?. Contul nu este facturabil sau este de tip voucher/card debit.") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Número do PIN [[:digit:]]{1,} inválido.$")  &&
+	    ($pos != "com.mind.csr.core.CSRException: Elementul nou este deja alocat.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Lipse?te adresa destinatarului.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Creation date is greater than activation date.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Strada intodus? nu exist? ?n localitatea selectat?.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Data cre?rii survine datei Data activ?rii.") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Data cre?rii trebuie s? fie mai mic dec?t sau egal cu [[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}.$")  &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Tranzac?ia financiar? [[:digit:]]{1,} este deja anulat?.$")  &&
+	    ($pos != "com.mind.csr.core.CSRException: CÃ³digo ou ID deve ser introduzido.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Elementul nu a fost g?sit ?n Gestionare Resurse.") &&
+	    ($pos != "com.mind.csr.core.CSRException: E-mail address is invalid. E-mail must be like local@domain.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Data na?terii trebuie s? fie ?ntre anul 1900 ?i prezent") &&
+	    ($pos != "com.mind.csr.core.CSRException: Adresa de E-mail este incorect?. E-mail-ul trebuie sa arate astfel: local@domeniu.") &&
+	    ($pos != "com.mind.csr.core.CSRException: C?mpul C?mp avansat '"'"'Cod fiscal vechi'"'"' trebuie s? fie numeric.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Nu se poate ad?uga tranzac?ie financiar? pentru cont nefacturabil.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Adresa E-mail pentru adresa contact lipse?te.") &&
 	    ($pos != "com.mind.csr.core.CSRException: Aceast? condi?ie este deja existent?.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Valoarea '"'"'P?n? la data de'"'"'nu poate fi anterioar? valorii '"'"'De la data de'"'"'. ") &&
+	    ($pos != "com.mind.csr.core.CSRException: One of the following must be entered: Receipt No., Transaction ID, From date, To date.") &&
+	    ($pos != "com.mind.csr.core.CSRException: To date cannot be earlier than the From date.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Expiration date must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: C?mpul Cod po?tal trebuie s? fie numeric.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: C?mpul Nume pachet trebuie selectat.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Trebuie introdus? una dintre urm?toarele: De la data, P?n? la data.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Address for the mailing contact is missing.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Cerere pachet planificat deja existent? pentru acest cont.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Trebuie introdus? una dintre urm?toarele: Nr. Factur?, De la data, P?n? la data.") &&
+	    ($pos != "com.mind.csr.core.CSRException: C?mpul Sum? divizat? este incorect.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Crearea contului nu este permis?. Statutul p?rintelui este incorect") &&
+	    ($pos != "com.mind.csr.core.CSRException: C?mpul Cod cont exist? deja!") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: C?mpul Num?r de telefon trebuie selectat.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: Discount must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: AtÃ© a data deve ser maior ou igual a A partir da data.") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Data expir\\?rii trebuie s\\? survin\\? datei [[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}\\.$") &&
+	    ($pos != "com.mind.csr.core.CSRException: Reactivate expired service is not allowed.") &&
+	    ($pos != "com.mind.csr.core.CSRException: This request is already registered in the system.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Release service failed, caused by: Timeout interval elapsed.") &&
+	    ($pos != "com.mind.utils.exceptions.MindTypeException: No adjustments were found for invoice.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Discount must be greater than zero.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Bank code not found.") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Destina\\?ia [[:digit:]]{1,} nu este permis\\? de limit\\?rile reducerii de tip Prieteni & Familie de la nivel de serviciu\\.$") &&
 	    ($pos != "com.mind.csr.core.CSRException: Limita Destina?ie dep??it?.") &&
 	    ($pos != "com.mind.csr.core.CSRException: Advanced field '"'"'Activabil Automat'"'"' must be entered.") &&
+	    ($pos != "com.mind.csr.core.CSRException: Cheia element este obligatorie atunci c?nd este folosit? drept c?mp de intermediere.") &&
 	    ($pos != "com.mind.csr.core.CSRException: C?mpul Data de ?ncheiere a planului de tarifare este incorect.") &&
 	    ($pos != "com.mind.csr.core.CSRException: Cannot add finance transaction for non-billable account.") &&
 	    ($pos != "com.mind.csr.core.CSRException: Caracteristica (Barring of all outgoing Calls (BAOC)) nu poate fi selectat?.") &&
@@ -25,7 +79,7 @@ function csr() {
 	    ($pos != "com.mind.csr.core.CSRException: Cod banc? nu a fost g?sit.") &&
 	    ($pos != "com.mind.csr.core.CSRException: Cont nu exist?.") &&
 	    ($pos != "com.mind.csr.core.CSRException: Contul are procese comerciale active.") &&
-	    ($pos != "com.mind.csr.core.CSRException: Feature (Barring of all outgoing Calls (BAOC)) cannot be selected.") &&
+	    ($pos !~ "$com.mind.csr.core.CSRException: Feature \\(Barring of all outgoing Calls \\(BAOC\\)\\) cannot be selected.") &&
 	    ($pos != "com.mind.csr.core.CSRException: ID or Code must be entered.") &&
 	    ($pos != "com.mind.csr.core.CSRException: Introduce?i cel pu?in un criteriu de c?utare.") &&
 	    ($pos != "com.mind.csr.core.CSRException: Item key is mandatory when is used as mediation field.") &&
@@ -53,6 +107,7 @@ function csr() {
 	    ($pos !~ "^com.mind.csr.core.CSRException: Account class must be entered.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Account code [[:digit:]]{1,} class is not allowed to have descendent accounts$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Account goods instance does not exist.$") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Feature [[:print:]]{1,} does not exist\\.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Account not found.\rYou may want to try an extended search\rusing the search fields in the Accounts page.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Account Phone Number Range: [ [[:digit:]]{1,} - [[:digit:]]{1,}] already exists!$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Acest cont are tranzac\\?ii comerciale\\.") &&
@@ -61,8 +116,15 @@ function csr() {
 	    ($pos !~ "^com.mind.csr.core.CSRException: At least one search criteria must be entered.$")  &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Bank name must be entered.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Cannot reactivate a deactivated service under a deactivated subproduct.$") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Tariff [[:print:]]{1,} cannot be assigned to [[:print:]]{1,} service$") &&
+	    ($pos != "^com.mind.utils.exceptions.MindTypeException: Nu s-a g?sit MEID/ESN.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Cannot use more than one goods item with IMSI mediation value for the same service.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Cannot use this goods item mediation fields.[[:cntrl:]]{1}Account has two services of the same type.$") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Billability change is not allowed.[[:cntrl:]]{1,}Previous period should be invoiced\\.$") &&
+	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Cannot generate invoice.[[:cntrl:]]{1,}The finance server did not complete transactions for the billing period.$") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Schimbarea posibilit\\?\\?ii de facturare nu este permis\\?.[[:cntrl:]]{1,}Perioada anterioar\\? trebuie facturat\\?.$") &&
+	    ($pos != "com.mind.csr.core.CSRException: Tranzac?ia nu poate fi anulat?") &&
+	    ($pos !~ "^com.mind.csr.core.CSRException: Cannot delete this phone number.[[:cntrl:]]{1}It is used as mediation field by a resource management item.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Card holder name must be entered.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Closed by is invalid.$") &&
 	    ($pos !~ "^com.mind.csr.core.CSRException: Contact type, last name and first name already exist.$") &&
@@ -132,7 +194,7 @@ function csr() {
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Nu s-a g\\?sit [[:print:]]{1,}\\$.") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Print report failed.$") &&
 	    ($pos !~ "^com.mind.utils.exceptions.MindTypeException: Tipul de bun cu codul [[:print:]]{1,} nu exist\\?$") ) {
-	print MATCH, $1;
+	print MATCH,$1;
 	print $2
 	if (pos==2) {
 	    print $3
@@ -141,7 +203,7 @@ function csr() {
 	print "++++++++++++++++++++++++ "fname"\n";
       }
     }
-    MATCH=RT 
+    MATCH=RT
   }' $filename
   done
-} 
+}

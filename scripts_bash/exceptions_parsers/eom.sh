@@ -21,7 +21,7 @@ function eom() {
 	    ($pos !~ "^Cannot generate invoice. Invoice / final invoice was not generated -  tax amount for [[:print:]]{1,} is negative \\( -[[:print:]]{1,}[[:digit:]]{1,}.[[:digit:]]{1,} \\).$") &&
 	    ($pos !~ "^Cannot generate invoice. Final invoice  for account code [[:print:]]{1,} failed due to final generation rule$") &&
 	    ($pos !~ "^Cannot generate invoice. Finance server did not complete transactions for account code [[:print:]]{1,}$") ) {
-	print MATCH, $1;
+	print MATCH,$1;
 	print $2
 	if (pos==2) {
 	    print $3

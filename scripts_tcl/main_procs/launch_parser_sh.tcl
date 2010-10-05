@@ -1,5 +1,5 @@
 proc launch_parser_sh {parser_type {stats_type ""}} {
-  set ::timeout $::long_timeout
+  set ::timeout 600
   if {$parser_type != "statistics" && $parser_type != "exceptions"} {
     puts "\n\tERR: Unknown type for parser: $parser_type. We expect statistics or exceptions."
     return $::ERR_IMPOSSIBLE
@@ -110,7 +110,8 @@ proc launch_parser_sh {parser_type {stats_type ""}} {
 	set subject "\"Automatic warning. New exceptions found for $::customer_name, machine $::ip\""
 	set ::timeout $::long_timeout
 	puts "\n\tMSG: Sending email with attachements $attachements."
-	eval spawn -noecho "/bin/mailx -s $subject -a $attachements [join $::emails " "]"
+	set all_emails [join $::emails " "]
+	eval spawn -noecho "/bin/mailx -v -s $subject -a $attachements $all_emails"
 	exp_send $mymessage
 	expect {
 	  eof {  puts "\n\tMSG: Done for $key"; set ret $::OK }

@@ -29,23 +29,24 @@ function rtsserver() {
     ## ex: Tariff not found in global list. Tariff code = [[:print:]]{1,}, Tariff date = [[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2} [[:digit:]]{2}:[[:digit:]]{2}:[[:digit:]]{2}.[[:digit:]]{1,}, accountID: [[:digit:]]{1,}, service ID: [[:digit:]]{1,}
     reg='(ERROR|FATAL) Description :'
     gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{ 
-	if (NR>1) {
-      split(MATCH, array, " ")
-      if ( array[3] == "ERROR" ) {
+      c=split(FILENAME,arr,"/");fname=arr[c]; 
+      if (NR>1) {
+	split(MATCH, array, " ")
+	if ( array[3] == "ERROR" ) {
 		pos = 2;
-      } else {
+	    } else {
 		pos =1
-      } 
+	} 
 
-	    if ( ($1 !~ "^coco$")) {
-		print MATCH, $1;
+	if ( ($1 !~ "^coco$")) {
+		print MATCH,$1;
 		print $2;
 		print $3;
 		print $4;
 		print "++++++++++++++++++++++++ "fname"\n";
 	    }
-	}
-	MATCH=RT 
+      }
+      MATCH=RT 
     }' $1
   }
 

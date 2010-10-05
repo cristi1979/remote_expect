@@ -12,7 +12,7 @@ MIND_JAVA_PROGS="
 -Dprogram=SystemAttendant
 "
 
-export PATH=$PATH:/sbin:/usr/sbin:/usr/cluster/bin:/usr/bin:/usr/xpg4/bin/:/usr/sfw/bin/:/usr/local/bin/:/tmp/mindcti/bin/:/usr/ucb:/etc/:/usr/platform/sun4u/sbin/:/usr/platform/`uname -i`/sbin/
+export PATH=$PATH:/sbin:/usr/sbin:/usr/cluster/bin:/usr/bin:/usr/xpg4/bin/:/usr/sfw/bin/:/usr/local/bin/:/tmp/mindcti/bin/:/usr/ucb:/etc/:/usr/platform/sun4u/sbin/:/usr/platform/`uname -i`/sbin/:/usr/openwin/bin/
 OS=$(uname)
 
 function timegtmt_sol ()

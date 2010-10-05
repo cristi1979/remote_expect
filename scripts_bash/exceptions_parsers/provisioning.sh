@@ -13,8 +13,9 @@ function provisioning() {
 		pos =1
       } 
 
-      if ( ($pos !~ "^com.mind.utils.exceptions.MindException: This change of class is not allowed for account with code [[:digit:]]{1,}$")  ) {
-	print MATCH, $1;
+      if ( ($pos !~ "^com.mind.utils.exceptions.MindException: This change of class is not allowed for account with code [[:digit:]]{1,}$") &&
+	    ($pos !~ "^com.mind.utils.exceptions.MindException: Not valid XML string.*")  ) {
+	print MATCH,$1;
 	print $2
 	if (pos==2) {
 	    print $3

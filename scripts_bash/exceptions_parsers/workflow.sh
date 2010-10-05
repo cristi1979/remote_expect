@@ -14,7 +14,9 @@ reg="(ERROR|FATAL|INFO): [[:print:]]{1,}"
 	if ( $pos!="" &&
 	    !($pos ~ "\\[CmdUtils\\]" && ( ($pos ~ "Cannot find any unfinished tasks for node Init Context Data") || ($pos ~ "No process found with id [[:digit:]]{1,}") || ($pos ~ "Cannot find any unfinished tasks for node [[:print:]]{1,}") ) ) &&
 	    !($pos ~ "\\[CoreEjbClient\\]" && ( ($pos ~ "Opera\\?iunea nu este permis\\?.") || ($pos ~ "Utilizatorul nu poate \\?terge cont") || ($pos ~ "Cont nu exist?.")) )) {
-	    print MATCH, $1; 
+	    print MATCH,$1; 
+	    print $2;
+	    print $3;
 	    print "++++++++++++++++++++++++ "fname"\n";
 	}
 	MATCH=RT 

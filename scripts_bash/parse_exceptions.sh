@@ -78,7 +78,8 @@ if [ -f $CRT -a -s $CRT ];then
   echo "Previous file found: $CRT. Moving to $PRV."
   mv -f $CRT $PRV
   $OUR_APP &> $CRT
-  diff $PRV $CRT | grep "^>"| sed s/^\>\ // > $DIFF
+  #diff $PRV $CRT | grep "^>"| sed s/^\>\ // > $DIFF
+  perl "$HERE/diff_log.pl" $PRV $CRT $DIFF
 else
   echo "No previous file found."
   $OUR_APP &> $CRT
