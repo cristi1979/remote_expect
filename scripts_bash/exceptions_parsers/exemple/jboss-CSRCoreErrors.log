@@ -1,0 +1,104 @@
+2010-02-24 17:55:11,142 ERROR: [http-0.0.0.0-8080-2] [DoCCProcessorPayment] Read timed out
+2010-02-26 13:20:52,071 ERROR: [http-0.0.0.0-8080-10] [DoCCProcessorPayment] Connection reset
+2010-03-01 14:35:02,204 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Read timed out
+2010-03-01 16:47:16,281 ERROR: [http-0.0.0.0-8080-10] [DoCCProcessorPayment] Read timed out
+2010-03-01 21:19:36,102 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Read timed out
+2010-03-03 15:54:24,875 ERROR: [http-0.0.0.0-8080-6] [DoCCProcessorPayment] Read timed out
+2010-03-08 13:31:30,622 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Read timed out
+2010-03-09 16:13:18,783 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Read timed out
+2010-03-23 16:52:04,540 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Read timed out
+2010-03-25 15:42:48,734 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Read timed out
+2010-03-25 15:44:30,702 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Read timed out
+2010-03-25 16:02:47,943 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Read timed out
+2010-03-29 10:33:17,274 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Read timed out
+2010-04-22 22:33:37,328 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Read timed out
+2010-04-24 12:02:13,654 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Read timed out
+2010-04-24 13:53:22,490 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-04-24 13:54:30,026 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-24 14:08:40,530 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 15:09:14,957 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-24 15:10:07,878 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-24 15:10:52,620 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-24 15:12:27,541 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-24 15:15:36,868 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 15:25:28,388 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-24 15:40:37,766 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-24 15:45:16,864 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-24 17:22:50,013 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 17:24:09,497 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 17:25:25,389 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 18:07:47,941 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 18:09:14,460 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-24 18:29:59,655 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 21:43:30,955 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-24 21:55:15,394 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 22:09:04,505 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-24 23:02:34,670 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 13:20:08,892 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 13:21:23,707 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 13:22:52,382 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 13:28:42,084 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 14:14:38,576 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 14:16:15,770 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-25 14:16:15,870 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 16:30:01,356 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 17:05:10,253 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 17:57:52,890 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-25 18:07:38,301 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-04-25 18:27:58,907 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-04-25 18:34:21,389 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-25 19:11:32,951 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 19:12:23,110 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 19:12:45,064 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 19:14:03,680 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 19:15:18,956 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-04-25 19:25:07,934 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 19:42:00,084 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-04-25 19:53:51,640 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 20:14:34,591 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 20:16:17,149 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-04-25 20:31:25,642 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 21:25:21,257 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 21:31:35,705 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-25 21:37:31,489 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 23:35:52,248 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-04-25 23:39:01,552 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-26 00:22:39,503 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-26 00:52:37,780 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-04-26 08:32:45,486 ERROR: [http-0.0.0.0-8080-8] [DoCCProcessorPayment] Connection reset
+2010-04-26 21:51:27,456 ERROR: [http-0.0.0.0-8080-10] [DoCCProcessorPayment] Connection refused
+2010-04-26 21:53:08,514 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Connection refused
+2010-05-04 12:25:24,171 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Read timed out
+2010-05-04 12:26:59,763 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Read timed out
+2010-05-05 23:06:28,550 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Read timed out
+2010-05-05 23:08:35,978 ERROR: [http-0.0.0.0-8080-10] [DoCCProcessorPayment] Read timed out
+2010-05-08 10:44:14,085 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Connection reset
+2010-05-08 11:18:09,424 ERROR: [http-0.0.0.0-8080-12] [DoCCProcessorPayment] Connection reset
+2010-05-08 16:30:35,182 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-05-08 16:37:05,568 ERROR: [http-0.0.0.0-8080-3] [DoCCProcessorPayment] Connection reset
+2010-05-08 18:49:28,260 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Connection reset
+2010-05-08 18:58:45,989 ERROR: [http-0.0.0.0-8080-3] [DoCCProcessorPayment] Connection reset
+2010-05-08 19:57:42,593 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-05-08 21:43:34,579 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-05-08 21:48:05,767 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Connection reset
+2010-05-09 02:17:09,808 ERROR: [http-0.0.0.0-8080-6] [DoCCProcessorPayment] Connection refused
+2010-05-11 20:32:05,488 ERROR: [http-0.0.0.0-8080-11] [DoCCProcessorPayment] Read timed out
+2010-05-12 16:36:44,868 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Read timed out
+2010-05-17 16:47:44,934 ERROR: [http-0.0.0.0-8080-5] [DoCCProcessorPayment] Read timed out
+2010-05-21 15:52:50,033 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Read timed out
+2010-05-25 14:04:09,770 ERROR: [http-0.0.0.0-8080-12] [DoCCProcessorPayment] Connection refused
+2010-05-27 10:31:54,524 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Read timed out
+2010-05-31 09:38:10,180 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Read timed out
+2010-05-31 11:01:48,954 ERROR: [http-0.0.0.0-8080-9] [DoCCProcessorPayment] Read timed out
+2010-05-31 11:34:34,174 ERROR: [http-0.0.0.0-8080-10] [DoCCProcessorPayment] Read timed out
+2010-05-31 11:58:08,251 ERROR: [http-0.0.0.0-8080-7] [DoCCProcessorPayment] Read timed out
+2010-05-31 11:59:52,061 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Read timed out
+2010-06-01 19:41:48,584 ERROR: [http-0.0.0.0-8080-16] [DoCCProcessorPayment] Read timed out
+2010-06-02 19:10:22,539 ERROR: [http-0.0.0.0-8080-10] [DoCCProcessorPayment] Read timed out
+2010-06-02 19:13:07,723 ERROR: [http-0.0.0.0-8080-1] [DoCCProcessorPayment] Read timed out
+2010-06-12 14:06:04,864 ERROR: [http-0.0.0.0-8080-2] [DoCCProcessorPayment] Read timed out
+2010-06-12 14:14:11,502 ERROR: [http-0.0.0.0-8080-2] [DoCCProcessorPayment] Read timed out
+2010-06-12 14:15:50,407 ERROR: [http-0.0.0.0-8080-7] [DoCCProcessorPayment] Read timed out
+2010-06-12 14:25:17,105 ERROR: [http-0.0.0.0-8080-4] [DoCCProcessorPayment] Read timed out
+2010-06-12 14:31:29,489 ERROR: [http-0.0.0.0-8080-14] [DoCCProcessorPayment] Read timed out
+2010-06-12 14:36:38,166 ERROR: [http-0.0.0.0-8080-14] [DoCCProcessorPayment] Read timed out

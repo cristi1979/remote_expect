@@ -1,0 +1,6 @@
+2010-06-17 10:44:05,044 FATAL Description :
+Thread Failed. Thread type: AdminThread, WDog ID: 0, Thread ID: 422797318, Last report time: 2010-06-17 10:36:56.023, Last message: AdminThread.fillQueue: start building list of intervals
+2010-06-17 11:58:12,801 FATAL Description :
+Thread Failed. Thread type: AdminThread, WDog ID: 0, Thread ID: 1397067211, Last report time: 2010-06-17 11:50:56.553, Last message: AdminThread.fillQueue: start building list of intervals
+2010-06-17 16:06:14,975 FATAL Description :
+Thread Failed. Thread type: AdminThread, WDog ID: 0, Thread ID: 343935649, Last report time: 2010-06-17 15:59:48.161, Last message: AdminThread.fillQueue: start building list of intervals
