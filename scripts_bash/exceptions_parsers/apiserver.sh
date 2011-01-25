@@ -18,6 +18,7 @@ function apiserver() {
 	  ($pos !~ "^com.mind.core.Error: Finance transaction [[:digit:]]{2,} already canceled.$") &&
 	  ($pos !~ "^com.mind.core.Error: Session \\[ [[:digit:]]{1,} \\] not found or expired$") &&
 	  ($pos !~ "^com.mind.core.Error: Session [[:digit:]]{1,} not found or expired$") &&
+	  ($pos !~ "^This account has descendants.\r?\n\r?\n?Unable to delete$") &&
 
 	  ($pos != "com.mind.core.Error: Service status is invalid.") &&
 	  ($pos != "com.mind.core.Error: Cannot update a deactivated service.") &&
