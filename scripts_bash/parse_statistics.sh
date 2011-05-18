@@ -33,8 +33,8 @@ exit 0
 ME="$0"
 MY_PID=$$
 PID_FILE="/var/run/mind/extract_files"
-BASE_RRD_PATH="/media/share/rrdfiles"
-BASE_PATH_TO_REMOTE_FILES="/media/share/backups/remote_files"
+BASE_RRD_PATH="/mnt/share2/remote/rrdfiles"
+BASE_PATH_TO_REMOTE_FILES="/mnt/share2/remote/backups/"
 WORD="_unix_statistics"
 RET=0
 mkdir -p $BASE_RRD_PATH

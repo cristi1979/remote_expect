@@ -5,7 +5,7 @@ CUSTOMERS_PATH="$BASEDIR/customers/"
 MACHINES_DIR="ips"
 HEADER_NAME="header.tcl"
 #TMP_DIR="/tmp/mind_remote/"
-TMP_DIR="/media/share/remote/auto_scripts"
+TMP_DIR="/mnt/share2/remote/auto_scripts"
 
 mkdir -p $TMP_DIR
 

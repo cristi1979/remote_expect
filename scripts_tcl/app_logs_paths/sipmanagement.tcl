@@ -29,6 +29,11 @@ proc sipmanagement {logs_type {app_dir ""} {app_logs ""}} {
 	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "host-manager"] [list $myname $reg]
 	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "catalina"] [list $myname $reg]
 	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat5/logs" "admin"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat6/logs" "manager"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat6/logs" "localhost"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat6/logs" "host-manager"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat6/logs" "catalina"] [list $myname $reg]
+	  myhash -add ::applications_array [list $::str_app_logs $app_dir "tomcat6/logs" "admin"] [list $myname $reg]
 	}
     default {
       puts "\n\tERR: Wrong parameter: $logs_type."

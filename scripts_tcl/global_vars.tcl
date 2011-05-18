@@ -51,8 +51,9 @@ set bkp_rem_dir_freespace [expr {1*1024*1024}]
 set remote_tar_skip_file "tar_files_to_skip"
 set remote_tar_include_files "tar_files_to_include"
 set status_path [directpathname "/var/run/mind"]
-set local_dir [directpathname "/media/share/backups/remote_files/$customer_name"]
-set local_dir_outputfiles [directpathname "/media/share/remote"]
+set local_dir [directpathname "/mnt/share2/remote/backups/$customer_name"]
+
+set local_dir_outputfiles [directpathname "/mnt/share2/remote/"]
 set scripts_sql_dir [directpathname "$scripts_tcl_dir/../scripts_sql"]
 set scripts_bash_dir [directpathname "$scripts_tcl_dir/../scripts_bash"]
 #this is the default filename of the tar gzip result

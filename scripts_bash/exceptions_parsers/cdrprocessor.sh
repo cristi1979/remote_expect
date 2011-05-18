@@ -30,10 +30,10 @@ function cdrprocessor() {
   }
 
   function newlogscdrprocessor() {
-    reg='(ERROR|FATAL) Description :'
-    gawk --re-interval -v RS="$regdate $regtime $reg\n" -v FS="\n" '{ 
+    reg='(ERROR|FATAL):'
+    gawk --re-interval -v RS="$regdate $regtime $reg" -v FS="\n" '{
 	c=split(FILENAME,arr,"/");fname=arr[c];
-	if (NR>1) {
+    	if (NR>1) {
 	  split(MATCH, array, " ")
       if ( array[3] == "ERROR" ) {
 		pos = 2;
@@ -54,7 +54,7 @@ function cdrprocessor() {
   }
 
   for filename in ${FILES[@]}; do
-    if [ "$(head -1 $filename | cut -d " " -f3-4)" == "FATAL Description" -o "$(head -1 $filename | cut -d " " -f3-4)" == "ERROR Description" ];then
+    if [ "$(head -1 $filename | cut -d " " -f3)" == "FATAL:" -o "$(head -1 $filename | cut -d " " -f3)" == "ERROR:" ];then
 	newlogscdrprocessor $filename
     else
 	oldlogscdrprocessor $filename

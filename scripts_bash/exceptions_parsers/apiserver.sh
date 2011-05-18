@@ -14,12 +14,28 @@ function apiserver() {
 		pos =1
       }
       if ( ($pos != "com.mind.core.Error: Account does not exist.") &&
+	  ($pos != "com.mind.core.Error: Attribute [id] contains empty value in node [session]") &&
+	  ($pos != "com.mind.core.Error: ID or Code must be entered.") &&
+	  ($pos != "com.mind.core.Error: Account ANI is invalid.") &&
+	  ($pos != "com.mind.core.Error: Destination limit exceeded") &&
+	  ($pos != "com.mind.core.Error: Account service does not exist.") &&
+	  ($pos != "com.mind.core.Error: Payment does not exist. ") &&
+	  ($pos != "com.mind.core.Error: User is not allowed to close account") &&
+	  ($pos != "com.mind.core.Error: Provider is invalid.") &&
+	  ($pos != "com.mind.core.Error: Birthday should be between year 1900 and today") &&
+	  ($pos != "com.mind.core.Error: Quantity is not supported for this service.") &&
+	  ($pos != "com.mind.core.Error: The contact needs to have at least one e-mail address") &&
+	  ($pos != "com.mind.core.Error: Service code does not exist.") &&
+	  ($pos !~ "^com.mind.core.Error: Service code [[:alnum:]]{1,} not assigned to package/product [[:alnum:]]{1,}$") &&
+	  ($pos !~ "^com.mind.core.Error: Home phone must be at most [[:digit:]]{1,} characters.$") &&
+	  ($pos !~ "^com.mind.core.Error: Length of ANI must be less than [[:digit:]]{1,} characters$") &&
+	  ($pos !~ "^com.mind.core.Error: Account ANI Range: \\[ [[:digit:]]{1,} - [[:digit:]]{1,}\\] already exists!$") &&
 	  ($pos !~ "^com.mind.core.Error: ANI \\[ [[:digit:]]{2,} \\] already exists!$") &&
 	  ($pos !~ "^com.mind.core.Error: Finance transaction [[:digit:]]{2,} already canceled.$") &&
 	  ($pos !~ "^com.mind.core.Error: Session \\[ [[:digit:]]{1,} \\] not found or expired$") &&
 	  ($pos !~ "^com.mind.core.Error: Session [[:digit:]]{1,} not found or expired$") &&
 	  ($pos !~ "^This account has descendants.\r?\n\r?\n?Unable to delete$") &&
-
+	  ($pos !~ "^com.mind.core.Error: Destination [[:digit:]]{1,} already exists!$") &&
 	  ($pos != "com.mind.core.Error: Service status is invalid.") &&
 	  ($pos != "com.mind.core.Error: Cannot update a deactivated service.") &&
 	  ($pos != "com.mind.core.Error: Account name cannot contain double quotes.") &&
