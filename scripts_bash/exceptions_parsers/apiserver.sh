@@ -14,6 +14,8 @@ function apiserver() {
 		pos =1
       }
       if ( ($pos != "com.mind.core.Error: Account does not exist.") &&
+	  ($pos != "com.mind.core.Error: Service does not exist.") &&
+	  ($pos != "com.mind.core.Error: Tariff does not exist.") &&
 	  ($pos != "com.mind.core.Error: Attribute [id] contains empty value in node [session]") &&
 	  ($pos != "com.mind.core.Error: ID or Code must be entered.") &&
 	  ($pos != "com.mind.core.Error: Account ANI is invalid.") &&

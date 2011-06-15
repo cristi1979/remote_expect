@@ -1,0 +1,6 @@
+<machine>
+  <host>10.0.0.99</host>
+  <pass>cristi</pass>
+  <prompt>[cristi@localhost ~]$ </prompt>
+  <user>cristi</user>
+</machine> 

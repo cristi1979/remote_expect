@@ -1,0 +1,42 @@
+<machine>
+  <applications>
+    <app_name>type of application</app_name>
+    <logs>path1</logs>
+    <logs>path2</logs>
+    <status>enable/disable</status>
+  </applications>
+  <applications>
+    <app_name>other application</app_name>
+    <logs>some_path</logs>
+    <logs>a_path</logs>
+    <status>enable/disable</status>
+  </applications>
+  <connection>
+    <connect_from>an already defined machine from where we can connect (default is local)</connect_from>
+    <connection_type>what protocol are we using to connect (default shh)</connection_type>
+    <extra>
+      <answer>this is what we will send</answer>
+      <question>do you expect anything to be asked before the prompt</question>
+    </extra>
+    <extra>
+      <answer>an answer</answer>
+      <question>other q</question>
+    </extra>
+    <extra>
+      <answer></answer>
+      <question></question>
+    </extra>
+    <host>ip or hostname</host>
+    <load_profile>if we should load the remote profile at login. Probably ssh only (default no)</load_profile>
+    <pass>connection pass</pass>
+    <prompt>prompt or empty (we will try to guess it)</prompt>
+    <publickey>path to the public key (default none)</publickey>
+    <timeout>how long to wait before we bailout (default 5 sec)</timeout>
+    <user>connection user</user>
+    <work_dir>where to save files or empty (we will try $TMP/mind)</work_dir>
+  </connection>
+  <emails>email1</emails>
+  <emails>email2</emails>
+  <emails>email3</emails>
+  <status>enable/disable</status>
+</machine>

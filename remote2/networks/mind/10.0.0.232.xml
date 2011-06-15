@@ -1,0 +1,15 @@
+<machine>
+  <extra>
+    <answer>BILL1022</answer>
+    <question>ORACLE_SID = [NOT_SET] ? </question>
+  </extra>
+  <extra>
+    <answer></answer>
+    <question></question>
+  </extra>
+  <host>10.0.0.232</host>
+  <pass>test1234</pass>
+  <prompt>[UAT2]/u03/dumps&gt; </prompt>
+  <user>test</user>
+  <work_dir>/tmp/mind</work_dir>
+</machine>
